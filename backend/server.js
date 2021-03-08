@@ -1,12 +1,13 @@
 'use strict';
 require('dotenv').config();
 const express = require('express');
-const myDB = require('./backend/connection');
+const myDB = require('./connection');
 const app = express();
+const cors = require('cors');
 const session = require('express-session');
 const passport = require('passport');
-const routes = require('./backend/routes');
-const auth = require('./backend/auth');
+const routes = require('./routes');
+const auth = require('./auth');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const passportSocketIo = require('passport.socketio');
@@ -14,7 +15,7 @@ const cookieParser = require('cookie-parser');
 const MongoStore = require('connect-mongo')(session); // Latest version breaks app
 const URI = process.env.MONGO_URI;
 const store = new MongoStore({ url: URI });
-const onAuthorize = require('./backend/utilities/onAuthorize');
+const onAuthorize = require('./utilities/onAuthorize');
 
 // Implement a Root-Level Request Logger Middleware
 app.use((req, res, next) => {
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
 // template engine lets us use static template files in our app
 app.set('view engine', 'pug');
 
+app.use(cors());
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -81,6 +83,8 @@ myDB(async client => {
     // Listen for connections to our server
     io.on('connection', socket => {
         ++currentUsers;
+        console.log(socket.request.user.username);
+        console.log(socket.request.user.name);
         io.emit('user', {
             name: socket.request.user.username,
             currentUsers,
