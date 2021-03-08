@@ -1,3 +1,12 @@
+body {
+    background-color: #2C2F33;
+    color: #FFFFFF;
+}
+
+h1 {
+    color: #7289DA;
+}
+
 .border {
   border-style: inset;
   border-width: 1px;
@@ -15,7 +24,7 @@ div > input {
 }
 
 .login {
-  border: solid 2px #777;
+  border: solid 2px #7289DA;
   width: 50%;
   background-color: aliceblue;
 }
@@ -31,8 +40,9 @@ form {
 }
 
 form input {
-  background-color: #eee;
-  border: green solid 2px;
+  background-color: #23272A;
+  color: #FFFFFF;
+  border: #7289DA solid 2px;
   padding: 10px; 
   width: 90%; 
   margin-right: .5%;
@@ -60,5 +70,6 @@ form button {
 }
 
 #messages li:nth-child(odd) { 
-  background: #eee;
+  background: #2C2F33;
+  color: #FFFFFF;
 }
