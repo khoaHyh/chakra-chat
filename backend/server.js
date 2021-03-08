@@ -12,6 +12,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const passportSocketIo = require('passport.socketio');
 const cookieParser = require('cookie-parser');
+// const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session); // Latest version breaks app
 const URI = process.env.MONGO_URI;
 const store = new MongoStore({ url: URI });
