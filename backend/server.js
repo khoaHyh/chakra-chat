@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
-const connectDB = require('./db');
+const connectDB = require('./utilities/db');
 
 // Implement a Root-Level Request Logger Middleware
 app.use((req, res, next) => {
