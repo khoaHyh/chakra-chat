@@ -41,7 +41,7 @@ mongoose.connection.once('open', () => {
     console.log('Database Connected');
 
     // watches everything that happens with the database
-    const changeStream = mongoose.connection.collection('conversation').watch();
+    const changeStream = mongoose.connection.collection('conversations').watch();
     changeStream.on('change', (change) => {
         if (change.operationType === 'insert') {
             pusher.trigger('channels', 'newChannels', {
