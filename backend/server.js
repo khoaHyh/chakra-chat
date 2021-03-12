@@ -63,10 +63,26 @@ app.get("/", (req, res) => res.status(200).send('get on route "/" works!'));
 app.post("/new/channel", (req, res) => {
   const body = req.body;
 
+  // create new document with data
   conversations.create(body, (err, data) => {
     err ? res.status(500).send(err) : res.status(201).send(data);
   });
 });
+
+app.get("/get/channelList", (req, res) => {
+  conversation.find((err, data) => {
+    err ? res.status(500).send(err) : res.status(200).send(data);
+  });
+});
+
+app.post("/new/message", (req, res) => {
+  const id = req.query.id;
+  const newMsg = req.body;
+});
+
+app.get("/get/data", (req, res) => {});
+
+app.get("/get/conversation", (req, res) => {});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
