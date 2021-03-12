@@ -6,6 +6,7 @@ const cors = require("cors");
 const connectDB = require("./utilities/db");
 const conversations = require("./models/conversations");
 const Pusher = require("pusher");
+const path = require("path");
 
 const pusher = new Pusher({
   appId: "1170571",
@@ -14,6 +15,9 @@ const pusher = new Pusher({
   cluster: "us2",
   useTLS: true,
 });
+
+// test array
+const users = [];
 
 // Implement a Root-Level Request Logger Middleware
 app.use((req, res, next) => {
@@ -26,7 +30,7 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + "/discord-clone-frontend/pages"));
+app.use(express.static(path.join(__dirname, "../my-app/out")));
 
 connectDB();
 
@@ -60,8 +64,21 @@ mongoose.connection.once("open", () => {
 });
 
 app.get("/", (req, res) => {
-  //res.status(200).send('get on route "/" works!');
-  res.render("../discord-clone-frontend/pages/index");
+  // get list of all users
+  res.status(200).json(users);
+});
+
+// test post
+app.post("/api/user", (req, res) => {
+  const user = req.body.user;
+  console.log(`Adding user: ${user}`);
+  users.push(user);
+  res.status(201).json("user added");
+});
+
+// test get
+app.get("/", (req, res) => {
+  res.status(200).send('get on route "/" works!');
 });
 
 app.post("/new/channel", (req, res) => {
@@ -88,7 +105,8 @@ app.get("/get/data", (req, res) => {});
 
 app.get("/get/conversation", (req, res) => {});
 
-const PORT = process.env.PORT || 3000;
+// changed from 3000
+const PORT = process.env.PORT || 3080;
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
