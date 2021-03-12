@@ -26,6 +26,7 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname + "/discord-clone-frontend/pages"));
 
 connectDB();
 
@@ -58,7 +59,10 @@ mongoose.connection.once("open", () => {
   });
 });
 
-app.get("/", (req, res) => res.status(200).send('get on route "/" works!'));
+app.get("/", (req, res) => {
+  //res.status(200).send('get on route "/" works!');
+  res.render("../discord-clone-frontend/pages/index");
+});
 
 app.post("/new/channel", (req, res) => {
   const body = req.body;
