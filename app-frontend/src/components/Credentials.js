@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 import {
   Flex,
   Box,
@@ -21,18 +22,19 @@ const Credentials = ({ legend, action, value }) => {
     setPassword(event.target.value);
   };
 
+  const formData = {
+    username: username,
+    password: password,
+  };
+
   const onLogin = async () => {
     try {
-      const response = await fetch('http://localhost:3080/login', {
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          password: password,
-          username: username,
-        }),
-      });
-      const user = await response.json();
-      console.log(user);
+      const response = await axios.post(
+        'http://localhost:3080/login',
+        formData
+      );
+      const data = await response.data;
+      console.log(data);
     } catch (err) {
       console.log(`onLogin ${err}`);
     }
@@ -65,7 +67,7 @@ const Credentials = ({ legend, action, value }) => {
               required
             />
           </FormControl>
-          <Button w="full" mt={2} type="submit" value={value} onClick={onLogin}>
+          <Button w="full" mt={2} onClick={onLogin}>
             {legend}
           </Button>
         </form>
