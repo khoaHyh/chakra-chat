@@ -1,4 +1,13 @@
-import { useState } from "react";
+import { useState } from 'react';
+import {
+  Flex,
+  Box,
+  Heading,
+  FormControl,
+  FormLabel,
+  Input,
+  Button,
+} from '@chakra-ui/react';
 
 const Credentials = ({ legend, action, value }) => {
   const [username, setUsername] = useState();
@@ -6,9 +15,9 @@ const Credentials = ({ legend, action, value }) => {
 
   const onLogin = async () => {
     try {
-      const response = await fetch("http://localhost:3080/api/login", {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('http://localhost:3080/api/login', {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           password: password,
           username: username,
@@ -23,34 +32,36 @@ const Credentials = ({ legend, action, value }) => {
   };
 
   return (
-    <div>
-      <legend>{legend}</legend>
-      <form action={action} method="POST">
-        <div>
-          <label htmlFor="username"></label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Enter username"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password"></label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Enter password"
-            required
-          />
-        </div>
-        <div>
-          <input type="submit" value={value} onClick={onLogin} />
-        </div>
-      </form>
-    </div>
+    <Flex minHeight="300px" width="full" justifyContent="center" m={4}>
+      <Box textAlign="center">
+        <Heading as="h2">{legend}</Heading>
+        <form action={action} method="POST">
+          <FormControl>
+            <FormLabel htmlFor="username"></FormLabel>
+            <Input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter username"
+              required
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="password"></FormLabel>
+            <Input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter password"
+              required
+            />
+          </FormControl>
+          <Button w="full" mt={2} type="submit" value={value} onClick={onLogin}>
+            {legend}
+          </Button>
+        </form>
+      </Box>
+    </Flex>
   );
 };
 
