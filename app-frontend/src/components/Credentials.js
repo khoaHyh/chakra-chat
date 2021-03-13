@@ -13,9 +13,17 @@ const Credentials = ({ legend, action, value }) => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
+  const onUsernameChange = event => {
+    setUsername(event.target.value);
+  };
+
+  const onPasswordChange = event => {
+    setPassword(event.target.value);
+  };
+
   const onLogin = async () => {
     try {
-      const response = await fetch('http://localhost:3080/api/login', {
+      const response = await fetch('http://localhost:3080/login', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -25,7 +33,6 @@ const Credentials = ({ legend, action, value }) => {
       });
       const user = await response.json();
       console.log(user);
-      return user;
     } catch (err) {
       console.log(`onLogin ${err}`);
     }
@@ -43,6 +50,7 @@ const Credentials = ({ legend, action, value }) => {
               id="username"
               name="username"
               placeholder="Enter username"
+              onChange={onUsernameChange}
               required
             />
           </FormControl>
@@ -53,6 +61,7 @@ const Credentials = ({ legend, action, value }) => {
               id="password"
               name="password"
               placeholder="Enter password"
+              onChange={onPasswordChange}
               required
             />
           </FormControl>

@@ -17,8 +17,7 @@ const pusher = new Pusher({
   useTLS: true,
 });
 
-// test array
-const users = [];
+const users = [{ username: "john doe", password: "abc123" }];
 
 // Implement a Root-Level Request Logger Middleware
 app.use((req, res, next) => {
@@ -29,10 +28,9 @@ app.use((req, res, next) => {
 
 // Middleware
 app.use(cors());
-app.use(express.json());
 app.use(bodyParser.json());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "../my-app/out")));
 
 connectDB();
 
@@ -67,18 +65,22 @@ mongoose.connection.once("open", () => {
 
 app.get("/", (req, res) => {
   // get list of all users
-  res.status(200).json(users);
+  res.status(200).json("woot");
 });
 
 // test post
-app.post("/api/login", (req, res) => {
-  console.log(req.body.username);
-  res.status(200).json("login works");
-});
-
-// test get
-app.get("/", (req, res) => {
-  res.status(200).send('get on route "/" works!');
+app.post("/login", (req, res) => {
+  console.log("login works");
+  let results = users.find((user) => user.username == req.body.username);
+  if (results) {
+    if (results.password == req.body.password) {
+      res.status(200).json({ message: "successful login" });
+    } else {
+      res.status(200).json({ message: "wrong password" });
+    }
+  } else {
+    res.status(200).json({ message: "user not found" });
+  }
 });
 
 app.post("/new/channel", (req, res) => {
