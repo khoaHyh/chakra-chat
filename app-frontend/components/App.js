@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { getAllUsers, createUser } from "../services/UserService";
 
+const forms = [
+  { legend: "Login", action: "/login", value: "Login" },
+  { legend: "Register", action: "/register", value: "Register" },
+];
+
 const App = () => {
   const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);

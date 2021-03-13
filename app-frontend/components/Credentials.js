@@ -1,10 +1,10 @@
 import React from "react";
 
-const Register = () => {
+const Credentials = ({ legend, action, value }) => {
   return (
     <div>
-      <legend>Register</legend>
-      <form action="register" method="POST">
+      <legend>{legend}</legend>
+      <form action={action} method="POST">
         <div>
           <label for="username"></label>
           <input type="text" id="username" name="username" required></input>
@@ -14,11 +14,11 @@ const Register = () => {
           <input type="password" id="password" name="password" required></input>
         </div>
         <div>
-          <input type="submit" value="Register" />
+          <input type="submit" value={value} />
         </div>
       </form>
     </div>
   );
 };
 
-export default Register;
+export default Credentials;
