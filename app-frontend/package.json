@@ -2,21 +2,39 @@
   "name": "app-frontend",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "start:dev": "NODE_ENV='development' node server.js",
-    "build": "next build",
-    "start": "next start"
-  },
   "dependencies": {
-    "express": "^4.17.1",
-    "http-proxy-middleware": "^1.0.6",
-    "next": "10.0.8",
-    "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "@chakra-ui/react": "^1.0.0",
+    "@emotion/react": "^11.0.0",
+    "@emotion/styled": "^11.0.0",
+    "@testing-library/jest-dom": "^5.9.0",
+    "@testing-library/react": "^10.2.1",
+    "@testing-library/user-event": "^12.0.2",
+    "framer-motion": ">=3.0.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-icons": "^3.0.0",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^0.2.2"
   },
-  "devDependencies": {
-    "express": "^4.17.1",
-    "http-proxy-middleware": "^1.0.6"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
