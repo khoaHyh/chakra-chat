@@ -7,6 +7,7 @@ const connectDB = require("./utilities/db");
 const conversations = require("./models/conversations");
 const Pusher = require("pusher");
 const path = require("path");
+const bodyParser = require("body-parser");
 
 const pusher = new Pusher({
   appId: "1170571",
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../my-app/out")));
 
@@ -69,11 +71,9 @@ app.get("/", (req, res) => {
 });
 
 // test post
-app.post("/api/user", (req, res) => {
-  const user = req.body.user;
-  console.log(`Adding user: ${user}`);
-  users.push(user);
-  res.status(201).json("user added");
+app.post("/api/login", (req, res) => {
+  console.log(req.body.username);
+  res.status(200).json("login works");
 });
 
 // test get

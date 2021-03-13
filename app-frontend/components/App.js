@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getAllUsers, createUser } from "../services/UserService";
 import Forms from "./Forms";
 
 const forms = [
-  { legend: "Login", action: "/login", value: "Login" },
-  { legend: "Register", action: "/register", value: "Register" },
+  { legend: "Login", action: "/api/login", value: "Login" },
+  { legend: "Register", action: "/api/register", value: "Register" },
 ];
 
 const App = () => {
