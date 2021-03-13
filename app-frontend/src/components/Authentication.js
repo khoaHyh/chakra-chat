@@ -10,7 +10,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 
-const Credentials = ({ legend, action, value }) => {
+const Authentication = ({ legend, action, value }) => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
@@ -22,21 +22,34 @@ const Credentials = ({ legend, action, value }) => {
     setPassword(event.target.value);
   };
 
-  const formData = {
-    username: username,
-    password: password,
-  };
+  const formData = { username: username, password: password };
 
   const onLogin = async () => {
     try {
-      const response = await axios.post(
-        'http://localhost:3080/login',
-        formData
-      );
+      const response = await axios({
+        method: 'post',
+        url: 'http://localhost:3080/login',
+        formData,
+      });
       const data = await response.data;
       console.log(data);
     } catch (err) {
       console.log(`onLogin ${err}`);
+    }
+  };
+
+  const onRegister = async () => {
+    try {
+      const response = await axios({
+        method: 'post',
+        // change this to /register when we set it up on backend
+        url: 'http://localhost:3080/login',
+        formData,
+      });
+      const data = await response.data;
+      console.log(`register: ${data}`);
+    } catch (err) {
+      console.log(`onRegister ${err}`);
     }
   };
 
@@ -67,7 +80,11 @@ const Credentials = ({ legend, action, value }) => {
               required
             />
           </FormControl>
-          <Button w="full" mt={2} onClick={onLogin}>
+          <Button
+            w="full"
+            mt={2}
+            onClick={legend === 'Login' ? onLogin : onRegister}
+          >
             {legend}
           </Button>
         </form>
@@ -76,4 +93,4 @@ const Credentials = ({ legend, action, value }) => {
   );
 };
 
-export default Credentials;
+export default Authentication;
