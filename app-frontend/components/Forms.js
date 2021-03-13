@@ -11,3 +11,5 @@ const Forms = ({ forms }) => {
     );
   });
 };
+
+export default Forms;
