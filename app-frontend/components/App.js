@@ -1,8 +1,4 @@
 import { useState } from "react";
-import { Header } from "./Header";
-import { Users } from "./Users";
-import { DisplayBoard } from "./DisplayBoard";
-import CreateUser from "./CreateUser";
 import { getAllUsers, createUser } from "../services/UserService";
 
 const App = () => {
@@ -39,27 +35,20 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header></Header>
       <div className="container mrgnbtm">
         <div className="row">
           <div className="col-md-8">
-            <CreateUser
-              user={user}
-              onChangeForm={onChangeForm}
-              createUser={createUser}
-            ></CreateUser>
+            <p>{user}</p>
+            <p>{onChangeForm}</p>
+            <p>{createUser}</p>
           </div>
           <div className="col-md-4">
-            <DisplayBoard
-              numberOfUsers={numberOfUsers}
-              getAllUsers={getAllUsers}
-            ></DisplayBoard>
+            <p>{numberOfUsers}</p>
+            <p>{getAllUsers}</p>
           </div>
         </div>
       </div>
-      <div className="row mrgnbtm">
-        <Users users={users}></Users>
-      </div>
+      <div className="row mrgnbtm"></div>
     </div>
   );
 };
