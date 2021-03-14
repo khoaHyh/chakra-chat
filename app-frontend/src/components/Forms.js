@@ -1,6 +1,6 @@
 import Authentication from './Authentication';
 
-const Forms = ({ forms }) => {
+const Forms = ({ forms, history }) => {
   return forms.map((elem, i) => {
     return (
       <Authentication
@@ -8,6 +8,7 @@ const Forms = ({ forms }) => {
         legend={forms[i].legend}
         action={forms[i].action}
         value={forms[i].value}
+        history={history}
       />
     );
   });

@@ -7,10 +7,10 @@ const forms = [
   { legend: 'Register', action: '/register', value: 'Register' },
 ];
 
-export const Home = () => {
+export const Home = ({ history }) => {
   return (
     <Box fontSize="xl">
-      <Forms forms={forms} />
+      <Forms forms={forms} history={history} />
     </Box>
   );
 };

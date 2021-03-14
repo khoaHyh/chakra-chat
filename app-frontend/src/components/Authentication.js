@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-const Authentication = ({ legend, action, value }) => {
+const Authentication = ({ legend, action, value, history }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -24,6 +24,8 @@ const Authentication = ({ legend, action, value }) => {
   };
 
   const formData = { username: username, password: password };
+
+  //onClick={legend === 'Login' ? onLogin : onRegister}
 
   const onLogin = async () => {
     try {
@@ -48,6 +50,7 @@ const Authentication = ({ legend, action, value }) => {
         formData,
       });
       const data = await response.data;
+      // add in logic here if specific content is returned, do ...
       console.log(`register: ${data}`);
     } catch (err) {
       console.log(`onRegister ${err}`);
@@ -84,9 +87,11 @@ const Authentication = ({ legend, action, value }) => {
           <Button
             w="full"
             mt={2}
-            onClick={legend === 'Login' ? onLogin : onRegister}
+            onClick={() => {
+              history.push('/chat');
+            }}
           >
-            <Link to="/chat">{legend}</Link>
+            {legend}
           </Button>
         </form>
       </Box>
