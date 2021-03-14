@@ -27,7 +27,8 @@ const Authentication = ({ legend, action, value, history }) => {
   const onLogin = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:3080/login',
+        //        'http://localhost:3080/login',
+        'https://discord-clone-api-khoahyh.herokuapp.com/login',
         formData
       );
       if (response.data.username) {
@@ -43,7 +44,8 @@ const Authentication = ({ legend, action, value, history }) => {
   const onRegister = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:3080/register',
+        //        'http://localhost:3080/register',
+        'https://discord-clone-api-khoahyh.herokuapp.com/register',
         formData
       );
       if (response.data.username) {
