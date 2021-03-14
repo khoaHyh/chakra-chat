@@ -9,6 +9,7 @@ import {
   Input,
   Button,
 } from '@chakra-ui/react';
+import { Redirect } from 'react-router-dom';
 
 const Authentication = ({ legend, action, value }) => {
   const [username, setUsername] = useState('');
