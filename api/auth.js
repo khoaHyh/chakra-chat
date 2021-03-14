@@ -9,12 +9,10 @@ const User = require("./models/user");
 module.exports = (passport) => {
   // Convert object contents into a key
   // determines which data of the user object should be stored in the session
-  passport.serializeUser((user, done) => {
-    done(null, user._id);
-  });
+  passport.serializeUser((user, done) => done(null, user._id));
   // Convert key into original object and retrieve object contents
   passport.deserializeUser((id, done) => {
-    User.findOne({ _id }, (err, doc) => {
+    User.findOne(user._id, (err, doc) => {
       if (err) return console.error(`myDataBase.findOne error: ${err}`);
       done(null, doc);
     });
@@ -51,18 +49,13 @@ module.exports = (passport) => {
       (accessToken, refreshToken, profile, cb) => {
         console.log(profile);
         // Database logic here with callback containing our user object
-        myDataBase.findOneAndUpdate(
+        Users.findOneAndUpdate(
           { id: profile.id },
           {
             $setOnInsert: {
               id: profile.id,
-              name: profile.displayName || "John Doe",
-              photo: profile.photos[0].value || "",
-              email: Array.isArray(profile.emails)
-                ? profile.emails[0].value
-                : "No public email",
-              created_on: new Date(),
-              provider: profile.provider || "",
+              username: profile.displayName || "John Doe",
+              joined: new Date(),
             },
             $set: {
               last_login: new Date(),
