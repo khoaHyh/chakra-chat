@@ -1,5 +1,5 @@
-import { ChakraProvider, theme } from '@chakra-ui/react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { ChakraProvider, theme, Heading } from '@chakra-ui/react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import BaseLayout from './components/Layouts/BaseLayout';
 import { Home } from './Home';
 import { Chat } from './Chat';
@@ -10,8 +10,11 @@ const App = () => {
       <ChakraProvider theme={theme}>
         <BrowserRouter>
           <BaseLayout>
-            <Route path="/" exact component={Home} />
-            <Route path="/chat" exact component={Chat} />
+            <Switch>
+              <Route path="/" exact component={Home} />
+              <Route path="/chat" exact component={Chat} />
+              <Route path="/" render={() => <Heading>404 Not Found</Heading>} />
+            </Switch>
           </BaseLayout>
         </BrowserRouter>
       </ChakraProvider>
