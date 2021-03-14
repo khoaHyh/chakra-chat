@@ -41,6 +41,9 @@ const Authentication = ({ legend, action, value, history }) => {
     }
   };
 
+  // ADD PASSWORD CHECK FROM HAVEIBEEN PWNED type of API to only
+  // allow passwords that haven not been compromised
+  // restrict usernames to letters, numbers, -, _ only
   const onRegister = async () => {
     try {
       const response = await axios.post(
