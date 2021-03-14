@@ -11,8 +11,8 @@ import {
 } from '@chakra-ui/react';
 
 const Authentication = ({ legend, action, value }) => {
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const onUsernameChange = event => {
     setUsername(event.target.value);
@@ -32,6 +32,7 @@ const Authentication = ({ legend, action, value }) => {
         formData,
       });
       const data = await response.data;
+      console.log(response);
       console.log(data);
     } catch (err) {
       console.log(`onLogin ${err}`);
@@ -42,8 +43,7 @@ const Authentication = ({ legend, action, value }) => {
     try {
       const response = await axios({
         method: 'post',
-        // change this to /register when we set it up on backend
-        url: 'http://localhost:3080/login',
+        url: 'http://localhost:3080/register',
         formData,
       });
       const data = await response.data;
