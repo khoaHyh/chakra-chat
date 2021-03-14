@@ -42,80 +42,6 @@ app.use(express.urlencoded({ extended: true }));
 
 connectDB();
 
-/* PASSPORT START */
-// Convert object contents into a key
-passport.serializeUser((user, done) => {
-  done(null, user._id);
-});
-// Convert key into original object
-passport.deserializeUser((id, done) => {
-  myDataBase.findOne({ _id: new ObjectID(id) }, (err, doc) => {
-    if (err) return console.error(`myDataBase.findOne error: ${err}`);
-    done(null, doc);
-  });
-});
-// Define process to use when we try to authenticate someone locally
-passport.use(
-  new LocalStrategy((username, password, done) => {
-    myDataBase.findOne({ username: username }, (err, user) => {
-      console.log("User " + username + " attempted to log in.");
-      if (err) {
-        return done(err);
-      }
-      if (!user) {
-        return done(null, false);
-      }
-      if (!bcrypt.compareSync(password, user.password)) {
-        return done(null, false);
-      }
-      return done(null, user);
-    });
-  })
-);
-
-// Github authentication strategy
-passport.use(
-  new GitHubStrategy(
-    {
-      clientID: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL:
-        "https://discord-clone-khoahyh.herokuapp.com/auth/github/callback",
-    },
-    (accessToken, refreshToken, profile, cb) => {
-      console.log(profile);
-      // Database logic here with callback containing our user object
-      myDataBase.findOneAndUpdate(
-        { id: profile.id },
-        {
-          $setOnInsert: {
-            id: profile.id,
-            name: profile.displayName || "John Doe",
-            photo: profile.photos[0].value || "",
-            email: Array.isArray(profile.emails)
-              ? profile.emails[0].value
-              : "No public email",
-            created_on: new Date(),
-            provider: profile.provider || "",
-          },
-          $set: {
-            last_login: new Date(),
-          },
-          $inc: {
-            login_count: 1,
-          },
-        },
-        { upsert: true, new: true },
-        (err, doc) => {
-          if (err) console.error(`findOneAndUpdate error: ${err}`);
-          return cb(null, doc.value);
-        }
-      );
-    }
-  )
-);
-/* PASSPORT END */
-
 // Listen for error events on the database connection
 mongoose.connection.on("error", (err) => {
   // Will not log if database disconnects, need to listen for disconnection for that
@@ -149,29 +75,6 @@ app.get("/", (req, res) => {
   // get list of all users
   res.status(200).json("woot");
 });
-
-// test post
-//app.post("/login", (req, res) => {
-//  console.log("login works");
-//  let results = users.find((user) => user.username === req.body.username);
-//  if (results) {
-//    if (results.password == req.body.password) {
-//      res.status(200).json({ message: "successful login" });
-//    } else {
-//      res.status(200).json({ message: "wrong password" });
-//    }
-//  } else {
-//    res.status(200).json({ message: "user not found" });
-//  }
-//});
-//
-//app.post("/register", (req, res) => {
-//  console.log("register works");
-//  let results = users.find((user) => user.username === req.body.username);
-//  results
-//    ? res.status(200).json({ message: "user already in database" })
-//    : console.log("register success!");
-//});
 
 app.post("/new/channel", (req, res) => {
   const body = req.body;
@@ -252,11 +155,12 @@ app.post(
         //        next(null, doc.ops[0]);
       });
     }
-  },
-  passport.authenticate("local", { failureRedirect: "/" }),
-  (req, res, next) => {
-    res.redirect("/chat");
   }
+  // JUST ROUTE TO CHAT IN FRONT END
+  //  passport.authenticate("local", { failureRedirect: "/" }),
+  //  (req, res, next) => {
+  //    res.redirect("/chat");
+  //  }
 );
 // Social authentication using Github strategy
 app.get("/auth/github", passport.authenticate("github"));
