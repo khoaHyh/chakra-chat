@@ -21,22 +21,22 @@ module.exports = (passport) => {
   });
   // Define process to use when we try to authenticate someone locally
   passport.use(
-    new LocalStrategy((username, password, done) => {
-        let user = await User.findOne({ username: uname });
-        console.log("User " + username + " attempted to log in.");
-        if (!user) {
-            return done(null, false, { message: "User not found." });
+    new LocalStrategy(async (username, password, done) => {
+      let user = await User.findOne({ username: username });
+      console.log("User " + username + " attempted to log in.");
+      if (!user) {
+        return done(null, false, { message: "User not found." });
+      }
+      try {
+        if (await bcrypt.compare(password, user.password)) {
+          return done(null, user);
+        } else {
+          return done(null, false, { message: "Incorrect password" });
         }
-        try {
-            if (await bcrypt.compare(password, user.password)) {
-                return done(null, user);
-            } else {
-                return done(null, false, { message: "Incorrect password" });
-            }
-        } catch (err) {
-            done(err);
-        }
-    });
+      } catch (err) {
+        done(err);
+      }
+    })
   );
 
   // Github authentication strategy

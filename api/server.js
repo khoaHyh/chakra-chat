@@ -8,6 +8,7 @@ const Conversations = require("./models/conversations");
 const User = require("./models/user");
 const Pusher = require("pusher");
 //const path = require("path");
+const session = require("express-session");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const auth = require("./auth");
@@ -42,16 +43,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Set up our express app to use session
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true,
-    cookie: { secure: false },
-    key: "express.sid",
-    store: store,
-  })
-);
+//app.use(
+//  session({
+//    secret: process.env.SESSION_SECRET,
+//    resave: true,
+//    saveUninitialized: true,
+//    cookie: { secure: false },
+//    key: "express.sid",
+//    store: store,
+//  })
+//);
 
 connectDB();
 
