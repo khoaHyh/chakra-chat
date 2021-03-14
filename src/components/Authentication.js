@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import {
   Flex,
@@ -9,7 +9,6 @@ import {
   Input,
   Button,
 } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
 
 const Authentication = ({ legend, action, value, history }) => {
   const [username, setUsername] = useState('');
