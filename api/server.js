@@ -203,7 +203,9 @@ app.post(
   "/login",
   passport.authenticate("local", { failureRedirect: "/" }),
   (req, res) => {
-    res.redirect("/chat");
+    //    res.redirect("/chat");
+    //    res.status(200).json(req.user.username);
+    res.status(200).json(req.user);
   }
 );
 // If authentication middleware passes, redirect user to /profile
