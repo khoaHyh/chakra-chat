@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const app = express();
 const cors = require("cors");
 const connectDB = require("./utilities/db");
-const conversations = require("./models/conversations");
+const Conversations = require("./models/conversations");
+const User = require("./models/user");
 const Pusher = require("pusher");
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -176,13 +177,13 @@ app.post("/new/channel", (req, res) => {
   const body = req.body;
 
   // create new document with data
-  conversations.create(body, (err, data) => {
+  Conversations.create(body, (err, data) => {
     err ? res.status(500).send(err) : res.status(201).send(data);
   });
 });
 
 app.get("/get/channelList", (req, res) => {
-  conversation.find((err, data) => {
+  Conversation.find((err, data) => {
     err ? res.status(500).send(err) : res.status(200).send(data);
   });
 });
@@ -197,16 +198,6 @@ app.get("/get/data", (req, res) => {});
 app.get("/get/conversation", (req, res) => {});
 
 // AUTHENTICATION
-app.get("/", (req, res) => {
-  //Change the response to render the Pug template
-  res.render("pug", {
-    title: "Connected to Database",
-    message: "Please login",
-    showLogin: true,
-    showRegistration: true,
-    showSocialAuth: true,
-  });
-});
 // Authenticate on route /login
 app.post(
   "/login",
@@ -232,33 +223,32 @@ app.get("/logout", (req, res) => {
 // Allow a new user on our site to register an account
 app.post(
   "/register",
-  (req, res, next) => {
-    // Implement saving a hash
-    const hash = bcrypt.hashSync(req.body.password, 12);
-    // Check if user exists already
-    myDataBase.findOne({ username: req.body.username }, (err, user) => {
-      if (err) {
-        next(err);
-      } else if (user) {
-        res.redirect("/");
-      } else {
-        myDataBase.insertOne(
-          {
-            username: req.body.username,
-            password: hash,
-          },
-          (err, doc) => {
-            if (err) {
-              res.redirect("/");
-            } else {
-              // The inserted document is held within
-              // the ops property of the doc
-              next(null, doc.ops[0]);
-            }
-          }
-        );
-      }
-    });
+  async (req, res, next) => {
+    let uname = req.body.username;
+
+    // Check if the user is already in the database and act accordingly
+    let user = await User.findOne({ username: uname });
+    if (user) {
+      console.log(`user exists: ${user.username}`);
+      res
+        .status(200)
+        .json({ message: `This username (${uname}) already exists.` });
+    } else {
+      // Implement saving a hash
+      const hash = await bcrypt.hash(req.body.password, 12);
+
+      user = new User({ username: uname, password: hash });
+
+      user.save((err, doc) => {
+        if (err) {
+          console.error(`save error: ${err}`);
+          res.redirect("/");
+        }
+        console.log(`Document inserted successfully, ${user.username}`);
+        res.status(201).json({ username: user.username, _id: user._id });
+        //        next(null, doc.ops[0]);
+      });
+    }
   },
   passport.authenticate("local", { failureRedirect: "/" }),
   (req, res, next) => {
