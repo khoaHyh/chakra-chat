@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Flex,
@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 const Authentication = ({ legend, action, value, history }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [authenticated, setAuthenticated] = useState(false);
 
   const onUsernameChange = event => {
     setUsername(event.target.value);
@@ -25,18 +26,19 @@ const Authentication = ({ legend, action, value, history }) => {
 
   const formData = { username: username, password: password };
 
-  //onClick={legend === 'Login' ? onLogin : onRegister}
-
   const onLogin = async () => {
     try {
-      const response = await axios({
-        method: 'post',
-        url: 'http://localhost:3080/login',
-        formData,
-      });
-      const data = await response.data;
-      console.log(response);
-      console.log(data);
+      const response = await axios.post(
+        'http://localhost:3080/login',
+        formData
+      );
+      console.log(response.data);
+      if (response.data.username) {
+        console.log('verified');
+        history.push('/chat');
+      } else {
+        console.log('denied');
+      }
     } catch (err) {
       console.log(`onLogin ${err}`);
     }
@@ -88,7 +90,7 @@ const Authentication = ({ legend, action, value, history }) => {
             w="full"
             mt={2}
             onClick={() => {
-              history.push('/chat');
+              if (legend === 'Login') onLogin();
             }}
           >
             {legend}
