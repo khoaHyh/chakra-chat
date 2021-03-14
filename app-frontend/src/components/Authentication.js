@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom';
 const Authentication = ({ legend, action, value, history }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [authenticated, setAuthenticated] = useState(false);
 
   const onUsernameChange = event => {
     setUsername(event.target.value);
@@ -32,9 +31,7 @@ const Authentication = ({ legend, action, value, history }) => {
         'http://localhost:3080/login',
         formData
       );
-      console.log(response.data);
       if (response.data.username) {
-        console.log('verified');
         history.push('/chat');
       } else {
         console.log('denied');
@@ -46,14 +43,17 @@ const Authentication = ({ legend, action, value, history }) => {
 
   const onRegister = async () => {
     try {
-      const response = await axios({
-        method: 'post',
-        url: 'http://localhost:3080/register',
-        formData,
-      });
-      const data = await response.data;
-      // add in logic here if specific content is returned, do ...
-      console.log(`register: ${data}`);
+      const response = await axios.post(
+        'http://localhost:3080/register',
+        formData
+      );
+      if (response.data.username) {
+        console.log(response.data);
+        console.log('verified');
+        history.push('/chat');
+      } else {
+        console.log(response.data.message);
+      }
     } catch (err) {
       console.log(`onRegister ${err}`);
     }
@@ -90,7 +90,7 @@ const Authentication = ({ legend, action, value, history }) => {
             w="full"
             mt={2}
             onClick={() => {
-              if (legend === 'Login') onLogin();
+              legend === 'Login' ? onLogin() : onRegister();
             }}
           >
             {legend}
