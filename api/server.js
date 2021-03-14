@@ -245,7 +245,8 @@ app.post(
           res.redirect("/");
         }
         console.log(`Document inserted successfully, ${user.username}`);
-        res.status(201).json({ username: user.username, _id: user._id });
+        res.status(201).json(user);
+        //        res.status(201).json({ username: user.username, _id: user._id });
         //        next(null, doc.ops[0]);
       });
     }
