@@ -7,13 +7,12 @@ const connectDB = require("./utilities/db");
 const Conversations = require("./models/conversations");
 const User = require("./models/user");
 const Pusher = require("pusher");
-const path = require("path");
+//const path = require("path");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const auth = require("./auth");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
-const LocalStrategy = require("passport-local");
-const GitHubStrategy = require("passport-github").Strategy;
 const ensureAuthenticated = require("./utilities/ensureAuthenticated");
 
 const pusher = new Pusher({
@@ -41,6 +40,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 connectDB();
+
+auth(passport);
 
 // Listen for error events on the database connection
 mongoose.connection.on("error", (err) => {

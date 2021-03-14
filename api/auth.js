@@ -12,9 +12,9 @@ module.exports = (passport) => {
   passport.serializeUser((user, done) => {
     done(null, user._id);
   });
-  // Convert key into original object
+  // Convert key into original object and retrieve object contents
   passport.deserializeUser((id, done) => {
-    myDataBase.findOne({ _id: new ObjectID(id) }, (err, doc) => {
+    User.findOne({ _id }, (err, doc) => {
       if (err) return console.error(`myDataBase.findOne error: ${err}`);
       done(null, doc);
     });
@@ -22,20 +22,21 @@ module.exports = (passport) => {
   // Define process to use when we try to authenticate someone locally
   passport.use(
     new LocalStrategy((username, password, done) => {
-      myDataBase.findOne({ username: username }, (err, user) => {
+        let user = await User.findOne({ username: uname });
         console.log("User " + username + " attempted to log in.");
-        if (err) {
-          return done(err);
-        }
         if (!user) {
-          return done(null, false);
+            return done(null, false, { message: "User not found." });
         }
-        if (!bcrypt.compareSync(password, user.password)) {
-          return done(null, false);
+        try {
+            if (await bcrypt.compare(password, user.password)) {
+                return done(null, user);
+            } else {
+                return done(null, false, { message: "Incorrect password" });
+            }
+        } catch (err) {
+            done(err);
         }
-        return done(null, user);
-      });
-    })
+    });
   );
 
   // Github authentication strategy
