@@ -13,7 +13,10 @@ const App = () => {
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/chat" exact component={Chat} />
-              <Route path="/" render={() => <Heading>404 Not Found</Heading>} />
+              <Route
+                path="/"
+                render={() => <Heading p={5}>404 Not Found</Heading>}
+              />
             </Switch>
           </BaseLayout>
         </BrowserRouter>

@@ -9,7 +9,7 @@ import {
   Input,
   Button,
 } from '@chakra-ui/react';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Authentication = ({ legend, action, value }) => {
   const [username, setUsername] = useState('');
@@ -86,7 +86,7 @@ const Authentication = ({ legend, action, value }) => {
             mt={2}
             onClick={legend === 'Login' ? onLogin : onRegister}
           >
-            {legend}
+            <Link to="/chat">{legend}</Link>
           </Button>
         </form>
       </Box>
