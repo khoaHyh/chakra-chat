@@ -49,27 +49,22 @@ module.exports = (passport) => {
       (accessToken, refreshToken, profile, cb) => {
         console.log(profile);
         // Database logic here with callback containing our user object
-        Users.findOneAndUpdate(
-          { id: profile.id },
-          {
-            $setOnInsert: {
-              id: profile.id,
-              username: profile.displayName || "John Doe",
-              joined: new Date(),
-            },
-            $set: {
-              last_login: new Date(),
-            },
-            $inc: {
-              login_count: 1,
-            },
-          },
-          { upsert: true, new: true },
-          (err, doc) => {
-            if (err) console.error(`findOneAndUpdate error: ${err}`);
-            return cb(null, doc.value);
+        Users.findOne({ _id: profile.id }, (err, user) => {
+          if (user) {
+            console.log(`user exists: ${user.username}`);
+            return done(err, user);
+          } else {
+            user = new User({
+              username: profile.username,
+              provider: "github",
+            });
+
+            user.save((err, doc) => {
+              if (err) console.error(`save error: ${err}`);
+              return done(err, doc);
+            });
           }
-        );
+        });
       }
     )
   );
