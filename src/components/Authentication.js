@@ -48,6 +48,7 @@ const Authentication = ({ legend, action, value, history }) => {
 
   // add email here and on backend schema
   // add email validation here or backend
+  // add password visibility toggler
   const onRegister = async () => {
     try {
       const response = await axios.post(
