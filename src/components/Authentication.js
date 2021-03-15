@@ -49,13 +49,13 @@ const Authentication = ({ legend, action, value, history }) => {
       if (response.data.username) {
         history.push('/chat');
       } else {
-        console.log('denied');
         setError('Invalid username or password');
         setUsername('');
         setPassword('');
       }
     } catch (err) {
       console.log(`handleLogin ${err}`);
+      setError('500 Internal Server Error');
     }
     setIsLoading(false);
   };
@@ -71,14 +71,13 @@ const Authentication = ({ legend, action, value, history }) => {
         formData
       );
       if (response.data.username) {
-        console.log(response.data);
-        console.log('verified');
         history.push('/chat');
       } else {
-        console.log(response.data.message);
+        setError(`${response.data.message}`);
       }
     } catch (err) {
       console.log(`handleRegister ${err}`);
+      setError('500 Internal Server Error');
     }
   };
 
@@ -98,7 +97,6 @@ const Authentication = ({ legend, action, value, history }) => {
   const registerFormValidation = async () => {
     // Check if username contains a minimum of 6 characters and is entirely alphanumeric
     if (alphanumRegex.test(username)) {
-      console.log('Username has correct format');
       // Use the api to check if the password has been pwned (found in database breach)
       try {
         let response = await fetch(
@@ -110,23 +108,17 @@ const Authentication = ({ legend, action, value, history }) => {
         if (passwordRegex.test(password)) {
           !regex.test(body)
             ? handleRegister()
-            : // true (pwned), false (not pwned)
-              console.log(
-                `pwned? ${regex.test(
-                  body
-                )}, this password has been found in a database breach.`
+            : setError(
+                'This password has been found in a database breach. Please enter another password.'
               );
         } else {
-          console.log('Password does not meet all requirements.');
           setError('Password does not meet all requirements.');
         }
       } catch (err) {
-        console.log(`registerFormValidation ${err}`);
+        console.log(`PwnedPasswords API, ${err}`);
+        setError('500 Internal Server Error with PwnedPasswords API');
       }
     } else {
-      console.log(
-        'Username may only contain alphanumeric characters and at least 6 characters'
-      );
       setError(
         'Username must contain at least 8 characters and be alphanumeric.'
       );
