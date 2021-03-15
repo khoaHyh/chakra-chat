@@ -4,7 +4,9 @@ const ErrorMessage = ({ message }) => {
     <Box my={4}>
       <Alert status="error" borderRadius={4} justifyContent="center">
         <AlertIcon />
-        <AlertDescription pt={1}>{message}</AlertDescription>
+        <AlertDescription pt={1} maxWidth="xs">
+          {message}
+        </AlertDescription>
       </Alert>
     </Box>
   );

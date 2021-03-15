@@ -38,7 +38,7 @@ const Authentication = ({ legend, action, value, history }) => {
   const formData = { username: username, password: password };
 
   const handleLogin = async () => {
-    setIsLoading();
+    setIsLoading(true);
     try {
       const response = await axios.post(
         //'http://localhost:3080/login',
@@ -57,11 +57,11 @@ const Authentication = ({ legend, action, value, history }) => {
     } catch (err) {
       console.log(`handleLogin ${err}`);
     }
+    setIsLoading(false);
   };
 
   // add email here and on backend schema
   // add email validation here or backend
-  // add password visibility toggler
   const handleRegister = async () => {
     try {
       const response = await axios.post(
@@ -117,7 +117,8 @@ const Authentication = ({ legend, action, value, history }) => {
                 )}, this password has been found in a database breach.`
               );
         } else {
-          console.log('Password does not meet all checks');
+          console.log('Password does not meet all requirements.');
+          setError('Password does not meet all requirements.');
         }
       } catch (err) {
         console.log(`registerFormValidation ${err}`);
@@ -125,6 +126,9 @@ const Authentication = ({ legend, action, value, history }) => {
     } else {
       console.log(
         'Username may only contain alphanumeric characters and at least 6 characters'
+      );
+      setError(
+        'Username must contain at least 8 characters and be alphanumeric.'
       );
     }
   };
@@ -228,9 +232,7 @@ const Authentication = ({ legend, action, value, history }) => {
 
   // Render an error message when invalid credentials are provided on login
   const renderError = () => {
-    if (legend === 'Login') {
-      return error && <ErrorMessage message={error} />;
-    }
+    return error && <ErrorMessage message={error} />;
   };
 
   return (
@@ -264,7 +266,7 @@ const Authentication = ({ legend, action, value, history }) => {
             </FormLabel>
             <InputGroup>
               <Input
-                pr="7rem"
+                pr="8.5rem"
                 type={show ? 'text' : 'password'}
                 id="password"
                 name="password"
