@@ -27,8 +27,8 @@ const Authentication = ({ legend, action, value, history }) => {
   const onLogin = async () => {
     try {
       const response = await axios.post(
-        //        'http://localhost:3080/login',
-        'https://discord-clone-api-khoahyh.herokuapp.com/login',
+        'http://localhost:3080/login',
+        //'https://discord-clone-api-khoahyh.herokuapp.com/login',
         formData
       );
       if (response.data.username) {
@@ -44,22 +44,29 @@ const Authentication = ({ legend, action, value, history }) => {
   // ADD PASSWORD CHECK FROM HAVEIBEEN PWNED type of API to only
   // allow passwords that haven not been compromised
   // restrict usernames to letters, numbers, -, _ only
+  // add email here and on backend
+  const alphanumRegex = /[a-zA-Z0-9]+$/i;
+
   const onRegister = async () => {
-    try {
-      const response = await axios.post(
-        //        'http://localhost:3080/register',
-        'https://discord-clone-api-khoahyh.herokuapp.com/register',
-        formData
-      );
-      if (response.data.username) {
-        console.log(response.data);
-        console.log('verified');
-        history.push('/chat');
-      } else {
-        console.log(response.data.message);
+    if (!alphanumRegex.test(username)) {
+      console.log('Username may only contain alphanumeric characters.');
+    } else {
+      try {
+        const response = await axios.post(
+          'http://localhost:3080/register',
+          //'https://discord-clone-api-khoahyh.herokuapp.com/register',
+          formData
+        );
+        if (response.data.username) {
+          console.log(response.data);
+          console.log('verified');
+          history.push('/chat');
+        } else {
+          console.log(response.data.message);
+        }
+      } catch (err) {
+        console.log(`onRegister ${err}`);
       }
-    } catch (err) {
-      console.log(`onRegister ${err}`);
     }
   };
 
