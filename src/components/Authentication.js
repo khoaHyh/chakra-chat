@@ -199,23 +199,44 @@ const Authentication = ({ legend, action, value, history }) => {
                 Password must contain the following:
               </Heading>
               <Text fontSize="sm">
-                {lowerCaseCheck() ? <CheckIcon /> : <CloseIcon />} A{' '}
-                <b>lowercase</b> letter
+                {lowerCaseCheck() ? (
+                  <CheckIcon color="green.500" />
+                ) : (
+                  <CloseIcon color="red.500" />
+                )}{' '}
+                A <b>lowercase</b> letter
               </Text>
               <Text fontSize="sm">
-                {upperCaseCheck() ? <CheckIcon /> : <CloseIcon />} A{' '}
-                <b>capital (uppercase)</b> letter
+                {upperCaseCheck() ? (
+                  <CheckIcon color="green.500" />
+                ) : (
+                  <CloseIcon color="red.500" />
+                )}{' '}
+                A <b>capital (uppercase)</b> letter
               </Text>
               <Text fontSize="sm">
-                {numbersCheck() ? <CheckIcon /> : <CloseIcon />} A <b>number</b>
+                {numbersCheck() ? (
+                  <CheckIcon color="green.500" />
+                ) : (
+                  <CloseIcon color="red.500" />
+                )}{' '}
+                A <b>number</b>
               </Text>
               <Text fontSize="sm">
-                {specialCheck() ? <CheckIcon /> : <CloseIcon />} A{' '}
-                <b>special (!@#$%^...)</b> character
+                {specialCheck() ? (
+                  <CheckIcon color="green.500" />
+                ) : (
+                  <CloseIcon color="red.500" />
+                )}{' '}
+                A <b>special (!@#$%^...)</b> character
               </Text>
               <Text fontSize="sm">
-                {pwLengthCheck() ? <CheckIcon /> : <CloseIcon />} Minimum{' '}
-                <b>8 characters</b>
+                {pwLengthCheck() ? (
+                  <CheckIcon color="green.500" />
+                ) : (
+                  <CloseIcon color="red.500" />
+                )}{' '}
+                Minimum <b>8 characters</b>
               </Text>
             </Stack>
           )}
