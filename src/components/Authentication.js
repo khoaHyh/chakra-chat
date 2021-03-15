@@ -103,7 +103,7 @@ const Authentication = ({ legend, action, value, history }) => {
                 )}, this password has been found in a database breach.`
               );
         } else {
-          console.log('Password does need meet all checks');
+          console.log('Password does not meet all checks');
         }
       } catch (err) {
         console.log(`registerFormValidation ${err}`);
@@ -119,7 +119,6 @@ const Authentication = ({ legend, action, value, history }) => {
   const lowerCaseCheck = () => {
     let lowerCaseLetters = /[a-z]/g;
     if (!lowerCaseLetters.test(password)) {
-      console.log('Need a lowercase letter');
       return false;
     }
     return true;
@@ -129,7 +128,6 @@ const Authentication = ({ legend, action, value, history }) => {
   const upperCaseCheck = () => {
     let upperCaseLetters = /[A-Z]/g;
     if (!upperCaseLetters.test(password)) {
-      console.log('Need an uppercase letter');
       return false;
     }
     return true;
@@ -139,7 +137,6 @@ const Authentication = ({ legend, action, value, history }) => {
   const numbersCheck = () => {
     let numbers = /[0-9]/g;
     if (!numbers.test(password)) {
-      console.log('Need a number');
       return false;
     }
     return true;
@@ -149,7 +146,6 @@ const Authentication = ({ legend, action, value, history }) => {
   const specialCheck = () => {
     let specialChar = /[^a-zA-Z0-9\s]+/g;
     if (!specialChar.test(password)) {
-      console.log('Need a special character');
       return false;
     }
     return true;
@@ -157,8 +153,7 @@ const Authentication = ({ legend, action, value, history }) => {
 
   // Validate length
   const pwLengthCheck = () => {
-    if (password.length <= 8) {
-      console.log('Need to have at least 8 characters');
+    if (password.length < 8) {
       return false;
     }
     return true;
