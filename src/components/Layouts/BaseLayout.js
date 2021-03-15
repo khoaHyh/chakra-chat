@@ -11,7 +11,7 @@ const BaseLayout = props => {
         className="base-page"
         {...props}
       >
-        <Flex w="full" justifyContent="flex-end" p={5}>
+        <Flex w="full" justifyContent="flex-end" p={2}>
           <ColorModeSwitcher />
         </Flex>
         <Box w="100%" m="0 auto">

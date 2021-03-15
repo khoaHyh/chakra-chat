@@ -169,7 +169,7 @@ const Authentication = ({ legend, action, value, history }) => {
   const renderPasswordChecks = () => {
     if (legend === 'Register') {
       return (
-        <Stack mt={5}>
+        <Stack mt={2}>
           <Heading as="h3" size="md">
             Password must contain the following:
           </Heading>
@@ -222,15 +222,17 @@ const Authentication = ({ legend, action, value, history }) => {
     <Flex minHeight="300px" w="full" justifyContent="center" m={4}>
       <Box
         textAlign="center"
-        p={8}
+        p={5}
         borderWidth={1}
         borderRadius={8}
         boxShadow="lg"
       >
         <Heading as="h2">{legend}</Heading>
         <form action={action} method="POST">
-          <FormControl>
-            <FormLabel htmlFor="username"></FormLabel>
+          <FormControl isRequired>
+            <FormLabel htmlFor="username" mb={0}>
+              Username
+            </FormLabel>
             <Input
               type="text"
               id="username"
@@ -240,8 +242,10 @@ const Authentication = ({ legend, action, value, history }) => {
               required
             />
           </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="password"></FormLabel>
+          <FormControl isRequired>
+            <FormLabel htmlFor="password" mt={2} mb={0}>
+              Password
+            </FormLabel>
             <InputGroup>
               <Input
                 pr="7rem"
