@@ -152,6 +152,7 @@ const Authentication = ({ legend, action, value, history }) => {
       console.log('Need a special character');
       return false;
     }
+    return true;
   };
 
   // Validate length
@@ -164,7 +165,7 @@ const Authentication = ({ legend, action, value, history }) => {
   };
 
   return (
-    <Flex minHeight="300px" width="full" justifyContent="center" m={4}>
+    <Flex minHeight="300px" w="full" justifyContent="center" m={4}>
       <Box textAlign="center">
         <Heading as="h2">{legend}</Heading>
         <form action={action} method="POST">
@@ -197,22 +198,22 @@ const Authentication = ({ legend, action, value, history }) => {
               <Heading as="h3" size="md">
                 Password must contain the following:
               </Heading>
-              <Text fontSize="md">
+              <Text fontSize="sm">
                 {lowerCaseCheck() ? <CheckIcon /> : <CloseIcon />} A{' '}
                 <b>lowercase</b> letter
               </Text>
-              <Text fontSize="md">
+              <Text fontSize="sm">
                 {upperCaseCheck() ? <CheckIcon /> : <CloseIcon />} A{' '}
                 <b>capital (uppercase)</b> letter
               </Text>
-              <Text fontSize="md">
+              <Text fontSize="sm">
                 {numbersCheck() ? <CheckIcon /> : <CloseIcon />} A <b>number</b>
               </Text>
-              <Text fontSize="md">
+              <Text fontSize="sm">
                 {specialCheck() ? <CheckIcon /> : <CloseIcon />} A{' '}
                 <b>special (!@#$%^...)</b> character
               </Text>
-              <Text fontSize="md">
+              <Text fontSize="sm">
                 {pwLengthCheck() ? <CheckIcon /> : <CloseIcon />} Minimum{' '}
                 <b>8 characters</b>
               </Text>
