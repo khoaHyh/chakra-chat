@@ -45,29 +45,30 @@ const Authentication = ({ legend, action, value, history }) => {
   // allow passwords that haven not been compromised
   // restrict usernames to letters, numbers, -, _ only
   // add email here and on backend
-  const alphanumRegex = /[a-zA-Z0-9]+$/i;
-
   const onRegister = async () => {
-    if (!alphanumRegex.test(username)) {
-      console.log('Username may only contain alphanumeric characters.');
-    } else {
-      try {
-        const response = await axios.post(
-          'http://localhost:3080/register',
-          //'https://discord-clone-api-khoahyh.herokuapp.com/register',
-          formData
-        );
-        if (response.data.username) {
-          console.log(response.data);
-          console.log('verified');
-          history.push('/chat');
-        } else {
-          console.log(response.data.message);
-        }
-      } catch (err) {
-        console.log(`onRegister ${err}`);
+    try {
+      const response = await axios.post(
+        'http://localhost:3080/register',
+        //'https://discord-clone-api-khoahyh.herokuapp.com/register',
+        formData
+      );
+      if (response.data.username) {
+        console.log(response.data);
+        console.log('verified');
+        history.push('/chat');
+      } else {
+        console.log(response.data.message);
       }
+    } catch (err) {
+      console.log(`onRegister ${err}`);
     }
+  };
+
+  const alphanumRegex = /^[a-zA-Z0-9]+$/i;
+  const registerFormValidation = () => {
+    alphanumRegex.test(username)
+      ? onRegister()
+      : console.log('Username may only contain alphanumeric characters');
   };
 
   return (
@@ -101,7 +102,11 @@ const Authentication = ({ legend, action, value, history }) => {
             w="full"
             mt={2}
             onClick={() => {
-              legend === 'Login' ? onLogin() : onRegister();
+              if (legend === 'Login') {
+                onLogin();
+              } else {
+                registerFormValidation();
+              }
             }}
           >
             {legend}
