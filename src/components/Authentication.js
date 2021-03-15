@@ -13,13 +13,17 @@ import {
   Stack,
   Button,
   Text,
+  CircularProgress,
 } from '@chakra-ui/react';
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
+import ErrorMessage from './ErrorMessage';
 
 const Authentication = ({ legend, action, value, history }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [show, setShow] = useState(false);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePasswordVisibility = () => setShow(!show);
 
@@ -33,7 +37,8 @@ const Authentication = ({ legend, action, value, history }) => {
 
   const formData = { username: username, password: password };
 
-  const onLogin = async () => {
+  const handleLogin = async () => {
+    setIsLoading();
     try {
       const response = await axios.post(
         //'http://localhost:3080/login',
@@ -45,16 +50,19 @@ const Authentication = ({ legend, action, value, history }) => {
         history.push('/chat');
       } else {
         console.log('denied');
+        setError('Invalid username or password');
+        setUsername('');
+        setPassword('');
       }
     } catch (err) {
-      console.log(`onLogin ${err}`);
+      console.log(`handleLogin ${err}`);
     }
   };
 
   // add email here and on backend schema
   // add email validation here or backend
   // add password visibility toggler
-  const onRegister = async () => {
+  const handleRegister = async () => {
     try {
       const response = await axios.post(
         //'http://localhost:3080/register',
@@ -70,7 +78,7 @@ const Authentication = ({ legend, action, value, history }) => {
         console.log(response.data.message);
       }
     } catch (err) {
-      console.log(`onRegister ${err}`);
+      console.log(`handleRegister ${err}`);
     }
   };
 
@@ -85,7 +93,7 @@ const Authentication = ({ legend, action, value, history }) => {
   let suffix = hashed.slice(5);
 
   const alphanumRegex = /^[0-9a-zA-Z]{6,}$/i;
-  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/;
 
   const registerFormValidation = async () => {
     // Check if username contains a minimum of 6 characters and is entirely alphanumeric
@@ -101,7 +109,7 @@ const Authentication = ({ legend, action, value, history }) => {
 
         if (passwordRegex.test(password)) {
           !regex.test(body)
-            ? onRegister()
+            ? handleRegister()
             : // true (pwned), false (not pwned)
               console.log(
                 `pwned? ${regex.test(
@@ -218,6 +226,13 @@ const Authentication = ({ legend, action, value, history }) => {
     }
   };
 
+  // Render an error message when invalid credentials are provided on login
+  const renderError = () => {
+    if (legend === 'Login') {
+      return error && <ErrorMessage message={error} />;
+    }
+  };
+
   return (
     <Flex minHeight="300px" w="full" justifyContent="center" m={4}>
       <Box
@@ -230,6 +245,7 @@ const Authentication = ({ legend, action, value, history }) => {
         <Heading as="h2">{legend}</Heading>
         <form action={action} method="POST">
           <FormControl isRequired>
+            {renderError()}
             <FormLabel htmlFor="username" mb={0}>
               Username
             </FormLabel>
@@ -272,10 +288,14 @@ const Authentication = ({ legend, action, value, history }) => {
             w="full"
             mt={2}
             onClick={() => {
-              legend === 'Login' ? onLogin() : registerFormValidation();
+              legend === 'Login' ? handleLogin() : registerFormValidation();
             }}
           >
-            {legend}
+            {isLoading ? (
+              <CircularProgress isIndeterminate size="24px" color="teal" />
+            ) : (
+              legend
+            )}
           </Button>
         </form>
       </Box>
