@@ -31,8 +31,9 @@ const Authentication = ({ legend, action, value, history }) => {
   const onLogin = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:3080/login',
-        //'https://discord-clone-api-khoahyh.herokuapp.com/login',
+        //'http://localhost:3080/login',
+        // store production server address in env variable if not on Free Tier
+        'https://discord-clone-api-khoahyh.herokuapp.com/login',
         formData
       );
       if (response.data.username) {
@@ -45,15 +46,14 @@ const Authentication = ({ legend, action, value, history }) => {
     }
   };
 
-  // ADD PASSWORD CHECK FROM HAVEIBEEN PWNED type of API to only
-  // allow passwords that haven not been compromised
-  // restrict usernames to letters, numbers, -, _ only
-  // add email here and on backend
+  // add email here and on backend schema
+  // add email validation here or backend
   const onRegister = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:3080/register',
-        //'https://discord-clone-api-khoahyh.herokuapp.com/register',
+        //'http://localhost:3080/register',
+        // store production server address in env variable if not on Free Tier
+        'https://discord-clone-api-khoahyh.herokuapp.com/register',
         formData
       );
       if (response.data.username) {
