@@ -8,8 +8,11 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Stack,
   Button,
+  Text,
 } from '@chakra-ui/react';
+import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 
 const Authentication = ({ legend, action, value, history }) => {
   const [username, setUsername] = useState('');
@@ -76,6 +79,8 @@ const Authentication = ({ legend, action, value, history }) => {
   let suffix = hashed.slice(5);
 
   const alphanumRegex = /^[0-9a-zA-Z]{6,}$/i;
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+
   const registerFormValidation = async () => {
     // Check if username contains a minimum of 6 characters and is entirely alphanumeric
     if (alphanumRegex.test(username)) {
@@ -88,10 +93,18 @@ const Authentication = ({ legend, action, value, history }) => {
         let body = await response.text();
         let regex = new RegExp(`^${suffix}:`, 'm');
 
-        regex.test(body)
-          ? onRegister()
-          : // true (pwned), false (not pwned)
-            console.log(`pwned? ${regex.test(body)}`);
+        if (passwordRegex.test(password)) {
+          !regex.test(body)
+            ? onRegister()
+            : // true (pwned), false (not pwned)
+              console.log(
+                `pwned? ${regex.test(
+                  body
+                )}, this password has been found in a database breach.`
+              );
+        } else {
+          console.log('Password does need meet all checks');
+        }
       } catch (err) {
         console.log(`registerFormValidation ${err}`);
       }
@@ -100,6 +113,54 @@ const Authentication = ({ legend, action, value, history }) => {
         'Username may only contain alphanumeric characters and at least 6 characters'
       );
     }
+  };
+
+  // Validate lowercase letters
+  const lowerCaseCheck = () => {
+    let lowerCaseLetters = /[a-z]/g;
+    if (!lowerCaseLetters.test(password)) {
+      console.log('Need a lowercase letter');
+      return false;
+    }
+    return true;
+  };
+
+  // Validate uppercase letters
+  const upperCaseCheck = () => {
+    let upperCaseLetters = /[A-Z]/g;
+    if (!upperCaseLetters.test(password)) {
+      console.log('Need an uppercase letter');
+      return false;
+    }
+    return true;
+  };
+
+  // Validate numbers
+  const numbersCheck = () => {
+    let numbers = /[0-9]/g;
+    if (!numbers.test(password)) {
+      console.log('Need a number');
+      return false;
+    }
+    return true;
+  };
+
+  // Validate special characters
+  const specialCheck = () => {
+    let specialChar = /[^a-zA-Z0-9\s]+/g;
+    if (!specialChar.test(password)) {
+      console.log('Need a special character');
+      return false;
+    }
+  };
+
+  // Validate length
+  const pwLengthCheck = () => {
+    if (password.length <= 8) {
+      console.log('Need to have at least 8 characters');
+      return false;
+    }
+    return true;
   };
 
   return (
@@ -129,6 +190,34 @@ const Authentication = ({ legend, action, value, history }) => {
               required
             />
           </FormControl>
+          {legend === 'Login' ? (
+            ''
+          ) : (
+            <Stack mt={5}>
+              <Heading as="h3" size="md">
+                Password must contain the following:
+              </Heading>
+              <Text fontSize="md">
+                {lowerCaseCheck() ? <CheckIcon /> : <CloseIcon />} A{' '}
+                <b>lowercase</b> letter
+              </Text>
+              <Text fontSize="md">
+                {upperCaseCheck() ? <CheckIcon /> : <CloseIcon />} A{' '}
+                <b>capital (uppercase)</b> letter
+              </Text>
+              <Text fontSize="md">
+                {numbersCheck() ? <CheckIcon /> : <CloseIcon />} A <b>number</b>
+              </Text>
+              <Text fontSize="md">
+                {specialCheck() ? <CheckIcon /> : <CloseIcon />} A{' '}
+                <b>special (!@#$%^...)</b> character
+              </Text>
+              <Text fontSize="md">
+                {pwLengthCheck() ? <CheckIcon /> : <CloseIcon />} Minimum{' '}
+                <b>8 characters</b>
+              </Text>
+            </Stack>
+          )}
           <Button
             w="full"
             mt={2}
