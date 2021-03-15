@@ -2,9 +2,9 @@ import { Box, Alert, AlertIcon, AlertDescription } from '@chakra-ui/react';
 const ErrorMessage = ({ message }) => {
   return (
     <Box my={4}>
-      <Alert status="error" borderRadius={4}>
+      <Alert status="error" borderRadius={4} justifyContent="center">
         <AlertIcon />
-        <AlertDescription>{message}</AlertDescription>
+        <AlertDescription pt={1}>{message}</AlertDescription>
       </Alert>
     </Box>
   );
