@@ -7,7 +7,9 @@ import {
   Heading,
   FormControl,
   FormLabel,
+  InputGroup,
   Input,
+  InputRightElement,
   Stack,
   Button,
   Text,
@@ -17,6 +19,9 @@ import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 const Authentication = ({ legend, action, value, history }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [show, setShow] = useState(false);
+
+  const handlePasswordVisibility = () => setShow(!show);
 
   const onUsernameChange = event => {
     setUsername(event.target.value);
@@ -160,9 +165,68 @@ const Authentication = ({ legend, action, value, history }) => {
     return true;
   };
 
+  // Renders a visual guide for password validation
+  const renderPasswordChecks = () => {
+    if (legend === 'Register') {
+      return (
+        <Stack mt={5}>
+          <Heading as="h3" size="md">
+            Password must contain the following:
+          </Heading>
+          <Text fontSize="sm">
+            {lowerCaseCheck() ? (
+              <CheckIcon color="green.500" />
+            ) : (
+              <CloseIcon color="red.500" />
+            )}{' '}
+            A <b>lowercase</b> letter
+          </Text>
+          <Text fontSize="sm">
+            {upperCaseCheck() ? (
+              <CheckIcon color="green.500" />
+            ) : (
+              <CloseIcon color="red.500" />
+            )}{' '}
+            A <b>capital (uppercase)</b> letter
+          </Text>
+          <Text fontSize="sm">
+            {numbersCheck() ? (
+              <CheckIcon color="green.500" />
+            ) : (
+              <CloseIcon color="red.500" />
+            )}{' '}
+            A <b>number</b>
+          </Text>
+          <Text fontSize="sm">
+            {specialCheck() ? (
+              <CheckIcon color="green.500" />
+            ) : (
+              <CloseIcon color="red.500" />
+            )}{' '}
+            A <b>special (!@#$%^...)</b> character
+          </Text>
+          <Text fontSize="sm">
+            {pwLengthCheck() ? (
+              <CheckIcon color="green.500" />
+            ) : (
+              <CloseIcon color="red.500" />
+            )}{' '}
+            Minimum <b>8 characters</b>
+          </Text>
+        </Stack>
+      );
+    }
+  };
+
   return (
     <Flex minHeight="300px" w="full" justifyContent="center" m={4}>
-      <Box textAlign="center">
+      <Box
+        textAlign="center"
+        p={8}
+        borderWidth={1}
+        borderRadius={8}
+        boxShadow="lg"
+      >
         <Heading as="h2">{legend}</Heading>
         <form action={action} method="POST">
           <FormControl>
@@ -178,64 +242,28 @@ const Authentication = ({ legend, action, value, history }) => {
           </FormControl>
           <FormControl>
             <FormLabel htmlFor="password"></FormLabel>
-            <Input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Enter password"
-              onChange={onPasswordChange}
-              required
-            />
+            <InputGroup>
+              <Input
+                pr="7rem"
+                type={show ? 'text' : 'password'}
+                id="password"
+                name="password"
+                placeholder="Enter password"
+                onChange={onPasswordChange}
+                required
+              />
+              <InputRightElement width="4.5rem">
+                <Button
+                  h="1.75rem"
+                  size="sm"
+                  onClick={handlePasswordVisibility}
+                >
+                  {show ? 'Hide' : 'Show'}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
           </FormControl>
-          {legend === 'Login' ? (
-            ''
-          ) : (
-            <Stack mt={5}>
-              <Heading as="h3" size="md">
-                Password must contain the following:
-              </Heading>
-              <Text fontSize="sm">
-                {lowerCaseCheck() ? (
-                  <CheckIcon color="green.500" />
-                ) : (
-                  <CloseIcon color="red.500" />
-                )}{' '}
-                A <b>lowercase</b> letter
-              </Text>
-              <Text fontSize="sm">
-                {upperCaseCheck() ? (
-                  <CheckIcon color="green.500" />
-                ) : (
-                  <CloseIcon color="red.500" />
-                )}{' '}
-                A <b>capital (uppercase)</b> letter
-              </Text>
-              <Text fontSize="sm">
-                {numbersCheck() ? (
-                  <CheckIcon color="green.500" />
-                ) : (
-                  <CloseIcon color="red.500" />
-                )}{' '}
-                A <b>number</b>
-              </Text>
-              <Text fontSize="sm">
-                {specialCheck() ? (
-                  <CheckIcon color="green.500" />
-                ) : (
-                  <CloseIcon color="red.500" />
-                )}{' '}
-                A <b>special (!@#$%^...)</b> character
-              </Text>
-              <Text fontSize="sm">
-                {pwLengthCheck() ? (
-                  <CheckIcon color="green.500" />
-                ) : (
-                  <CloseIcon color="red.500" />
-                )}{' '}
-                Minimum <b>8 characters</b>
-              </Text>
-            </Stack>
-          )}
+          {renderPasswordChecks()}
           <Button
             w="full"
             mt={2}
