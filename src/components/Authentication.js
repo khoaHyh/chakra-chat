@@ -64,11 +64,14 @@ const Authentication = ({ legend, action, value, history }) => {
     }
   };
 
-  const alphanumRegex = /^[a-zA-Z0-9]+$/i;
+  const alphanumRegex = /^[0-9a-zA-Z]{6,}$/i;
   const registerFormValidation = () => {
+    // Check if username contains a minimum of 6 characters and is entirely alphanumeric
     alphanumRegex.test(username)
       ? onRegister()
-      : console.log('Username may only contain alphanumeric characters');
+      : console.log(
+          'Username may only contain alphanumeric characters and at least 6 characters'
+        );
   };
 
   return (
