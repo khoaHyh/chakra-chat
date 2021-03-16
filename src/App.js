@@ -4,6 +4,7 @@ import BaseLayout from './components/Layouts/BaseLayout';
 import { Home } from './Home';
 import { Chat } from './Chat';
 import { WaitingVerify } from './WaitingVerify';
+import { PrivateRoute } from './PrivateRoute';
 
 const App = () => {
   return (
@@ -13,7 +14,7 @@ const App = () => {
           <BaseLayout>
             <Switch>
               <Route path="/" exact component={Home} />
-              <Route path="/chat" exact component={Chat} />
+              <PrivateRoute path="/chat" exact component={Chat} />
               <Route path="/waitingVerify" exact component={WaitingVerify} />
               <Route
                 path="/"

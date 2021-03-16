@@ -45,14 +45,16 @@ const Authentication = ({ legend, action, value, history }) => {
   const handleLogin = async () => {
     setIsLoading(true);
     try {
+      // use 'active' property of schema
       const response = await axios.post(
-        //'http://localhost:3080/login',
+        'http://localhost:3080/login',
         // store production server address in env variable if not on Free Tier
-        'https://discord-clone-api-khoahyh.herokuapp.com/login',
+        //'https://discord-clone-api-khoahyh.herokuapp.com/login',
         formData
       );
-      // Add check for email verication in formData
-      if (response.data.username) {
+      // Add check for email verification
+      if (response.data) {
+        console.log(response.data);
         history.push('/chat');
       } else {
         setError('Invalid username or password');
@@ -71,9 +73,9 @@ const Authentication = ({ legend, action, value, history }) => {
   const handleRegister = async () => {
     try {
       const response = await axios.post(
-        //'http://localhost:3080/register',
+        'http://localhost:3080/register',
         // store production server address in env variable if not on Free Tier
-        'https://discord-clone-api-khoahyh.herokuapp.com/register',
+        //'https://discord-clone-api-khoahyh.herokuapp.com/register',
         formData
       );
       if (response.data.username) {
