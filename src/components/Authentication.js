@@ -40,7 +40,7 @@ const Authentication = ({ legend, action, value, history }) => {
     setEmail(event.target.value);
   };
 
-  const formData = { username: username, password: password };
+  const formData = { email: email, username: username, password: password };
 
   const handleLogin = async () => {
     setIsLoading(true);
@@ -51,6 +51,7 @@ const Authentication = ({ legend, action, value, history }) => {
         'https://discord-clone-api-khoahyh.herokuapp.com/login',
         formData
       );
+      // Add check for email verication in formData
       if (response.data.username) {
         history.push('/chat');
       } else {
@@ -76,7 +77,7 @@ const Authentication = ({ legend, action, value, history }) => {
         formData
       );
       if (response.data.username) {
-        history.push('/chat');
+        history.push('/waitingVerify');
       } else {
         setError(`${response.data.message}`);
       }
@@ -236,7 +237,9 @@ const Authentication = ({ legend, action, value, history }) => {
     if (legend === 'Register') {
       return (
         <FormControl isRequired>
-          <FormLabel htmlFor="email">Email</FormLabel>
+          <FormLabel htmlFor="email" mt={2} mb={0}>
+            Email
+          </FormLabel>
           <Input
             type="text"
             id="email"
@@ -261,9 +264,10 @@ const Authentication = ({ legend, action, value, history }) => {
       >
         <Heading as="h2">{legend}</Heading>
         <form action={action} method="POST">
+          {renderEmailForm()}
           <FormControl isRequired>
             {renderError()}
-            <FormLabel htmlFor="username" mb={0}>
+            <FormLabel htmlFor="username" mt={2} mb={0}>
               Username
             </FormLabel>
             <Input

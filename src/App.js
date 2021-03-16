@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import BaseLayout from './components/Layouts/BaseLayout';
 import { Home } from './Home';
 import { Chat } from './Chat';
+import { WaitingVerify } from './WaitingVerify';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/chat" exact component={Chat} />
+              <Route path="/waitingVerify" exact component={WaitingVerify} />
               <Route
                 path="/"
                 render={() => <Heading p={5}>404 Not Found</Heading>}
