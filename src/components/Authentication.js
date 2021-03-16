@@ -21,6 +21,7 @@ import ErrorMessage from './ErrorMessage';
 const Authentication = ({ legend, action, value, history }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [show, setShow] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -33,6 +34,10 @@ const Authentication = ({ legend, action, value, history }) => {
 
   const onPasswordChange = event => {
     setPassword(event.target.value);
+  };
+
+  const onEmailChange = event => {
+    setEmail(event.target.value);
   };
 
   const formData = { username: username, password: password };
@@ -225,6 +230,24 @@ const Authentication = ({ legend, action, value, history }) => {
   // Render an error message when invalid credentials are provided on login
   const renderError = () => {
     return error && <ErrorMessage message={error} />;
+  };
+
+  const renderEmailForm = () => {
+    if (legend === 'Register') {
+      return (
+        <FormControl isRequired>
+          <FormLabel htmlFor="email">Email</FormLabel>
+          <Input
+            type="text"
+            id="email"
+            name="email"
+            placeholder="Enter a valid email address"
+            onChange={onEmailChange}
+            required
+          />
+        </FormControl>
+      );
+    }
   };
 
   return (
