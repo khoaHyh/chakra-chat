@@ -2,12 +2,12 @@ import React from 'react';
 import { Box, Flex, Heading, Button } from '@chakra-ui/react';
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+
 export const Chat = ({ history }) => {
   const logout = async () => {
     try {
-      const response = await axios.get('http://localhost:3080/logout', {
-        withCredentials: true,
-      });
+      const response = await axios.get('http://localhost:3080/logout');
       console.log(response.data.message);
     } catch (err) {
       console.log(err);
