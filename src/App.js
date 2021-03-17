@@ -5,6 +5,7 @@ import { Home } from './Home';
 import { Chat } from './Chat';
 import { WaitingVerify } from './WaitingVerify';
 import { ProtectedRoute } from './ProtectedRoute';
+import { Logout } from './Logout';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
               <Route path="/" exact component={Home} />
               <ProtectedRoute path="/chat" exact component={Chat} />
               <Route path="/waitingVerify" exact component={WaitingVerify} />
+              <Route path="/logout" exact component={Logout} />
               <Route
                 path="/"
                 render={() => <Heading p={5}>404 Not Found</Heading>}

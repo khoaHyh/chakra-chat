@@ -28,16 +28,28 @@ export const ProtectedRoute = ({ component: Component, ...rest }) => {
     };
   }, []);
 
+  const renderComponents = props => {
+    if (auth) {
+      return <Component {...props} />;
+    } else {
+      return (
+        <Redirect to={{ pathname: '/', state: { from: props.location } }} />
+      );
+    }
+  };
+
   return (
     <Route
       {...rest}
-      render={props =>
-        auth ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to={{ pathname: '/', state: { from: props.location } }} />
-        )
-      }
+      render={props => {
+        if (auth) {
+          return <Component {...props} />;
+        } else {
+          return (
+            <Redirect to={{ pathname: '/', state: { from: props.location } }} />
+          );
+        }
+      }}
     />
   );
 };
