@@ -18,6 +18,8 @@ import {
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import ErrorMessage from './ErrorMessage';
 
+axios.defaults.withCredentials = true;
+
 const Authentication = ({ legend, action, value, history }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -50,8 +52,7 @@ const Authentication = ({ legend, action, value, history }) => {
         'http://localhost:3080/login',
         // store production server address in env variable if not on Free Tier
         //'https://discord-clone-api-khoahyh.herokuapp.com/login',
-        formData,
-        { withCredentials: true }
+        formData
       );
 
       // Add check for email verification
