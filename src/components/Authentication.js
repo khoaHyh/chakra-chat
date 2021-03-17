@@ -65,7 +65,6 @@ const Authentication = ({ legend, action, value, history }) => {
       console.log(`handleLogin ${err}`);
       setError('500 Internal Server Error');
     }
-    setIsLoading(false);
   };
 
   // add email here and on backend schema
