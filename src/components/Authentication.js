@@ -50,8 +50,10 @@ const Authentication = ({ legend, action, value, history }) => {
         'http://localhost:3080/login',
         // store production server address in env variable if not on Free Tier
         //'https://discord-clone-api-khoahyh.herokuapp.com/login',
-        formData
+        formData,
+        { withCredentials: true }
       );
+
       // Add check for email verification
       if (response.data) {
         console.log(response.data);

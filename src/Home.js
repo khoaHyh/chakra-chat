@@ -3,8 +3,8 @@ import { Box } from '@chakra-ui/react';
 import Forms from './components/Forms';
 
 const forms = [
-  { legend: 'Login', action: '/login', value: 'Login' },
-  { legend: 'Register', action: '/register', value: 'Register' },
+  { legend: 'Login', action: '/login' },
+  { legend: 'Register', action: '/register' },
 ];
 
 export const Home = ({ history }) => {

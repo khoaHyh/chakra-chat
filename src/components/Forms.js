@@ -7,7 +7,6 @@ const Forms = ({ forms, history }) => {
         key={i}
         legend={forms[i].legend}
         action={forms[i].action}
-        value={forms[i].value}
         history={history}
       />
     );
