@@ -60,7 +60,8 @@ const AuthForm = ({ legend, action }) => {
       setError,
       setUsername,
       setPassword,
-      () => {
+      user => {
+        console.log('AuthForm context: ' + user);
         history.replace(from);
       }
     );

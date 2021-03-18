@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 import axios from 'axios';
 
 axios.defaults.withCredentials = true;
@@ -40,7 +40,8 @@ const useProvideAuth = () => {
       if (response.data && response.data !== "woot I'm home") {
         console.log('verified! ' + response.data);
         setUser(response.data);
-        callback();
+        console.log(user);
+        callback(user);
       } else {
         setError('Invalid username or password');
         setUsername('');
@@ -136,6 +137,10 @@ const useProvideAuth = () => {
       console.log(error.toJSON());
     }
   };
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   return {
     user,
