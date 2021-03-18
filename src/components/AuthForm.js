@@ -19,6 +19,13 @@ import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import ErrorMessage from './ErrorMessage';
 import { useAuth } from '../use-auth';
 import { useHistory, useLocation } from 'react-router-dom';
+import {
+  lowerCaseCheck,
+  upperCaseCheck,
+  numbersCheck,
+  specialCheck,
+  pwLengthCheck,
+} from './PasswordValidation';
 
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
@@ -117,98 +124,42 @@ const AuthForm = ({ legend, action }) => {
     }
   };
 
-  // Validate lowercase letters
-  const lowerCaseCheck = () => {
-    let lowerCaseLetters = /[a-z]/g;
-    if (!lowerCaseLetters.test(password)) {
-      return false;
-    }
-    return true;
+  const ValidationText = props => {
+    return (
+      <Text fontSize="sm">
+        {props.check ? (
+          <CheckIcon color="green.500" />
+        ) : (
+          <CloseIcon color="red.500" />
+        )}{' '}
+        {props.message}
+      </Text>
+    );
   };
 
-  // Validate uppercase letters
-  const upperCaseCheck = () => {
-    let upperCaseLetters = /[A-Z]/g;
-    if (!upperCaseLetters.test(password)) {
-      return false;
-    }
-    return true;
-  };
-
-  // Validate numbers
-  const numbersCheck = () => {
-    let numbers = /[0-9]/g;
-    if (!numbers.test(password)) {
-      return false;
-    }
-    return true;
-  };
-
-  // Validate special characters
-  const specialCheck = () => {
-    let specialChar = /[^a-zA-Z0-9\s]+/g;
-    if (!specialChar.test(password)) {
-      return false;
-    }
-    return true;
-  };
-
-  // Validate length
-  const pwLengthCheck = () => {
-    if (password.length < 8) {
-      return false;
-    }
-    return true;
+  const mapPasswordChecks = obj => {
+    return Object.entries(obj).map(([key, value]) => {
+      console.log(`${key} : ${value}`);
+      return <ValidationText key={key} check={value} message={`${key}`} />;
+    });
   };
 
   // Renders a visual guide for password validation
   const renderPasswordChecks = () => {
     if (legend === 'Register') {
+      const pwValidationChecks = {
+        'A lowercase letter': lowerCaseCheck(password),
+        'A capital (uppercase) letter': upperCaseCheck(password),
+        'A number': numbersCheck(password),
+        'A special (!@#$%^&*,etc) character': specialCheck(password),
+        'Minimum 8 characters': pwLengthCheck(password),
+      };
       return (
         <Stack mt={2}>
           <Heading as="h3" size="md">
             Password must contain the following:
           </Heading>
-          <Text fontSize="sm">
-            {lowerCaseCheck() ? (
-              <CheckIcon color="green.500" />
-            ) : (
-              <CloseIcon color="red.500" />
-            )}{' '}
-            A <b>lowercase</b> letter
-          </Text>
-          <Text fontSize="sm">
-            {upperCaseCheck() ? (
-              <CheckIcon color="green.500" />
-            ) : (
-              <CloseIcon color="red.500" />
-            )}{' '}
-            A <b>capital (uppercase)</b> letter
-          </Text>
-          <Text fontSize="sm">
-            {numbersCheck() ? (
-              <CheckIcon color="green.500" />
-            ) : (
-              <CloseIcon color="red.500" />
-            )}{' '}
-            A <b>number</b>
-          </Text>
-          <Text fontSize="sm">
-            {specialCheck() ? (
-              <CheckIcon color="green.500" />
-            ) : (
-              <CloseIcon color="red.500" />
-            )}{' '}
-            A <b>special (!@#$%^...)</b> character
-          </Text>
-          <Text fontSize="sm">
-            {pwLengthCheck() ? (
-              <CheckIcon color="green.500" />
-            ) : (
-              <CloseIcon color="red.500" />
-            )}{' '}
-            Minimum <b>8 characters</b>
-          </Text>
+          {mapPasswordChecks(pwValidationChecks)}{' '}
         </Stack>
       );
     }
