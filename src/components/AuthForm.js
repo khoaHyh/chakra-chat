@@ -21,7 +21,7 @@ import { useAuth } from '../use-auth';
 import { useHistory, useLocation } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;
-axios.defaults.timeout = 3000;
+axios.defaults.timeout = 4000;
 
 const AuthForm = ({ legend, action }) => {
   const [username, setUsername] = useState('');

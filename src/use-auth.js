@@ -2,7 +2,7 @@ import { useState, createContext, useContext } from 'react';
 import axios from 'axios';
 
 axios.defaults.withCredentials = true;
-axios.defaults.timeout = 3000;
+axios.defaults.timeout = 4000;
 
 const authContext = createContext();
 
@@ -37,7 +37,7 @@ const useProvideAuth = () => {
       );
 
       // Add check for email verification
-      if (response.data) {
+      if (response.data && response.data !== "woot I'm home") {
         console.log('verified! ' + response.data);
         setUser(response.data);
         callback();
