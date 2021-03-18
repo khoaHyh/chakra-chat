@@ -1,43 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import axios from 'axios';
+import { useAuth } from './use-auth';
 
-axios.defaults.withCredentials = true;
-
-export const ProtectedRoute = ({ component: Component, ...rest }) => {
-  const [auth, setAuth] = useState(false);
-  const isMounted = useRef(false);
-
-  const LoggedIn = async () => {
-    try {
-      const response = await axios.get('http://localhost:3080/chat');
-      console.log(response);
-      if (isMounted.current) {
-        if (response.data.message === 'You are signed in.') setAuth(true);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    isMounted.current = true;
-    LoggedIn();
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
+export const ProtectedRoute = ({ children, ...rest }) => {
+  // Get auth state and re-render anytime it changes
+  const auth = useAuth();
+  console.log('PR auth.user: ' + auth.user);
 
   return (
     <Route
       {...rest}
-      render={props => {
-        if (auth) {
-          return <Component {...props} />;
+      render={({ location }) => {
+        if (auth.user) {
+          return children;
         } else {
-          return (
-            <Redirect to={{ pathname: '/', state: { from: props.location } }} />
-          );
+          return <Redirect to={{ pathname: '/', state: { from: location } }} />;
         }
       }}
     />

@@ -1,18 +1,16 @@
 import React from 'react';
 import { Box, Flex, Heading, Button } from '@chakra-ui/react';
 import axios from 'axios';
+import { useAuth } from './use-auth';
+import { useHistory } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;
+axios.defaults.timeout = 3000;
 
-export const Chat = ({ history }) => {
-  const logout = async () => {
-    try {
-      const response = await axios.get('http://localhost:3080/logout');
-      console.log(response.data.message);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+export const Chat = () => {
+  let history = useHistory();
+  const auth = useAuth();
+
   return (
     <Box fontSize="xl">
       <Flex w="full" justifyContent="center" p={5}>
@@ -21,8 +19,9 @@ export const Chat = ({ history }) => {
           w="full"
           mt={2}
           onClick={() => {
-            logout();
-            history.push('/');
+            auth.logout(() => {
+              history.push('/');
+            });
           }}
         >
           Logout

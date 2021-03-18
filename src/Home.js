@@ -1,16 +1,16 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
-import Forms from './components/Forms';
+import MapForms from './components/MapForms';
 
 const forms = [
   { legend: 'Login', action: '/login' },
   { legend: 'Register', action: '/register' },
 ];
 
-export const Home = ({ history }) => {
+export const Home = () => {
   return (
     <Box fontSize="xl">
-      <Forms forms={forms} history={history} />
+      <MapForms forms={forms} />
     </Box>
   );
 };
