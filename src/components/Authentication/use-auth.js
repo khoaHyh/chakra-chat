@@ -139,7 +139,8 @@ const useProvideAuth = () => {
   };
 
   useEffect(() => {
-    console.log(user);
+    user ? setUser(user) : setUser(false);
+    console.log('useEffect user:', user);
   }, [user]);
 
   return {

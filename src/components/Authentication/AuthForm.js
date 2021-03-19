@@ -52,30 +52,37 @@ const AuthForm = ({ legend, action }) => {
     setEmail(event.target.value);
   };
 
-  const formData = { email: email, username: username, password: password };
+  const registerFormData = {
+    email: email,
+    username: username,
+    password: password,
+  };
+
+  const loginFormData = { username: username, password: password };
 
   let history = useHistory();
-  let location = useLocation();
-  let { from } = location.state || { from: { pathname: '/' } };
+  //let location = useLocation();
+  //let { from } = location.state || { from: { pathname: '/' } };
 
   const auth = useAuth();
 
   const handleLogin = () => {
     auth.login(
       setIsLoading,
-      formData,
+      loginFormData,
       setError,
       setUsername,
       setPassword,
       user => {
         console.log('AuthForm context: ' + user);
-        history.replace(from);
+        //history.replace(from);
+        history.push('/chat');
       }
     );
   };
 
   const handleRegister = () => {
-    auth.register(formData, setError, () => {
+    auth.register(registerFormData, setError, () => {
       history.push('/waitingVerify');
     });
   };
@@ -150,7 +157,7 @@ const AuthForm = ({ legend, action }) => {
         'A lowercase letter': lowerCaseCheck(password),
         'A capital (uppercase) letter': upperCaseCheck(password),
         'A number': numbersCheck(password),
-        'A special (!@#$%^&*,etc) character': specialCheck(password),
+        'A special (!@#$%^&*, etc) character': specialCheck(password),
         'Minimum 8 characters': pwLengthCheck(password),
       };
       return (
