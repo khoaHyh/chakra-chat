@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Flex, Heading, Button } from '@chakra-ui/react';
-import { useAuth } from './use-auth';
+import { useAuth } from '../Authentication/use-auth';
 import { useHistory } from 'react-router-dom';
 
 export const Chat = () => {

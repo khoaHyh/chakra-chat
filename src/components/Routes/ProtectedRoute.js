@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { useAuth } from './use-auth';
+import { useAuth } from '../Authentication/use-auth';
 import axios from 'axios';
 
 axios.defaults.withCredentials = true;

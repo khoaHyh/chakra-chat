@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
-import MapForms from './components/MapForms';
+import MapForms from '../Authentication/MapForms';
 
 const forms = [
   { legend: 'Login', action: '/login' },

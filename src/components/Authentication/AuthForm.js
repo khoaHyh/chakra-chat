@@ -16,8 +16,8 @@ import {
   CircularProgress,
 } from '@chakra-ui/react';
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
-import ErrorMessage from './ErrorMessage';
-import { useAuth } from '../use-auth';
+import ErrorMessage from '../ErrorMessage';
+import { useAuth } from './use-auth';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
   lowerCaseCheck,
@@ -139,7 +139,6 @@ const AuthForm = ({ legend, action }) => {
 
   const mapPasswordChecks = obj => {
     return Object.entries(obj).map(([key, value]) => {
-      console.log(`${key} : ${value}`);
       return <ValidationText key={key} check={value} message={`${key}`} />;
     });
   };

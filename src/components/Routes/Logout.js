@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Flex, Heading, Button } from '@chakra-ui/react';
 import axios from 'axios';
-import { useAuth } from './use-auth';
+import { useAuth } from '../Authentication/use-auth';
 
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
