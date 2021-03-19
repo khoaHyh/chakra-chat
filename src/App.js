@@ -13,6 +13,7 @@ import { ProvideAuth } from './components/Authentication/use-auth';
 const App = () => {
   const [auth, setAuth] = useState(false);
 
+  // This is the best authentication method so far with having the auth state in App.s. Need a way to keep track of user session from the backend and not client side state. The reason being is that we will implement the chat functionality with the backend as well.
   const getAuth = async () => {
     try {
       const response = await axios.get('http://localhost:3080/chat');
