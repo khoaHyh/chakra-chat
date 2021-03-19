@@ -1,23 +1,32 @@
 import { useState, useEffect } from 'react';
+import { ChakraProvider, theme } from '@chakra-ui/react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
-import { ChakraProvider, theme, Heading } from '@chakra-ui/react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import BaseLayout from './components/Layouts/BaseLayout';
-import { Home } from './components/Routes/Home';
-import { Chat } from './components/Routes/Chat';
-import { WaitingVerify } from './components/Routes/WaitingVerify';
-import { ProtectedRoute } from './components/Routes/ProtectedRoute';
-import { Logout } from './components/Routes/Logout';
 import { ProvideAuth } from './components/Authentication/use-auth';
+import { Home } from './components/Routes/Home';
+import { Login } from './components/Routes/Login';
+import { Register } from './components/Routes/Register';
+import { Chat } from './components/Routes/Chat';
+import { VerifyEmail } from './components/Routes/VerifyEmail';
+import { ProtectedRoute } from './components/Routes/ProtectedRoute';
 
 const App = () => {
-  const [auth, setAuth] = useState(false);
+  const [session, setSession] = useState(false);
 
-  // This is the best authentication method so far with having the auth state in App.s. Need a way to keep track of user session from the backend and not client side state. The reason being is that we will implement the chat functionality with the backend as well.
+  const updateSession = exists => {
+    setSession(exists);
+  };
+
+  // Check if user is still authenticated
   const getAuth = async () => {
     try {
       const response = await axios.get('http://localhost:3080/chat');
-      if (response.data.message === 'isAuthenticated.') setAuth(true);
+      if (response.data.message === 'isAuthenticated.') {
+        setSession(true);
+      } else {
+        setSession(false);
+      }
     } catch (error) {
       if (error.response) {
         //The request was made and the server responded with a status code
@@ -39,33 +48,34 @@ const App = () => {
       console.log(error.toJSON());
     }
   };
+
   useEffect(() => {
-    getAuth();
+    return () => getAuth();
   }, []);
 
   return (
-    <>
-      <ChakraProvider theme={theme}>
-        <ProvideAuth>
-          <BrowserRouter>
-            <BaseLayout>
-              <Switch>
-                <Route path="/" exact component={Home} />
-                <ProtectedRoute path="/chat" auth={auth}>
-                  <Chat />
-                </ProtectedRoute>
-                <Route path="/waitingVerify" exact component={WaitingVerify} />
-                <Route path="/logout" exact component={Logout} />
-                <Route
-                  path="*"
-                  render={() => <Heading p={5}>404 Not Found</Heading>}
-                />
-              </Switch>
-            </BaseLayout>
-          </BrowserRouter>
-        </ProvideAuth>
-      </ChakraProvider>
-    </>
+    <ChakraProvider theme={theme}>
+      <ProvideAuth>
+        <BrowserRouter>
+          <BaseLayout>
+            <Switch>
+              <Route path="/" exact component={Home} />
+              <Route
+                path="/login"
+                exact
+                component={Login}
+                updateSession={updateSession}
+              />
+              <Route path="/register" exact component={Register} />
+              <Route path="/verifyemail" component={VerifyEmail} />
+              <ProtectedRoute path="/chat" session={session}>
+                <Chat />
+              </ProtectedRoute>
+            </Switch>
+          </BaseLayout>
+        </BrowserRouter>
+      </ProvideAuth>
+    </ChakraProvider>
   );
 };
 

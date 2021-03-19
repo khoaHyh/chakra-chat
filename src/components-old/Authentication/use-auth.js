@@ -142,11 +142,7 @@ const useProvideAuth = () => {
   const getAuth = async () => {
     try {
       const response = await axios.get('http://localhost:3080/chat');
-      if (response.data.message === 'isAuthenticated.') {
-        setUser(true);
-      } else {
-        setUser(false);
-      }
+      if (response.data.message === 'isAuthenticated.') setUser(true);
     } catch (error) {
       if (error.response) {
         //The request was made and the server responded with a status code
@@ -168,9 +164,8 @@ const useProvideAuth = () => {
       console.log(error.toJSON());
     }
   };
-
   useEffect(() => {
-    return () => getAuth();
+    getAuth();
   }, []);
 
   return {
