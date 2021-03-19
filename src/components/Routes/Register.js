@@ -144,6 +144,7 @@ export const Register = () => {
     }
   };
 
+  // Render a password validation check
   const ValidationText = props => {
     return (
       <Text fontSize="sm">
@@ -157,13 +158,14 @@ export const Register = () => {
     );
   };
 
+  // Iterate through an object and map the contents out as JSX elements
   const mapPasswordChecks = obj => {
     return Object.entries(obj).map(([key, value]) => {
       return <ValidationText key={key} check={value} message={`${key}`} />;
     });
   };
 
-  // Renders a visual guide for password validation
+  // Renders a group of password validation checks
   const renderPasswordChecks = () => {
     const pwValidationChecks = {
       'A lowercase letter': lowerCaseCheck(password),
@@ -187,24 +189,6 @@ export const Register = () => {
     return error && <ErrorMessage message={error} />;
   };
 
-  const renderEmailForm = () => {
-    return (
-      <FormControl isRequired>
-        <FormLabel htmlFor="email" mt={2} mb={0}>
-          Email
-        </FormLabel>
-        <Input
-          type="text"
-          id="email"
-          name="email"
-          placeholder="Enter a valid email address"
-          onChange={onEmailChange}
-          required
-        />
-      </FormControl>
-    );
-  };
-
   return (
     <Flex h="80vh" w="full" justifyContent="center" alignItems="center" m={4}>
       <Box
@@ -216,9 +200,21 @@ export const Register = () => {
       >
         <Heading as="h2">Register</Heading>
         <form>
-          {renderEmailForm()}
           <FormControl isRequired>
             {renderError()}
+            <FormLabel htmlFor="email" mt={2} mb={0}>
+              Email
+            </FormLabel>
+            <Input
+              type="text"
+              id="email"
+              name="email"
+              placeholder="Enter a valid email address"
+              onChange={onEmailChange}
+              required
+            />
+          </FormControl>
+          <FormControl isRequired>
             <FormLabel htmlFor="username" mt={2} mb={0}>
               Username
             </FormLabel>

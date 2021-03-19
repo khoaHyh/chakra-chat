@@ -18,7 +18,7 @@ import ErrorMessage from '../ErrorMessage';
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
 
-export const Login = ({ updateSession }) => {
+export const Login = ({ setSession }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [show, setShow] = useState(false);
@@ -55,8 +55,8 @@ export const Login = ({ updateSession }) => {
       // Add check for email verification
       if (response.data && response.data !== "woot I'm home") {
         console.log('verified! ' + response.data);
-        updateSession(true);
         setIsLoading(false);
+        setSession(true);
         history.push('/chat');
       } else {
         setError('Invalid username or password');

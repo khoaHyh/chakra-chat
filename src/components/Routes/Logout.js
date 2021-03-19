@@ -1,0 +1,19 @@
+import React from 'react';
+import { Box, Flex, Heading, Button } from '@chakra-ui/react';
+import axios from 'axios';
+
+axios.defaults.withCredentials = true;
+axios.defaults.timeout = 4000;
+
+export const Logout = () => {
+  return (
+    <Box fontSize="xl">
+      <Flex w="full" justifyContent="center" p={5}>
+        <Heading>Force Logout</Heading>
+        <Button w="full" mt={2}>
+          Logout
+        </Button>
+      </Flex>
+    </Box>
+  );
+};

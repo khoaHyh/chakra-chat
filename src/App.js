@@ -3,7 +3,6 @@ import { ChakraProvider, theme } from '@chakra-ui/react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 import BaseLayout from './components/Layouts/BaseLayout';
-import { ProvideAuth } from './components/Authentication/use-auth';
 import { Home } from './components/Routes/Home';
 import { Login } from './components/Routes/Login';
 import { Register } from './components/Routes/Register';
@@ -13,10 +12,6 @@ import { ProtectedRoute } from './components/Routes/ProtectedRoute';
 
 const App = () => {
   const [session, setSession] = useState(false);
-
-  const updateSession = exists => {
-    setSession(exists);
-  };
 
   // Check if user is still authenticated
   const getAuth = async () => {
@@ -55,26 +50,24 @@ const App = () => {
 
   return (
     <ChakraProvider theme={theme}>
-      <ProvideAuth>
-        <BrowserRouter>
-          <BaseLayout>
-            <Switch>
-              <Route path="/" exact component={Home} />
-              <Route
-                path="/login"
-                exact
-                component={Login}
-                updateSession={updateSession}
-              />
-              <Route path="/register" exact component={Register} />
-              <Route path="/verifyemail" component={VerifyEmail} />
-              <ProtectedRoute path="/chat" session={session}>
-                <Chat />
-              </ProtectedRoute>
-            </Switch>
-          </BaseLayout>
-        </BrowserRouter>
-      </ProvideAuth>
+      <BrowserRouter>
+        <BaseLayout>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route
+              path="/login"
+              exact
+              component={Login}
+              setSession={setSession}
+            />
+            <Route path="/register" exact component={Register} />
+            <Route path="/verifyemail" component={VerifyEmail} />
+            <ProtectedRoute path="/chat" session={session}>
+              <Chat />
+            </ProtectedRoute>
+          </Switch>
+        </BaseLayout>
+      </BrowserRouter>
     </ChakraProvider>
   );
 };
