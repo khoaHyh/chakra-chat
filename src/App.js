@@ -11,6 +11,9 @@ import { VerifyEmail } from './components/Routes/VerifyEmail';
 import { Logout } from './components/Routes/Logout';
 import { ProtectedRoute } from './components/Routes/ProtectedRoute';
 
+axios.defaults.withCredentials = true;
+axios.defaults.timeout = 4000;
+
 const App = () => {
   const [session, setSession] = useState(false);
 
@@ -21,13 +24,13 @@ const App = () => {
   // Check if user is still authenticated
   const getAuth = async () => {
     try {
-      const response = await axios.get('http://localhost:3080/chat');
-      if (response.data.message === 'isAuthenticated.') {
+      const response = await axios.get('http://localhost:3080/');
+      if (response.data.id) {
         setSession(true);
-        console.log('authenticated');
+        console.log('authenticated', response.data);
       } else {
         setSession(false);
-        console.log('not authenticated');
+        console.log('not authenticated', response.data);
       }
     } catch (error) {
       if (error.response) {
@@ -49,10 +52,12 @@ const App = () => {
       console.log(error.config);
       console.log(error);
     }
+    console.log('getAuth ran.');
   };
 
   useEffect(() => {
-    return () => getAuth();
+    console.log('useEffect ran');
+    getAuth();
   }, []);
 
   return (

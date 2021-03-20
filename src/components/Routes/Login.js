@@ -15,7 +15,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import ErrorMessage from '../ErrorMessage';
 
-//axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
 
 export const Login = ({ setSession }) => {
