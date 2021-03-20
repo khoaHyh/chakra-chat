@@ -91,7 +91,7 @@ export const Register = () => {
       }
       if (error.code === 'ECONNABORTED') console.log('timeout');
       console.log(error.config);
-      console.log(error.toJSON());
+      console.log(error);
     }
   };
 

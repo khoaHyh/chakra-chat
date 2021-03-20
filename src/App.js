@@ -8,10 +8,15 @@ import { Login } from './components/Routes/Login';
 import { Register } from './components/Routes/Register';
 import { Chat } from './components/Routes/Chat';
 import { VerifyEmail } from './components/Routes/VerifyEmail';
+import { Logout } from './components/Routes/Logout';
 import { ProtectedRoute } from './components/Routes/ProtectedRoute';
 
 const App = () => {
   const [session, setSession] = useState(false);
+
+  //function updateSession(status) {
+  //  setSession(status);
+  //}
 
   // Check if user is still authenticated
   const getAuth = async () => {
@@ -19,8 +24,10 @@ const App = () => {
       const response = await axios.get('http://localhost:3080/chat');
       if (response.data.message === 'isAuthenticated.') {
         setSession(true);
+        console.log('authenticated');
       } else {
         setSession(false);
+        console.log('not authenticated');
       }
     } catch (error) {
       if (error.response) {
@@ -40,7 +47,7 @@ const App = () => {
       }
       if (error.code === 'ECONNABORTED') console.log('timeout');
       console.log(error.config);
-      console.log(error.toJSON());
+      console.log(error);
     }
   };
 
@@ -57,11 +64,11 @@ const App = () => {
             <Route
               path="/login"
               exact
-              component={Login}
-              setSession={setSession}
+              render={() => <Login setSession={setSession} />}
             />
             <Route path="/register" exact component={Register} />
             <Route path="/verifyemail" component={VerifyEmail} />
+            <Route path="/logout" component={Logout} />
             <ProtectedRoute path="/chat" session={session}>
               <Chat />
             </ProtectedRoute>

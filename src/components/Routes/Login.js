@@ -15,7 +15,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import ErrorMessage from '../ErrorMessage';
 
-axios.defaults.withCredentials = true;
+//axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
 
 export const Login = ({ setSession }) => {
@@ -55,8 +55,8 @@ export const Login = ({ setSession }) => {
       // Add check for email verification
       if (response.data && response.data !== "woot I'm home") {
         console.log('verified! ' + response.data);
-        setIsLoading(false);
         setSession(true);
+        setIsLoading(false);
         history.push('/chat');
       } else {
         setError('Invalid username or password');
@@ -85,7 +85,7 @@ export const Login = ({ setSession }) => {
       }
       if (error.code === 'ECONNABORTED') console.log('timeout');
       console.log(error.config);
-      console.log(error.toJSON());
+      console.log(error);
     }
   };
 
