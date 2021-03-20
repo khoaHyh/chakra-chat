@@ -53,8 +53,8 @@ export const Login = ({ setSession }) => {
       );
 
       // Add check for email verification
-      if (response.data && response.data !== "woot I'm home") {
-        console.log('verified! ' + response.data);
+      if (response.data.username) {
+        console.log('verified! ', response.data);
         setSession(true);
         setIsLoading(false);
         history.push('/chat');

@@ -10,16 +10,13 @@ import { Chat } from './components/Routes/Chat';
 import { VerifyEmail } from './components/Routes/VerifyEmail';
 import { Logout } from './components/Routes/Logout';
 import { ProtectedRoute } from './components/Routes/ProtectedRoute';
+import Cookies from 'js-cookie';
 
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
 
 const App = () => {
   const [session, setSession] = useState(false);
-
-  //function updateSession(status) {
-  //  setSession(status);
-  //}
 
   // Check if user is still authenticated
   const getAuth = async () => {
@@ -59,6 +56,13 @@ const App = () => {
     console.log('useEffect ran');
     getAuth();
   }, []);
+
+  const sid = Cookies.get('connect.sid') || '';
+  const cookie = Cookies.get('username') || 'no cookie';
+  const allCookies = Cookies.get() || 'no cookies at all.';
+  console.log(sid);
+  console.log(cookie);
+  console.log(allCookies);
 
   return (
     <ChakraProvider theme={theme}>
