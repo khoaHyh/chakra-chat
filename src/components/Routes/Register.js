@@ -127,10 +127,6 @@ export const Register = () => {
     return error && <ErrorMessage message={error} />;
   };
 
-  const renderGithubButton = () => {
-    return <GithubButton message="Register with Github"></GithubButton>;
-  };
-
   return (
     <Flex h="80vh" w="full" justifyContent="center" alignItems="center" m={4}>
       <Box
@@ -205,7 +201,10 @@ export const Register = () => {
           <Button w="full" mt={2} onClick={() => history.push('/login')}>
             Login
           </Button>
-          <GithubButton message="Register with Github" />
+          <GithubButton
+            url="https://discord-clone-api-khoahyh.herokuapp.com/auth/github"
+            message="Register with Github"
+          />
         </form>
       </Box>
     </Flex>

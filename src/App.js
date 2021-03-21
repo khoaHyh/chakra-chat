@@ -18,7 +18,10 @@ const App = () => {
   // Check if user is still authenticated
   const getAuth = async () => {
     try {
-      const response = await axios.get('http://localhost:3080/');
+      const response = await axios.get(
+        //'http://localhost:3080/'
+        'https://discord-clone-api-khoahyh.herokuapp.com/'
+      );
       if (response.data.username) {
         console.log('authenticated', response.data.username);
       } else {

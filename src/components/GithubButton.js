@@ -1,14 +1,14 @@
-import { Button, Link, Icon } from '@chakra-ui/react';
+import { Button, Icon } from '@chakra-ui/react';
 import { FaGithub } from 'react-icons/fa';
 
-// Need to figure out how to redirect users to chat on successful login and save session
-// id in localStorage
-const GithubButton = ({ message }) => {
+const GithubButton = ({ message, url }) => {
+  const openInNewTab = url => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+    if (newWindow) newWindow.opener = null;
+  };
   return (
-    <Button w="full" mt={2}>
-      <Link href="https://chakra-ui.com" isExternal>
-        {message} <Icon as={FaGithub} />
-      </Link>
+    <Button w="full" mt={2} onClick={() => openInNewTab(url)}>
+      {message} <Icon as={FaGithub} />
     </Button>
   );
 };
