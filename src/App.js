@@ -24,6 +24,8 @@ const App = () => {
       );
       if (response.data.username) {
         console.log('authenticated', response.data.username);
+        if (!localStorage.getItem('session.id'))
+          localStorage.setItem('session.id');
       } else {
         localStorage.removeItem('session.id');
         console.log('not authenticated', response.data.username);
