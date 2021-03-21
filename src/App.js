@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ChakraProvider, theme } from '@chakra-ui/react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
@@ -10,24 +10,20 @@ import { Chat } from './components/Routes/Chat';
 import { VerifyEmail } from './components/Routes/VerifyEmail';
 import { Logout } from './components/Routes/Logout';
 import { ProtectedRoute } from './components/Routes/ProtectedRoute';
-import Cookies from 'js-cookie';
 
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
 
 const App = () => {
-  const [session, setSession] = useState(false);
-
   // Check if user is still authenticated
   const getAuth = async () => {
     try {
       const response = await axios.get('http://localhost:3080/');
-      if (response.data.id) {
-        setSession(true);
-        console.log('authenticated', response.data);
+      if (response.data.session) {
+        console.log('authenticated', response.data.session);
       } else {
-        setSession(false);
-        console.log('not authenticated', response.data);
+        localStorage.removeItem('session.id');
+        console.log('not authenticated', response.data.session);
       }
     } catch (error) {
       if (error.response) {
@@ -55,14 +51,8 @@ const App = () => {
   useEffect(() => {
     console.log('useEffect ran');
     getAuth();
+    console.log('session.id:', localStorage.getItem('session.id'));
   }, []);
-
-  const sid = Cookies.get('connect.sid') || '';
-  const cookie = Cookies.get('username') || 'no cookie';
-  const allCookies = Cookies.get() || 'no cookies at all.';
-  console.log(sid);
-  console.log(cookie);
-  console.log(allCookies);
 
   return (
     <ChakraProvider theme={theme}>
@@ -70,15 +60,11 @@ const App = () => {
         <BaseLayout>
           <Switch>
             <Route path="/" exact component={Home} />
-            <Route
-              path="/login"
-              exact
-              render={() => <Login setSession={setSession} />}
-            />
+            <Route path="/login" exact component={Login} />
             <Route path="/register" exact component={Register} />
             <Route path="/verifyemail" component={VerifyEmail} />
             <Route path="/logout" component={Logout} />
-            <ProtectedRoute path="/chat" session={session}>
+            <ProtectedRoute path="/chat">
               <Chat />
             </ProtectedRoute>
           </Switch>

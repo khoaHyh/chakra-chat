@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
 import crypto from 'crypto';
 import {
   Flex,
@@ -25,9 +24,7 @@ import {
   specialCheck,
   pwLengthCheck,
 } from '../Authentication/PasswordValidation';
-
-axios.defaults.withCredentials = true;
-axios.defaults.timeout = 4000;
+import { handleRegister } from '../Authentication/AuthUtils';
 
 export const Register = () => {
   const [username, setUsername] = useState('');
@@ -54,45 +51,11 @@ export const Register = () => {
   const formData = { email: email, username: username, password: password };
 
   let history = useHistory();
-  //let location = useLocation();
-  //let { from } = location.state || { from: { pathname: '/' } };
 
-  const handleRegister = async () => {
-    try {
-      const response = await axios.post(
-        'http://localhost:3080/register',
-        // store production server address in env variable if not on Free Tier
-        //'https://discord-clone-api-khoahyh.herokuapp.com/register',
-        formData
-      );
-      if (response.data) {
-        console.log('registered!' + response.data);
-        history.push('/verifyemail');
-      } else {
-        setError(`${response.data.message}`);
-      }
-    } catch (error) {
-      console.log(`handleRegister ${error}`);
-      setError('500 Internal Server Error');
-      if (error.response) {
-        //The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
-        console.log(error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error message: ', error.message);
-      }
-      if (error.code === 'ECONNABORTED') console.log('timeout');
-      console.log(error.config);
-      console.log(error);
-    }
+  const register = () => {
+    handleRegister(formData, setError, () => {
+      history.push('/verifyemail');
+    });
   };
 
   // Implementation of haveIbeenpwned api https://github.com/jamiebuilds/havetheybeenpwned
@@ -122,7 +85,7 @@ export const Register = () => {
 
         if (passwordRegex.test(password)) {
           !regex.test(body)
-            ? handleRegister()
+            ? register()
             : setError(
                 'This password has been found in a database breach. Please enter another password.'
               );
@@ -138,7 +101,7 @@ export const Register = () => {
       }
     } else {
       setError(
-        'Username must contain at least 8 characters and be alphanumeric.'
+        'Username must contain at least 6 characters and be alphanumeric.'
       );
       setIsLoading(false);
     }

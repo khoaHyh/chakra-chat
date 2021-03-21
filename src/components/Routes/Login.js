@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import {
   Flex,
@@ -14,11 +14,12 @@ import {
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 import ErrorMessage from '../ErrorMessage';
+import { handleLogin } from '../Authentication/AuthUtils';
 
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
 
-export const Login = ({ setSession }) => {
+export const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [show, setShow] = useState(false);
@@ -38,55 +39,18 @@ export const Login = ({ setSession }) => {
   const formData = { username: username, password: password };
 
   let history = useHistory();
-  //let location = useLocation();
-  //let { from } = location.state || { from: { pathname: '/' } };
 
-  const handleLogin = async () => {
-    setIsLoading(true);
-    try {
-      // use 'active' property of schema
-      const response = await axios.post(
-        'http://localhost:3080/login',
-        // store production server address in env variable if not on Free Tier
-        //'https://discord-clone-api-khoahyh.herokuapp.com/login',
-        formData
-      );
-
-      // Add check for email verification
-      if (response.data.username) {
-        console.log('verified! ', response.data);
-        setSession(true);
-        setIsLoading(false);
+  const login = () => {
+    handleLogin(
+      setIsLoading,
+      formData,
+      setError,
+      setUsername,
+      setPassword,
+      () => {
         history.push('/chat');
-      } else {
-        setError('Invalid username or password');
-        setIsLoading(false);
-        setUsername('');
-        setPassword('');
       }
-    } catch (error) {
-      console.log(`handleLogin ${error}`);
-      setError('500 Internal Server Error');
-      setIsLoading(false);
-      if (error.response) {
-        //The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
-        console.log(error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error message: ', error.message);
-      }
-      if (error.code === 'ECONNABORTED') console.log('timeout');
-      console.log(error.config);
-      console.log(error);
-    }
+    );
   };
 
   // Render an error message when invalid credentials are provided on login
@@ -143,7 +107,7 @@ export const Login = ({ setSession }) => {
                 </Button>
               </InputRightElement>
             </InputGroup>
-            <Button w="full" mt={4} onClick={handleLogin}>
+            <Button w="full" mt={4} onClick={login}>
               {isLoading ? (
                 <CircularProgress isIndeterminate size="24px" color="teal" />
               ) : (
