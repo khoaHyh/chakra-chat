@@ -22,13 +22,14 @@ const App = () => {
         //'http://localhost:3080/'
         'https://discord-clone-api-khoahyh.herokuapp.com/'
       );
-      if (response.data.username) {
-        console.log('authenticated', response.data.username);
+      const data = response.data;
+      if (data.username) {
+        console.log('authenticated', data.username);
         if (!localStorage.getItem('session.id'))
-          localStorage.setItem('session.id');
+          localStorage.setItem('session.id', data.username);
       } else {
         localStorage.removeItem('session.id');
-        console.log('not authenticated', response.data.username);
+        console.log('not authenticated', data.username);
       }
     } catch (error) {
       if (error.response) {
