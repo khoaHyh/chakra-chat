@@ -23,6 +23,7 @@ import {
   numbersCheck,
   specialCheck,
   pwLengthCheck,
+  registerFormValidation,
 } from '../Authentication/PasswordValidation';
 import { handleRegister } from '../Authentication/AuthUtils';
 
@@ -68,46 +69,19 @@ export const Register = () => {
   let range = hashed.slice(0, 5);
   let suffix = hashed.slice(5);
 
-  const alphanumRegex = /^[0-9a-zA-Z]{6,}$/i;
-  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/;
-
-  const registerFormValidation = async () => {
-    // Check if username contains a minimum of 6 characters and is entirely alphanumeric
-    if (alphanumRegex.test(username)) {
-      // Use the api to check if the password has been pwned (found in database breach)
-      setIsLoading(true);
-      try {
-        let response = await fetch(
-          `https://api.pwnedpasswords.com/range/${range}`
-        );
-        let body = await response.text();
-        let regex = new RegExp(`^${suffix}:`, 'm');
-
-        if (passwordRegex.test(password)) {
-          !regex.test(body)
-            ? register()
-            : setError(
-                'This password has been found in a database breach. Please enter another password.'
-              );
-          setIsLoading(false);
-        } else {
-          setError('Password does not meet all requirements.');
-          setIsLoading(false);
-        }
-      } catch (err) {
-        console.log(`PwnedPasswords API, ${err}`);
-        setError('500 Internal Server Error with PwnedPasswords API');
-        setIsLoading(false);
-      }
-    } else {
-      setError(
-        'Username must contain at least 6 characters and be alphanumeric.'
-      );
-      setIsLoading(false);
-    }
+  const validateForm = () => {
+    registerFormValidation(
+      username,
+      password,
+      setIsLoading,
+      register,
+      setError,
+      range,
+      suffix
+    );
   };
 
-  // Render a password validation check
+  // Render a visual password validation check
   const ValidationText = props => {
     return (
       <Text fontSize="sm">
@@ -216,7 +190,7 @@ export const Register = () => {
             </InputGroup>
           </FormControl>
           {renderPasswordChecks()}
-          <Button w="full" mt={2} onClick={registerFormValidation}>
+          <Button w="full" mt={2} onClick={validateForm}>
             {isLoading ? (
               <CircularProgress isIndeterminate size="24px" color="teal" />
             ) : (
