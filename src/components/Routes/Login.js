@@ -114,6 +114,9 @@ export const Login = () => {
                 'Login'
               )}
             </Button>
+            <Button w="full" mt={2} onClick={() => history.push('/register')}>
+              Register
+            </Button>
           </FormControl>
         </form>
       </Box>

@@ -197,6 +197,9 @@ export const Register = () => {
               'Register'
             )}
           </Button>
+          <Button w="full" mt={2} onClick={() => history.push('/login')}>
+            Login
+          </Button>
         </form>
       </Box>
     </Flex>
