@@ -4,14 +4,11 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
-import { CookiesProvider } from 'react-cookie';
 
 ReactDOM.render(
   <StrictMode>
     <ColorModeScript />
-    <CookiesProvider>
-      <App />
-    </CookiesProvider>
+    <App />
   </StrictMode>,
   document.getElementById('root')
 );
