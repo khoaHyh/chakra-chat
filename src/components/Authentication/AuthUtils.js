@@ -20,11 +20,11 @@ export const handleLogin = async (
       //'https://discord-clone-api-khoahyh.herokuapp.com/login',
       formData
     );
-    const userId = response.data.id;
+    const username = response.data.username;
     // Add check for email verification
-    if (userId) {
-      console.log('verified! ', userId);
-      localStorage.setItem('session.id', userId);
+    if (username) {
+      console.log('verified! ', username);
+      localStorage.setItem('session.id', username);
       setIsLoading(false);
       //history.push('/chat');
       callback();

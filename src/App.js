@@ -19,11 +19,11 @@ const App = () => {
   const getAuth = async () => {
     try {
       const response = await axios.get('http://localhost:3080/');
-      if (response.data.session) {
-        console.log('authenticated', response.data.session);
+      if (response.data.username) {
+        console.log('authenticated', response.data.username);
       } else {
         localStorage.removeItem('session.id');
-        console.log('not authenticated', response.data.session);
+        console.log('not authenticated', response.data.username);
       }
     } catch (error) {
       if (error.response) {
