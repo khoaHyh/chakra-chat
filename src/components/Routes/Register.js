@@ -26,6 +26,7 @@ import {
   registerFormValidation,
 } from '../Authentication/PasswordValidation';
 import { handleRegister } from '../Authentication/AuthUtils';
+import GithubButton from '../GithubButton';
 
 export const Register = () => {
   const [username, setUsername] = useState('');
@@ -126,6 +127,10 @@ export const Register = () => {
     return error && <ErrorMessage message={error} />;
   };
 
+  const renderGithubButton = () => {
+    return <GithubButton message="Register with Github"></GithubButton>;
+  };
+
   return (
     <Flex h="80vh" w="full" justifyContent="center" alignItems="center" m={4}>
       <Box
@@ -200,6 +205,7 @@ export const Register = () => {
           <Button w="full" mt={2} onClick={() => history.push('/login')}>
             Login
           </Button>
+          <GithubButton message="Register with Github" />
         </form>
       </Box>
     </Flex>
