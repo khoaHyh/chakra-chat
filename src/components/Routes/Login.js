@@ -15,6 +15,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import ErrorMessage from '../ErrorMessage';
 import { handleLogin } from '../Authentication/AuthUtils';
+import GithubButton from '../GithubButton';
 
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
@@ -107,17 +108,21 @@ export const Login = () => {
                 </Button>
               </InputRightElement>
             </InputGroup>
-            <Button w="full" mt={4} onClick={login}>
-              {isLoading ? (
-                <CircularProgress isIndeterminate size="24px" color="teal" />
-              ) : (
-                'Login'
-              )}
-            </Button>
-            <Button w="full" mt={2} onClick={() => history.push('/register')}>
-              Register
-            </Button>
           </FormControl>
+          <Button w="full" mt={4} onClick={login}>
+            {isLoading ? (
+              <CircularProgress isIndeterminate size="24px" color="teal" />
+            ) : (
+              'Login'
+            )}
+          </Button>
+          <Button w="full" mt={2} onClick={() => history.push('/register')}>
+            Register
+          </Button>
+          <GithubButton
+            url="https://discord-clone-api-khoahyh.herokuapp.com/auth/github"
+            message="Login with Github"
+          />
         </form>
       </Box>
     </Flex>

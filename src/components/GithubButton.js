@@ -1,4 +1,4 @@
-import { Button, Icon } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import { FaGithub } from 'react-icons/fa';
 
 const GithubButton = ({ message, url }) => {
@@ -7,8 +7,13 @@ const GithubButton = ({ message, url }) => {
     if (newWindow) newWindow.opener = null;
   };
   return (
-    <Button w="full" mt={2} onClick={() => openInNewTab(url)}>
-      {message} <Icon as={FaGithub} />
+    <Button
+      w="full"
+      mt={2}
+      rightIcon={<FaGithub />}
+      onClick={() => openInNewTab(url)}
+    >
+      {message}
     </Button>
   );
 };
