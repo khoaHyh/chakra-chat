@@ -38,6 +38,7 @@ export const Confirmation = () => {
 
   useEffect(() => {
     confirmEmail();
+    console.log('email confirmed!');
   }, []);
 
   return (

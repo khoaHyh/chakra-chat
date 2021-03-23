@@ -22,7 +22,7 @@ export const handleLogin = async (
     );
     const data = response.data;
     // Add check for email verification
-    if (data) {
+    if (data.username) {
       console.log('verified! ', data);
       localStorage.setItem('session.id', data.username);
       setIsLoading(false);
@@ -36,9 +36,6 @@ export const handleLogin = async (
       setPassword('');
     }
   } catch (error) {
-    setError(
-      "The User's email is not verified or there's a problem with our servers."
-    );
     setIsLoading(false);
     if (error.response) {
       //The request was made and the server responded with a status code
@@ -47,11 +44,13 @@ export const handleLogin = async (
       console.log(error.response.status);
       console.log(error.response.headers);
       console.log(error.response.data.message);
+      setError(error.response.data.message);
     } else if (error.request) {
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
       // http.ClientRequest in node.js
       console.log(error.request);
+      setError('No response received.');
     } else {
       // Something happened in setting up the request that triggered an Error
       console.log('Error message: ', error.message);
