@@ -1,28 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Box, Flex, Heading, List, ListItem, Button } from '@chakra-ui/react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
-import ErrorMessage from '../ErrorMessage';
 
-axios.defaults.withCredentials = true;
-axios.defaults.timeout = 4000;
-
-export const VerifyEmail = () => {
-  const [error, setError] = useState('');
-  const [resent, setResent] = useState('');
-
+export const Confirmation = () => {
   let history = useHistory();
+  let { hash } = useParams();
+  console.log(hash);
 
-  const resendEmail = async () => {
+  const confirmEmail = async () => {
     try {
-      const response = await axios.get('http://localhost:3080/resend');
+      const response = await axios.get(
+        `http://localhost:3080/confirmation/${hash}`
+      );
       console.log(response.data);
-      const message = response.data.message;
-      if (message === 'Resent the verification email!') {
-        setResent(message);
-      } else {
-        setError(message);
-      }
     } catch (error) {
       if (error.response) {
         //The request was made and the server responded with a status code
@@ -45,30 +36,20 @@ export const VerifyEmail = () => {
     }
   };
 
-  // Render an error message when invalid credentials are provided on login
-  const renderError = () => {
-    return error && <ErrorMessage message={error} />;
-  };
-
-  const renderSuccess = () => {
-    return resent && <Heading as="h3">{resent}</Heading>;
-  };
+  useEffect(() => {
+    confirmEmail();
+  }, []);
 
   return (
     <Box fontSize="xl">
       <Flex w="full" justifyContent="center" p={5}>
         <Heading>
-          Verification email sent! Please confirm your email to login.
+          Email confirmed! You may go to the Login page to access your account.
         </Heading>
-        {renderError()}
-        {renderSuccess()}
         <List>
           <ListItem>
             <Button w={100} m={5} onClick={() => history.push('/login')}>
               Login
-            </Button>
-            <Button w={100} m={5} onClick={() => resendEmail()}>
-              Resend Email
             </Button>
           </ListItem>
         </List>

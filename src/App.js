@@ -10,6 +10,7 @@ import { Chat } from './components/Routes/Chat';
 import { VerifyEmail } from './components/Routes/VerifyEmail';
 import { Logout } from './components/Routes/Logout';
 import { ProtectedRoute } from './components/Routes/ProtectedRoute';
+import { Confirmation } from './components/Routes/Confirmation';
 
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
@@ -69,6 +70,7 @@ const App = () => {
             <Route path="/login" exact component={Login} />
             <Route path="/register" exact component={Register} />
             <Route path="/verifyemail" component={VerifyEmail} />
+            <Route path="/confirmation/:hash" component={Confirmation} />
             <Route path="/logout" component={Logout} />
             <ProtectedRoute path="/chat">
               <Chat />

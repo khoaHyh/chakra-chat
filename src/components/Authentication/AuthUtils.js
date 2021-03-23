@@ -28,6 +28,8 @@ export const handleLogin = async (
       setIsLoading(false);
       callback();
     } else {
+      console.log('response:', response);
+      console.log('login failed:', data);
       setError('Invalid username or password');
       setIsLoading(false);
       setUsername('');
@@ -70,6 +72,7 @@ export const handleRegister = async (formData, setError, callback) => {
       console.log('registered!' + response.data);
       callback();
     } else {
+      console.log(response.data);
       setError(`${response.data.message}`);
     }
   } catch (error) {
@@ -102,7 +105,7 @@ export const handleLogout = async callback => {
       'http://localhost:3080/logout'
       //'https://discord-clone-api-khoahyh.herokuapp.com/logout'
     );
-    console.log(response.data.message);
+    console.log(response.data);
     localStorage.removeItem('session.id');
     callback();
   } catch (error) {
