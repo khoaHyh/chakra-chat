@@ -79,6 +79,7 @@ export const Login = () => {
               type="text"
               id="username"
               name="username"
+              value={username}
               placeholder="Enter username"
               onChange={onUsernameChange}
               required
@@ -94,6 +95,7 @@ export const Login = () => {
                 type={show ? 'text' : 'password'}
                 id="password"
                 name="password"
+                value={password}
                 placeholder="Enter password"
                 onChange={onPasswordChange}
                 required

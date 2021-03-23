@@ -58,6 +58,8 @@ export const handleLogin = async (
     if (error.code === 'ECONNABORTED') console.log('timeout');
     console.log(error.config);
     console.log(error);
+    setUsername('');
+    setPassword('');
   }
 };
 
