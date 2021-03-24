@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { ChakraProvider, theme } from '@chakra-ui/react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
+import socketClient from 'socket.io-client';
 import BaseLayout from './components/Layouts/BaseLayout';
 import { Home } from './components/Routes/Home';
 import { Login } from './components/Routes/Login';
@@ -15,7 +16,11 @@ import { Confirmation } from './components/Routes/Confirmation';
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
 
+const SERVER = 'http://localhost:3080';
+
 const App = () => {
+  var socket = socketClient(SERVER);
+
   // Check if user is still authenticated
   const getAuth = async () => {
     try {
