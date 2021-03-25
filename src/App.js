@@ -6,7 +6,7 @@ import BaseLayout from './components/Layouts/BaseLayout';
 import { Home } from './components/Routes/Home';
 import { Login } from './components/Routes/Login';
 import { Register } from './components/Routes/Register';
-import { Chat } from './components/Routes/Chat';
+import { Chat } from './components/Routes/Chat/Chat';
 import { VerifyEmail } from './components/Routes/VerifyEmail';
 import { Logout } from './components/Routes/Logout';
 import { ProtectedRoute } from './components/Routes/ProtectedRoute';
