@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Flex, Heading, Button } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
-import { handleLogout } from '../Authentication/AuthUtils';
 import io from 'socket.io-client';
+import { handleLogout } from '../../Authentication/AuthUtils';
 
 const SERVER = 'http://localhost:3080';
 //const SERVER = 'https://discord-clone-api-khoahyh.herokuapp.com/';
