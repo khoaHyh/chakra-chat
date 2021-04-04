@@ -12,7 +12,6 @@ let socket;
 export const Chat = () => {
   const [input, setInput] = useState('');
   const [messageList, setMessageList] = useState('');
-  const [message, setMessage] = useState('');
 
   const user = localStorage.getItem('session.id');
 
