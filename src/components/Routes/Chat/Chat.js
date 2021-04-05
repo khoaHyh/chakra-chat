@@ -42,7 +42,7 @@ export const Chat = () => {
   };
 
   return (
-    <Box fontSize="xl">
+    <Flex fontSize="xl">
       <Sidebar user={user} />
       <Box>{messageList}</Box>
       <form>
@@ -54,13 +54,10 @@ export const Chat = () => {
           onChange={event => setInput(event.target.value)}
         />
         <Button onClick={sendMessage}>Send Message</Button>
-      </form>
-      <Flex w="full" justifyContent="center" alignItems="center" p={5}>
-        <Heading>Authenticated!</Heading>
         <Button w={100} m={2} onClick={logout}>
           Logout
         </Button>
-      </Flex>
-    </Box>
+      </form>
+    </Flex>
   );
 };
