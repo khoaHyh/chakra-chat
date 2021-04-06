@@ -44,20 +44,22 @@ export const Chat = () => {
   return (
     <Flex fontSize="md">
       <Sidebar user={user} />
-      <Box>{messageList}</Box>
-      <form>
-        <Input
-          w="60vw"
-          type="text"
-          value={input}
-          placeholder="Enter Message"
-          onChange={event => setInput(event.target.value)}
-        />
-        <Button onClick={sendMessage}>Send Message</Button>
-        <Button w={100} m={2} onClick={logout}>
-          Logout
-        </Button>
-      </form>
+      <Flex p={5}>
+        <Box>{messageList}</Box>
+        <form>
+          <Input
+            w="60vw"
+            type="text"
+            value={input}
+            placeholder="Enter Message"
+            onChange={event => setInput(event.target.value)}
+          />
+          <Button onClick={sendMessage}>Send Message</Button>
+          <Button w={100} m={2} onClick={logout}>
+            Logout
+          </Button>
+        </form>
+      </Flex>
     </Flex>
   );
 };
