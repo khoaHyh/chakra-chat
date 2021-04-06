@@ -11,7 +11,7 @@ export const ChannelsProvider = ({ children }) => {
 
   const createChannel = newChannelName => {
     setChannels(prevChannels => {
-      return [...prevChannels, { newChannelName }];
+      return [...prevChannels, { newChannelName, messages: [] }];
     });
   };
 

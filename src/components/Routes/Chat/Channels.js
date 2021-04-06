@@ -1,5 +1,14 @@
 import React from 'react';
-import { List, ListItem, ListIcon } from '@chakra-ui/react';
+import {
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  List,
+  ListItem,
+  ListIcon,
+} from '@chakra-ui/react';
 import { FaHashtag } from 'react-icons/fa';
 import { useChannels } from '../../contexts/ChannelsProvider';
 
@@ -7,13 +16,22 @@ export const Channels = () => {
   const { channels } = useChannels();
 
   return (
-    <List>
-      {channels.map(channel => (
-        <ListItem key={channel.newChannelName} color="gray.500">
-          <ListIcon as={FaHashtag} />
-          {channel.newChannelName}
-        </ListItem>
-      ))}
-    </List>
+    <Tabs isManual variant="soft-rounded" orientation="vertical">
+      <TabList>
+        {channels.map((channel, index) => (
+          <Tab key={index} color="gray.500">
+            <FaHashtag />
+            {channel.newChannelName}
+          </Tab>
+        ))}
+      </TabList>
+      <TabPanels>
+        {channels.map((channel, index) => (
+          <TabPanel p={4} key={index}>
+            {channel.messages}
+          </TabPanel>
+        ))}
+      </TabPanels>
+    </Tabs>
   );
 };
