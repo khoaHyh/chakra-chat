@@ -42,12 +42,12 @@ export const Chat = () => {
   };
 
   return (
-    <Flex fontSize="xl">
+    <Flex fontSize="md">
       <Sidebar user={user} />
       <Box>{messageList}</Box>
       <form>
         <Input
-          w="80vw"
+          w="60vw"
           type="text"
           value={input}
           placeholder="Enter Message"
