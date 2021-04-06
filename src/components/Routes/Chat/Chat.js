@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Flex, Heading, Button, Input } from '@chakra-ui/react';
+import { Box, Flex, Button, Input } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 import io from 'socket.io-client';
 import { handleLogout } from '../../Authentication/AuthUtils';

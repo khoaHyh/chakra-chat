@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Flex,
   VStack,
@@ -19,12 +19,29 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { MdExpandMore } from 'react-icons/md';
+import { useChannels } from '../../contexts/ChannelsProvider';
+import { Channels } from './Channels';
 
-export const Sidebar = ({ user }) => {
+export const Sidebar = () => {
+  const [newChannelName, setNewChannelName] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialRef = useRef();
   const finalRef = useRef();
+  const { createChannel } = useChannels();
+
+  const onAddChannel = event => {
+    setNewChannelName(event.target.value);
+  };
+
+  const handleSave = event => {
+    event.preventDefault();
+    console.log('Tried to add new channel.');
+    createChannel(newChannelName);
+    //setNewChannelName('');
+    // Only allow the modal to close on save click if field is filled in
+    onClose();
+  };
 
   return (
     <>
@@ -48,26 +65,29 @@ export const Sidebar = ({ user }) => {
             onClick={onOpen}
           />
         </Flex>
-        <Flex flexDirection="column" flexGrow={1}></Flex>
+        <Flex flexDirection="column" flexGrow={1}>
+          <Channels />
+        </Flex>
       </VStack>
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
         isOpen={isOpen}
         onClose={onClose}
+        isCentered
       >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Add a new channel</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl>
+            <FormControl isRequired>
               <FormLabel>Channel name</FormLabel>
-              <Input placeholder="Channel name" />
+              <Input onChange={onAddChannel} placeholder="Channel name" />
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button>Save</Button>
+            <Button onClick={handleSave}>Save</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

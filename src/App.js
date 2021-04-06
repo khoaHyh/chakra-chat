@@ -11,6 +11,7 @@ import { VerifyEmail } from './components/Routes/VerifyEmail';
 import { Logout } from './components/Routes/Logout';
 import { ProtectedRoute } from './components/Routes/ProtectedRoute';
 import { Confirmation } from './components/Routes/Confirmation';
+import { ChannelsProvider } from './components/contexts/ChannelsProvider';
 
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
@@ -70,7 +71,9 @@ const App = () => {
             <Route path="/confirmation/:hash" component={Confirmation} />
             <Route path="/logout" component={Logout} />
             <ProtectedRoute path="/chat">
-              <Chat />
+              <ChannelsProvider>
+                <Chat />
+              </ChannelsProvider>
             </ProtectedRoute>
           </Switch>
         </BaseLayout>
