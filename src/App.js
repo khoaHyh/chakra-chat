@@ -65,12 +65,16 @@ const App = () => {
         <BaseLayout>
           <Switch>
             <Route path="/" exact component={Home} />
-            <Route path="/login" exact component={Login} />
-            <Route path="/register" exact component={Register} />
+            <ProtectedRoute path="/login" redirect="/chat">
+              <Login />
+            </ProtectedRoute>
+            <ProtectedRoute path="/register" redirect="/chat">
+              <Register />
+            </ProtectedRoute>
             <Route path="/verifyemail" component={VerifyEmail} />
             <Route path="/confirmation/:hash" component={Confirmation} />
             <Route path="/logout" component={Logout} />
-            <ProtectedRoute path="/chat">
+            <ProtectedRoute path="/chat" redirect="/login">
               <ChannelsProvider>
                 <Chat />
               </ChannelsProvider>
