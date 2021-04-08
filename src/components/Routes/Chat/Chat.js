@@ -47,16 +47,16 @@ export const Chat = () => {
     }
   };
 
-  const handleSubmit = event => {
+  const sendMessage = event => {
     event.preventDefault();
-    setInput('');
-    //let messageContent = {
-    //  sender: user,
-    //  message: input,
-    //};
 
-    //socket.emit('chat message', messageContent);
-    //setInput('');
+    axios.post(`http://localhost:3080/new/message?id=${channelId}`, {
+      message: input,
+      timestamp: Date.now(),
+      sender: user,
+    });
+
+    setInput('');
   };
 
   let history = useHistory();
@@ -66,27 +66,18 @@ export const Chat = () => {
     });
   };
 
-  //<Tabs>
-  //  <TabPanels>
-  //    {channels.map((channel, index) => (
-  //      <TabPanel p={4} key={index}>
-  //        {channel.messages}
-  //      </TabPanel>
-  //    ))}
-  //  </TabPanels>
-  //</Tabs>
-
   return (
     <Flex fontSize="md">
       <Sidebar user={user} />
       <Flex flexDirection="column" p={5}>
         <Box m={5}>
-          {messages.map(message => {
+          {messages.map((message, index) => {
             return (
               <Message
+                key={index}
                 message={message.message}
                 timestamp={message.timestamp}
-                user={message.sender}
+                sender={message.sender}
               />
             );
           })}
@@ -100,7 +91,7 @@ export const Chat = () => {
             size="sm"
             resize="none"
           />
-          <Button onClick={handleSubmit}>Send Message</Button>
+          <Button onClick={sendMessage}>Send Message</Button>
           <Button w={100} m={2} onClick={logout}>
             Logout
           </Button>

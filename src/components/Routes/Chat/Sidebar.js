@@ -30,7 +30,6 @@ export const Sidebar = () => {
 
   const initialRef = useRef();
   const finalRef = useRef();
-  const { createChannel } = useChannels();
 
   useEffect(() => {
     getChannels();
@@ -74,10 +73,15 @@ export const Sidebar = () => {
 
   const handleSave = event => {
     event.preventDefault();
-    console.log('Tried to add new channel.');
-    createChannel(newChannelName);
-    //setNewChannelName('');
-    // Only allow the modal to close on save click if field is filled in
+
+    axios.post(
+      'http://localhost:3080/new/channel',
+      //'https://discord-clone-api-khoahyh.herokuapp.com/new/channel',
+      {
+        channelName: newChannelName,
+      }
+    );
+
     onClose();
   };
 
