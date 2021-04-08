@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   Flex,
   VStack,
@@ -20,7 +20,6 @@ import {
 import { AddIcon } from '@chakra-ui/icons';
 import { MdExpandMore } from 'react-icons/md';
 import axios from 'axios';
-import { useChannels } from '../../contexts/ChannelsProvider';
 import { ChannelList } from './ChannelList';
 
 export const Sidebar = () => {
@@ -41,7 +40,6 @@ export const Sidebar = () => {
         'http://localhost:3080/get/channelList'
         //'https://discord-clone-api-khoahyh.herokuapp.com/get/channelList',
       );
-      console.log(response.data);
       setChannels(response.data);
     } catch (error) {
       //setIsLoading(false);

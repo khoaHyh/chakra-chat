@@ -11,6 +11,7 @@ export const ChannelList = ({ channels }) => {
       <TabList>
         {channels.map(channel => (
           <Tab
+            justifyContent="flex-start"
             key={channel.id}
             id={channel.id}
             color="gray.500"
