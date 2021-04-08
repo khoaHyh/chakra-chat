@@ -13,7 +13,6 @@ export const handleLogin = async (
 ) => {
   setIsLoading(true);
   try {
-    // use 'active' property of schema
     const response = await axios.post(
       'http://localhost:3080/login',
       // store production server address in env variable if not on Free Tier

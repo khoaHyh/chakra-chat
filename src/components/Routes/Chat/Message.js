@@ -1,16 +1,14 @@
 import React from 'react';
-import { Box, Text } from '@chakra-ui/react';
+import { Flex, Heading, Text } from '@chakra-ui/react';
 
-const Message = ({ user, timestamp, message }) => {
+export const Message = ({ timestamp, sender, message }) => {
   return (
-    <Box>
-      <Box>
-        <Text>
-          <span>timestamp</span>
-        </Text>
-      </Box>
-    </Box>
+    <Flex alignItems="center" p={5}>
+      <Heading as="h4" size="md">
+        {sender}
+        <span>{new Date().toUTCString()}</span>
+      </Heading>
+      <Text>{message}</Text>
+    </Flex>
   );
 };
-
-export default Message;

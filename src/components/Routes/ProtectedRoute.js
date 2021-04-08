@@ -8,6 +8,7 @@ export const ProtectedRoute = ({ children, redirect, ...rest }) => {
     <Route
       {...rest}
       render={({ location }) =>
+        // If the redirect prop is not chat and user session exists render child props
         sessionId && redirect !== '/chat' ? (
           children
         ) : (

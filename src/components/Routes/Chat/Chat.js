@@ -5,15 +5,16 @@ import {
   Button,
   FormControl,
   Textarea,
-  Input,
   Tabs,
   TabPanels,
   TabPanel,
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 import io from 'socket.io-client';
+import axios from 'axios';
 import { handleLogout } from '../../Authentication/AuthUtils';
 import { Sidebar } from './Sidebar';
+import { Message } from './Message';
 import { useChannels } from '../../contexts/ChannelsProvider';
 
 const SERVER = 'http://localhost:3080';
@@ -23,21 +24,31 @@ let socket;
 
 export const Chat = () => {
   const [input, setInput] = useState('');
-  const { channels } = useChannels();
-  const { sendMessage } = useChannels();
+  const [messages, setMessages] = useState([]);
+  const { channelId } = useChannels();
 
   const user = localStorage.getItem('session.id');
 
   useEffect(() => {
-    socket = io(SERVER, {
-      withCredentials: true,
-    });
-  }, [SERVER]);
+    getConversation(channelId);
+  }, [channelId]);
+
+  const getConversation = async channelId => {
+    if (channelId) {
+      try {
+        const response = await axios.get(
+          `http://localhost:3080/get/conversation?id=${channelId}`
+          //`https://discord-clone-api-khoahyh.herokuapp.com/get/conversation?id=${channelId}`
+        );
+        setMessages(response.data.conversation);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   const handleSubmit = event => {
     event.preventDefault();
-
-    sendMessage();
     setInput('');
     //let messageContent = {
     //  sender: user,
@@ -55,20 +66,30 @@ export const Chat = () => {
     });
   };
 
+  //<Tabs>
+  //  <TabPanels>
+  //    {channels.map((channel, index) => (
+  //      <TabPanel p={4} key={index}>
+  //        {channel.messages}
+  //      </TabPanel>
+  //    ))}
+  //  </TabPanels>
+  //</Tabs>
+
   return (
     <Flex fontSize="md">
       <Sidebar user={user} />
-      <Flex p={5}>
-        <Box>
-          <Tabs>
-            <TabPanels>
-              {channels.map((channel, index) => (
-                <TabPanel p={4} key={index}>
-                  {channel.messages}
-                </TabPanel>
-              ))}
-            </TabPanels>
-          </Tabs>
+      <Flex flexDirection="column" p={5}>
+        <Box m={5}>
+          {messages.map(message => {
+            return (
+              <Message
+                message={message.message}
+                timestamp={message.timestamp}
+                user={message.sender}
+              />
+            );
+          })}
         </Box>
         <FormControl>
           <Textarea
