@@ -17,6 +17,8 @@ import { Sidebar } from './Sidebar';
 import { Message } from './Message';
 import { useChannels } from '../../contexts/ChannelsProvider';
 
+axios.defaults.withCredentials = true;
+
 const SERVER = 'http://localhost:3080';
 //const SERVER = 'https://discord-clone-api-khoahyh.herokuapp.com/';
 
@@ -31,14 +33,21 @@ export const Chat = () => {
 
   useEffect(() => {
     socket = io(SERVER, { withCredentials: true });
-    getConversation(channelId);
-  }, [channelId]);
+  }, [SERVER]);
 
   useEffect(() => {
-    if (socket === null) return;
-
-    socket.on('receive-message', messages);
+    socket.on('receive-message', data => {
+      setMessages(data);
+    });
+    return () => socket.off('receive-message');
   }, [input]);
+
+  useEffect(() => {
+    getConversation(channelId);
+    socket.on('return-conversation', data => {
+      setMessages(data);
+    });
+  }, [channelId]);
 
   const getConversation = async channelId => {
     if (channelId) {
@@ -63,8 +72,6 @@ export const Chat = () => {
       timestamp: Date.now(),
       sender: user,
     };
-
-    axios.post(`http://localhost:3080/new/message?id=${channelId}`, data);
 
     // Emit message to server
     socket.emit('send-message', data);
