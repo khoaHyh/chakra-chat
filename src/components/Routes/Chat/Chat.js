@@ -30,8 +30,15 @@ export const Chat = () => {
   const user = localStorage.getItem('session.id');
 
   useEffect(() => {
+    socket = io(SERVER, { withCredentials: true });
     getConversation(channelId);
   }, [channelId]);
+
+  useEffect(() => {
+    if (socket === null) return;
+
+    socket.on('receive-message', messages);
+  }, [input]);
 
   const getConversation = async channelId => {
     if (channelId) {
@@ -50,11 +57,17 @@ export const Chat = () => {
   const sendMessage = event => {
     event.preventDefault();
 
-    axios.post(`http://localhost:3080/new/message?id=${channelId}`, {
+    const data = {
+      id: channelId,
       message: input,
       timestamp: Date.now(),
       sender: user,
-    });
+    };
+
+    axios.post(`http://localhost:3080/new/message?id=${channelId}`, data);
+
+    // Emit message to server
+    socket.emit('send-message', data);
 
     setInput('');
   };
