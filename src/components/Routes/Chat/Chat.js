@@ -1,17 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  Box,
-  Flex,
-  Button,
-  FormControl,
-  Textarea,
-  Tabs,
-  TabPanels,
-  TabPanel,
-} from '@chakra-ui/react';
-import { useHistory } from 'react-router-dom';
+import { Box, Flex, Button, FormControl, Textarea } from '@chakra-ui/react';
 import io from 'socket.io-client';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import { handleLogout } from '../../Authentication/AuthUtils';
 import { Sidebar } from './Sidebar';
 import { Message } from './Message';
@@ -32,10 +23,12 @@ export const Chat = () => {
 
   const user = localStorage.getItem('session.id');
 
+  // Listen to server origin changes
   useEffect(() => {
     socket = io(SERVER, { withCredentials: true });
   }, [SERVER]);
 
+  // Listen for messages received
   useEffect(() => {
     socket.on('receive-message', data => {
       setMessages(data);
@@ -43,17 +36,17 @@ export const Chat = () => {
     return () => socket.off('receive-message');
   }, [input]);
 
+  // Retrieve messages for the respective channel
   useEffect(() => {
     getConversation(channelId);
-    socket.on('return-conversation', data => {
-      setMessages(data);
-    });
   }, [channelId]);
 
+  // Scroll to the bottom of the element upon message submission
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
+  // Fetch conversations for the respective channel
   const getConversation = async channelId => {
     if (channelId) {
       try {
@@ -68,6 +61,7 @@ export const Chat = () => {
     }
   };
 
+  // Function to handle message submission
   const sendMessage = event => {
     event.preventDefault();
 
@@ -78,18 +72,30 @@ export const Chat = () => {
       sender: user,
     };
 
-    // Emit message to server
-    socket.emit('send-message', data);
-
-    setInput('');
+    if (isValidMessage(input)) {
+      // Emit message to server
+      socket.emit('send-message', data);
+      setInput('');
+    }
   };
 
+  // Check if the message is valid before sending
+  const isValidMessage = input => {
+    let validMessage = true;
+
+    console.log(input.trim());
+    if (input.trim() === '') validMessage = false;
+    return validMessage;
+  };
+
+  // Allow user to press Enter to send messages
   const handleKeyPress = event => {
     if (event.key === 'Enter' && !event.shiftKey) {
       sendMessage(event);
     }
   };
 
+  // Function to scroll to bottom of element using a div element as ref
   const scrollToBottom = () => {
     scrollToMyRef.current.scrollIntoView({ behavior: 'smooth' });
   };
@@ -97,13 +103,13 @@ export const Chat = () => {
   let history = useHistory();
   const logout = () => {
     handleLogout(() => {
-      history.push('/login');
+      history.push('/');
     });
   };
 
   return (
     <Flex fontSize="md">
-      <Sidebar user={user} />
+      <Sidebar user={user} logout={logout} />
       <Flex h="93vh" flexDirection="column" p={5}>
         <Flex h="70vh" mb={5} w="100%" flexDirection="column" overflow="auto">
           <Box>
@@ -125,15 +131,14 @@ export const Chat = () => {
             w="60vw"
             placeholder="Enter message"
             value={input}
-            onChange={event => setInput(event.target.value)}
+            onChange={event => {
+              setInput(event.target.value);
+            }}
             onKeyPress={e => handleKeyPress(e)}
             size="sm"
             resize="none"
           />
           <Button onClick={e => sendMessage(e)}>Send Message</Button>
-          <Button w={100} m={2} onClick={logout}>
-            Logout
-          </Button>
         </FormControl>
       </Flex>
     </Flex>

@@ -10,6 +10,7 @@ import { Chat } from './components/Routes/Chat/Chat';
 import { VerifyEmail } from './components/Routes/VerifyEmail';
 import { Logout } from './components/Routes/Logout';
 import { ProtectedRoute } from './components/Routes/ProtectedRoute';
+import { CheckSessionRoute } from './components/Routes/CheckSessionRoute';
 import { Confirmation } from './components/Routes/Confirmation';
 import { ChannelsProvider } from './components/contexts/ChannelsProvider';
 
@@ -65,20 +66,14 @@ const App = () => {
         <BaseLayout h="50vh">
           <Switch>
             <Route path="/" exact component={Home} />
-            <ProtectedRoute path="/login" redirect="/chat">
-              <Login />
-            </ProtectedRoute>
-            <ProtectedRoute path="/register" redirect="/chat">
-              <Register />
-            </ProtectedRoute>
-            <Route path="/verifyemail" component={VerifyEmail} />
-            <Route path="/confirmation/:hash" component={Confirmation} />
-            <Route path="/logout" component={Logout} />
-            <ProtectedRoute path="/chat" redirect="/login">
-              <ChannelsProvider>
-                <Chat />
-              </ChannelsProvider>
-            </ProtectedRoute>
+            <CheckSessionRoute path="/login" exact component={Login} />
+            <CheckSessionRoute path="/register" exact component={Register} />
+            <Route exact path="/verifyemail" component={VerifyEmail} />
+            <Route exact path="/confirmation/:hash" component={Confirmation} />
+            <Route exact path="/logout" component={Logout} />
+            <ChannelsProvider>
+              <ProtectedRoute path="/chat" exact component={Chat} />
+            </ChannelsProvider>
           </Switch>
         </BaseLayout>
       </BrowserRouter>

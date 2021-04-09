@@ -22,7 +22,7 @@ import { MdExpandMore } from 'react-icons/md';
 import axios from 'axios';
 import { ChannelList } from './ChannelList';
 
-export const Sidebar = () => {
+export const Sidebar = ({ logout }) => {
   const [newChannelName, setNewChannelName] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [channels, setChannels] = useState([]);
@@ -109,6 +109,9 @@ export const Sidebar = () => {
         <Flex flexDirection="column" flexGrow={1}>
           <ChannelList channels={channels} />
         </Flex>
+        <Button w={100} m={2} onClick={logout}>
+          Logout
+        </Button>
       </VStack>
       <Modal
         initialFocusRef={initialRef}
