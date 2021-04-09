@@ -15,7 +15,10 @@ export const VerifyEmail = () => {
 
   const resendEmail = async () => {
     try {
-      const response = await axios.get('http://localhost:3080/resend');
+      const response = await axios.get(
+        //'http://localhost:3080/resend'
+        'https://discord-clone-api-khoahyh.herokuapp.com/resend'
+      );
       console.log(response.data);
       const message = response.data.message;
       if (message === 'Resent the verification email!') {
@@ -67,7 +70,7 @@ export const VerifyEmail = () => {
             <Button w={100} m={5} onClick={() => history.push('/login')}>
               Login
             </Button>
-            <Button w={100} m={5} onClick={() => resendEmail()}>
+            <Button w={200} m={5} onClick={() => resendEmail()}>
               Resend Email
             </Button>
           </ListItem>

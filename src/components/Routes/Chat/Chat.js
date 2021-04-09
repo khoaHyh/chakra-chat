@@ -10,8 +10,8 @@ import { useChannels } from '../../contexts/ChannelsProvider';
 
 axios.defaults.withCredentials = true;
 
-const SERVER = 'http://localhost:3080';
-//const SERVER = 'https://discord-clone-api-khoahyh.herokuapp.com/';
+//const SERVER = 'http://localhost:3080';
+const SERVER = 'https://discord-clone-api-khoahyh.herokuapp.com';
 
 let socket;
 
@@ -51,8 +51,8 @@ export const Chat = () => {
     if (channelId) {
       try {
         const response = await axios.get(
-          `http://localhost:3080/get/conversation?id=${channelId}`
-          //`https://discord-clone-api-khoahyh.herokuapp.com/get/conversation?id=${channelId}`
+          //`http://localhost:3080/get/conversation?id=${channelId}`
+          `https://discord-clone-api-khoahyh.herokuapp.com/get/conversation?id=${channelId}`
         );
         setMessages(response.data.conversation);
       } catch (error) {

@@ -54,8 +54,8 @@ export const Sidebar = ({ logout }) => {
   const getChannels = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:3080/get/channelList'
-        //'https://discord-clone-api-khoahyh.herokuapp.com/get/channelList',
+        //'http://localhost:3080/get/channelList'
+        'https://discord-clone-api-khoahyh.herokuapp.com/get/channelList'
       );
       setChannels(response.data);
     } catch (error) {
@@ -90,8 +90,8 @@ export const Sidebar = ({ logout }) => {
     event.preventDefault();
 
     axios.post(
-      'http://localhost:3080/new/channel',
-      //'https://discord-clone-api-khoahyh.herokuapp.com/new/channel',
+      //'http://localhost:3080/new/channel',
+      'https://discord-clone-api-khoahyh.herokuapp.com/new/channel',
       {
         channelName: newChannelName,
       }

@@ -22,8 +22,8 @@ const App = () => {
   const getAuth = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:3080/'
-        //'https://discord-clone-api-khoahyh.herokuapp.com/'
+        //'http://localhost:3080/'
+        'https://discord-clone-api-khoahyh.herokuapp.com/'
       );
       const data = response.data;
       if (data.username) {

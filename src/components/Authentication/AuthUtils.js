@@ -14,9 +14,9 @@ export const handleLogin = async (
   setIsLoading(true);
   try {
     const response = await axios.post(
-      'http://localhost:3080/login',
+      //'http://localhost:3080/login',
       // store production server address in env variable if not on Free Tier
-      //'https://discord-clone-api-khoahyh.herokuapp.com/login',
+      'https://discord-clone-api-khoahyh.herokuapp.com/login',
       formData
     );
     const data = response.data;
@@ -65,9 +65,9 @@ export const handleLogin = async (
 export const handleRegister = async (formData, setError, callback) => {
   try {
     const response = await axios.post(
-      'http://localhost:3080/register',
+      //'http://localhost:3080/register',
       // store production server address in env variable if not on Free Tier
-      //'https://discord-clone-api-khoahyh.herokuapp.com/register',
+      'https://discord-clone-api-khoahyh.herokuapp.com/register',
       formData
     );
     if (response.data) {
@@ -104,8 +104,8 @@ export const handleRegister = async (formData, setError, callback) => {
 export const handleLogout = async callback => {
   try {
     const response = await axios.get(
-      'http://localhost:3080/logout'
-      //'https://discord-clone-api-khoahyh.herokuapp.com/logout'
+      //'http://localhost:3080/logout'
+      'https://discord-clone-api-khoahyh.herokuapp.com/logout'
     );
     console.log(response.data);
     localStorage.removeItem('session.id');

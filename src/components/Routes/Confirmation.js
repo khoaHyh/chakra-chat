@@ -3,6 +3,9 @@ import { Box, Flex, Heading, List, ListItem, Button } from '@chakra-ui/react';
 import { useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+axios.defaults.timeout = 4000;
+
 export const Confirmation = () => {
   let history = useHistory();
   let { hash } = useParams();
@@ -11,7 +14,8 @@ export const Confirmation = () => {
   const confirmEmail = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3080/confirmation/${hash}`
+        //`http://localhost:3080/confirmation/${hash}`
+        `https://discord-clone-api-khoahyh.herokuapp.com/confirmation/${hash}`
       );
       console.log(response.data);
     } catch (error) {
