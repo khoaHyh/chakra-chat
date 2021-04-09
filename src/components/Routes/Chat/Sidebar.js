@@ -22,10 +22,16 @@ import {
   DrawerHeader,
   DrawerBody,
 } from '@chakra-ui/react';
+import { createBreakPoints } from '@@chakra-ui/theme-tools';
 import { AddIcon } from '@chakra-ui/icons';
 import { MdExpandMore } from 'react-icons/md';
 import axios from 'axios';
 import { ChannelList } from './ChannelList';
+
+const breakpoints = createBreakPoints({
+  sm: '0',
+  nm: 'visible',
+});
 
 export const Sidebar = ({ logout }) => {
   const [newChannelName, setNewChannelName] = useState('');
