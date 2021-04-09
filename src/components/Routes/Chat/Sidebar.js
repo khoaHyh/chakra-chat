@@ -16,6 +16,11 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerHeader,
+  DrawerBody,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { MdExpandMore } from 'react-icons/md';
@@ -25,6 +30,11 @@ import { ChannelList } from './ChannelList';
 export const Sidebar = ({ logout }) => {
   const [newChannelName, setNewChannelName] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenDrawer,
+    onOpen: onOpenDrawer,
+    onClose: onCloseDrawer,
+  } = useDisclosure();
   const [channels, setChannels] = useState([]);
 
   const initialRef = useRef();
@@ -86,7 +96,66 @@ export const Sidebar = ({ logout }) => {
 
   return (
     <>
-      <VStack h="93vh" w="300px" p={5} borderRight="solid 1px gray">
+      <Button onClick={onOpenDrawer}>Open Drawer</Button>
+      <Drawer
+        isFullHeight
+        closeOnEsc={true}
+        size="xs"
+        placement="left"
+        onClose={onCloseDrawer}
+        isOpen={isOpenDrawer}
+      >
+        <DrawerOverlay>
+          <DrawerContent>
+            <DrawerHeader borderBottomWidth="1px">
+              khoaHyh Chakracord
+            </DrawerHeader>
+            <DrawerBody>
+              <Flex flexDirection="column" alignItems="center">
+                <Flex justifyContent="center" alignItems="center">
+                  <IconButton
+                    variant="ghost"
+                    aria-label="Toggle ExpandMore"
+                    icon={<MdExpandMore />}
+                    size="sm"
+                    mr={1}
+                  />
+                  <Heading as="h3" size="sm">
+                    Text Channels
+                  </Heading>
+                  <IconButton
+                    ml={5}
+                    variant="outline"
+                    aria-label="Add Channel"
+                    icon={<AddIcon />}
+                    size="xs"
+                    onClick={onOpen}
+                  />
+                </Flex>
+                <Flex
+                  h="70vh"
+                  flexDirection="column"
+                  alignItems="center"
+                  flexGrow={1}
+                  overflowY="auto"
+                >
+                  <ChannelList channels={channels} />
+                </Flex>
+                <Button w={100} m={2} onClick={logout}>
+                  Logout
+                </Button>
+              </Flex>
+            </DrawerBody>
+          </DrawerContent>
+        </DrawerOverlay>
+      </Drawer>
+      <VStack
+        h="93vh"
+        w="25vw"
+        maxWidth="300px"
+        p={5}
+        borderRight="solid 1px gray"
+      >
         <Flex justifyContent="center" alignItems="center">
           <IconButton
             variant="ghost"

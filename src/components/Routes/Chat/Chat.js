@@ -108,10 +108,10 @@ export const Chat = () => {
   };
 
   return (
-    <Flex fontSize="md">
+    <Flex fontSize="md" border="solid 1px green">
       <Sidebar user={user} logout={logout} />
-      <Flex h="93vh" flexDirection="column" p={5}>
-        <Flex h="70vh" mb={5} w="100%" flexDirection="column" overflow="auto">
+      <Flex h="93vh" border="solid 1px red" flexDirection="column" p={5}>
+        <Flex h="70vh" mb={5} flexDirection="column" overflowY="auto">
           <Box>
             {messages.map((message, index) => {
               return (
@@ -127,18 +127,22 @@ export const Chat = () => {
           </Box>
         </Flex>
         <FormControl>
-          <Textarea
-            w="60vw"
-            placeholder="Enter message"
-            value={input}
-            onChange={event => {
-              setInput(event.target.value);
-            }}
-            onKeyPress={e => handleKeyPress(e)}
-            size="sm"
-            resize="none"
-          />
-          <Button onClick={e => sendMessage(e)}>Send Message</Button>
+          <Flex justifyContent="center" alignItems="center" flexDirection="row">
+            <Textarea
+              w="75vw"
+              placeholder="Enter message"
+              value={input}
+              onChange={event => {
+                setInput(event.target.value);
+              }}
+              onKeyPress={e => handleKeyPress(e)}
+              size="sm"
+              resize="none"
+            />
+            <Button h={79} w={175} m={5} onClick={e => sendMessage(e)}>
+              Send Message
+            </Button>
+          </Flex>
         </FormControl>
       </Flex>
     </Flex>
