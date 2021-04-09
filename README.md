@@ -17,9 +17,6 @@
 
 ## Tech/framework used
 #### Built with:
-  * MongoDB 
-  * Express.js
-  * React.js
-  * Node.js
-  * Passport.js
+  * React
   * Chakra-UI
+  * Netlify
