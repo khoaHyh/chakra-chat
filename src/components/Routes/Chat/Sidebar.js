@@ -32,7 +32,8 @@ export const Sidebar = () => {
 
   useEffect(() => {
     getChannels();
-  }, []);
+    console.log('getChannels ran.');
+  }, [newChannelName]);
 
   const getChannels = async () => {
     try {
@@ -85,7 +86,7 @@ export const Sidebar = () => {
 
   return (
     <>
-      <VStack h="100vh" w="300px" p={5} borderRight="solid 1px gray">
+      <VStack h="93vh" w="300px" p={5} borderRight="solid 1px gray">
         <Flex justifyContent="center" alignItems="center">
           <IconButton
             variant="ghost"

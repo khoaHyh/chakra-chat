@@ -62,7 +62,7 @@ const App = () => {
   return (
     <ChakraProvider theme={theme}>
       <BrowserRouter>
-        <BaseLayout>
+        <BaseLayout h="50vh">
           <Switch>
             <Route path="/" exact component={Home} />
             <ProtectedRoute path="/login" redirect="/chat">

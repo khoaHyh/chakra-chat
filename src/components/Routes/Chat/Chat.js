@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Box,
   Flex,
@@ -26,6 +26,7 @@ let socket;
 
 export const Chat = () => {
   const [input, setInput] = useState('');
+  const scrollToMyRef = useRef(null);
   const [messages, setMessages] = useState([]);
   const { channelId } = useChannels();
 
@@ -48,6 +49,10 @@ export const Chat = () => {
       setMessages(data);
     });
   }, [channelId]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const getConversation = async channelId => {
     if (channelId) {
@@ -79,6 +84,16 @@ export const Chat = () => {
     setInput('');
   };
 
+  const handleKeyPress = event => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      sendMessage(event);
+    }
+  };
+
+  const scrollToBottom = () => {
+    scrollToMyRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
   let history = useHistory();
   const logout = () => {
     handleLogout(() => {
@@ -89,29 +104,33 @@ export const Chat = () => {
   return (
     <Flex fontSize="md">
       <Sidebar user={user} />
-      <Flex flexDirection="column" p={5}>
-        <Box m={5}>
-          {messages.map((message, index) => {
-            return (
-              <Message
-                key={index}
-                message={message.message}
-                timestamp={message.timestamp}
-                sender={message.sender}
-              />
-            );
-          })}
-        </Box>
+      <Flex h="93vh" flexDirection="column" p={5}>
+        <Flex h="70vh" mb={5} w="100%" flexDirection="column" overflow="auto">
+          <Box>
+            {messages.map((message, index) => {
+              return (
+                <Message
+                  key={index}
+                  message={message.message}
+                  timestamp={message.timestamp}
+                  sender={message.sender}
+                />
+              );
+            })}
+            <div ref={scrollToMyRef} />
+          </Box>
+        </Flex>
         <FormControl>
           <Textarea
             w="60vw"
             placeholder="Enter message"
             value={input}
             onChange={event => setInput(event.target.value)}
+            onKeyPress={e => handleKeyPress(e)}
             size="sm"
             resize="none"
           />
-          <Button onClick={sendMessage}>Send Message</Button>
+          <Button onClick={e => sendMessage(e)}>Send Message</Button>
           <Button w={100} m={2} onClick={logout}>
             Logout
           </Button>
