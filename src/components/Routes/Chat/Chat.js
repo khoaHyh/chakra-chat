@@ -26,7 +26,7 @@ export const Chat = () => {
   // Listen to server origin changes
   useEffect(() => {
     socket = io(SERVER, { withCredentials: true });
-  }, [SERVER]);
+  }, []);
 
   // Listen for messages received
   useEffect(() => {

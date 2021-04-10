@@ -9,7 +9,11 @@ axios.defaults.timeout = 4000;
 export const Confirmation = () => {
   let history = useHistory();
   let { hash } = useParams();
-  console.log(hash);
+
+  useEffect(() => {
+    confirmEmail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const confirmEmail = async () => {
     try {
@@ -17,7 +21,7 @@ export const Confirmation = () => {
         //`http://localhost:3080/confirmation/${hash}`
         `https://discord-clone-api-khoahyh.herokuapp.com/confirmation/${hash}`
       );
-      console.log(response.data);
+      console.log('confirmEmail:', response.data);
     } catch (error) {
       if (error.response) {
         //The request was made and the server responded with a status code
@@ -39,11 +43,6 @@ export const Confirmation = () => {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    confirmEmail();
-    console.log('email confirmed!');
-  }, []);
 
   return (
     <Box fontSize="xl">
