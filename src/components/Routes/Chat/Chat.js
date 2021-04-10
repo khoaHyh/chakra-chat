@@ -108,9 +108,9 @@ export const Chat = () => {
   };
 
   return (
-    <Flex fontSize="md" border="solid 1px green">
+    <Flex fontSize="md">
       <Sidebar user={user} logout={logout} />
-      <Flex h="93vh" border="solid 1px red" flexDirection="column" p={5}>
+      <Flex h="93vh" flexDirection="column" p={5}>
         <Flex h="70vh" mb={5} flexDirection="column" overflowY="auto">
           <Box>
             {messages.map((message, index) => {
