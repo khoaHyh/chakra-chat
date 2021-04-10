@@ -3,7 +3,8 @@ import { FaGithub } from 'react-icons/fa';
 
 const GithubButton = ({ message, url }) => {
   const openInNewTab = url => {
-    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+    //const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+    const newWindow = window.open(url, '_self');
     if (newWindow) newWindow.opener = null;
   };
   return (
