@@ -18,13 +18,13 @@ axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
 
 const App = () => {
+  //const server = "http://localhost:3080";
+  const server = 'https://discord-clone-api-khoahyh.herokuapp.com';
+
   // Check if user is still authenticated
   const getAuth = async () => {
     try {
-      const response = await axios.get(
-        //'http://localhost:3080/'
-        'https://discord-clone-api-khoahyh.herokuapp.com/'
-      );
+      const response = await axios.get(server);
       const data = response.data;
       if (data.username) {
         console.log('authenticated', data.username);
@@ -68,11 +68,23 @@ const App = () => {
             <Route path="/" exact component={Home} />
             <CheckSessionRoute path="/login" exact component={Login} />
             <CheckSessionRoute path="/register" exact component={Register} />
-            <Route exact path="/verifyemail" component={VerifyEmail} />
-            <Route exact path="/confirmation/:hash" component={Confirmation} />
+            <Route
+              exact
+              path="/verifyemail"
+              render={props => <VerifyEmail {...props} server={server} />}
+            />
+            <Route
+              exact
+              path="/confirmation/:hash"
+              render={props => <Confirmation {...props} server={server} />}
+            />
             <Route exact path="/logout" component={Logout} />
             <ChannelsProvider>
-              <ProtectedRoute path="/chat" exact component={Chat} />
+              <ProtectedRoute
+                path="/chat"
+                exact
+                render={props => <Chat {...props} server={server} />}
+              />
             </ChannelsProvider>
           </Switch>
         </BaseLayout>

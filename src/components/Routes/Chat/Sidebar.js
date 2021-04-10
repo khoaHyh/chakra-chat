@@ -35,7 +35,7 @@ const breakpoints = createBreakpoints({
 
 console.log('breakpoints:', breakpoints);
 
-export const Sidebar = ({ logout }) => {
+export const Sidebar = ({ logout, server }) => {
   const [newChannelName, setNewChannelName] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -55,10 +55,7 @@ export const Sidebar = ({ logout }) => {
 
   const getChannels = async () => {
     try {
-      const response = await axios.get(
-        //'http://localhost:3080/get/channelList'
-        'https://discord-clone-api-khoahyh.herokuapp.com/get/channelList'
-      );
+      const response = await axios.get(`${server}/get/channelList`);
       setChannels(response.data);
     } catch (error) {
       //setIsLoading(false);
@@ -93,7 +90,7 @@ export const Sidebar = ({ logout }) => {
 
     axios.post(
       //'http://localhost:3080/new/channel',
-      'https://discord-clone-api-khoahyh.herokuapp.com/new/channel',
+      `${server}/new/channel`,
       {
         channelName: newChannelName,
       }

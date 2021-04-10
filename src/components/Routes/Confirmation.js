@@ -6,7 +6,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
 
-export const Confirmation = () => {
+export const Confirmation = ({ server }) => {
   let history = useHistory();
   let { hash } = useParams();
 
@@ -17,11 +17,8 @@ export const Confirmation = () => {
 
   const confirmEmail = async () => {
     try {
-      const response = await axios.get(
-        //`http://localhost:3080/confirmation/${hash}`
-        `https://discord-clone-api-khoahyh.herokuapp.com/confirmation/${hash}`
-      );
-      console.log('confirmEmail:', response.data);
+      const response = await axios.get(`${server}/confirmation/${hash}`);
+      console.log('confirmEmail:', response.data.email);
     } catch (error) {
       if (error.response) {
         //The request was made and the server responded with a status code

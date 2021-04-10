@@ -3,6 +3,9 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
 
+const server = 'http://localhost:3080';
+//const server = 'https://discord-clone-api-khoahyh.herokuapp.com';
+
 export const handleLogin = async (
   setIsLoading,
   formData,
@@ -13,12 +16,7 @@ export const handleLogin = async (
 ) => {
   setIsLoading(true);
   try {
-    const response = await axios.post(
-      //'http://localhost:3080/login',
-      // store production server address in env variable if not on Free Tier
-      'https://discord-clone-api-khoahyh.herokuapp.com/login',
-      formData
-    );
+    const response = await axios.post(`${server}/login`, formData);
     const data = response.data;
     // Add check for email verification
     if (data.username) {
@@ -64,14 +62,10 @@ export const handleLogin = async (
 
 export const handleRegister = async (formData, setError, callback) => {
   try {
-    const response = await axios.post(
-      //'http://localhost:3080/register',
-      // store production server address in env variable if not on Free Tier
-      'https://discord-clone-api-khoahyh.herokuapp.com/register',
-      formData
-    );
+    const response = await axios.post(`${server}/register`, formData);
+    console.log(response.data.message);
     if (response.data) {
-      console.log('registered!' + response.data);
+      console.log('registered:', response.data);
       callback();
     } else {
       console.log(response.data);
@@ -103,10 +97,7 @@ export const handleRegister = async (formData, setError, callback) => {
 
 export const handleLogout = async callback => {
   try {
-    const response = await axios.get(
-      //'http://localhost:3080/logout'
-      'https://discord-clone-api-khoahyh.herokuapp.com/logout'
-    );
+    const response = await axios.get(`${server}/logout`);
     console.log(response.data);
     localStorage.removeItem('session.id');
     callback();

@@ -7,7 +7,7 @@ import ErrorMessage from '../ErrorMessage';
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
 
-export const VerifyEmail = () => {
+export const VerifyEmail = ({ server }) => {
   const [error, setError] = useState('');
   const [resent, setResent] = useState('');
 
@@ -18,7 +18,7 @@ export const VerifyEmail = () => {
     try {
       const response = await axios.get(
         //'http://localhost:3080/resend'
-        'https://discord-clone-api-khoahyh.herokuapp.com/resend'
+        `${server}/resend`
       );
       console.log(response.data);
       const message = response.data.message;

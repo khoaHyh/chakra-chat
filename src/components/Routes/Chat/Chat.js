@@ -10,12 +10,9 @@ import { useChannels } from '../../contexts/ChannelsProvider';
 
 axios.defaults.withCredentials = true;
 
-//const SERVER = 'http://localhost:3080';
-const SERVER = 'https://discord-clone-api-khoahyh.herokuapp.com';
-
 let socket;
 
-export const Chat = () => {
+export const Chat = ({ server }) => {
   const [input, setInput] = useState('');
   const scrollToMyRef = useRef(null);
   const [messages, setMessages] = useState([]);
@@ -25,7 +22,7 @@ export const Chat = () => {
 
   // Listen to server origin changes
   useEffect(() => {
-    socket = io(SERVER, { withCredentials: true });
+    socket = io(server, { withCredentials: true });
   }, []);
 
   // Listen for messages received
@@ -51,8 +48,7 @@ export const Chat = () => {
     if (channelId) {
       try {
         const response = await axios.get(
-          //`http://localhost:3080/get/conversation?id=${channelId}`
-          `https://discord-clone-api-khoahyh.herokuapp.com/get/conversation?id=${channelId}`
+          `${server}/get/conversation?id=${channelId}`
         );
         setMessages(response.data.conversation);
       } catch (error) {
