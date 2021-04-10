@@ -13,6 +13,7 @@ export const VerifyEmail = () => {
 
   let history = useHistory();
 
+  // Add user email to let them know where it sent
   const resendEmail = async () => {
     try {
       const response = await axios.get(
