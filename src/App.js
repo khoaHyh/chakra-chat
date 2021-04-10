@@ -17,10 +17,10 @@ import { ChannelsProvider } from './components/contexts/ChannelsProvider';
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
 
-const App = () => {
-  //const server = "http://localhost:3080";
-  const server = 'https://discord-clone-api-khoahyh.herokuapp.com';
+const server = 'http://localhost:3080';
+//const server = 'https://discord-clone-api-khoahyh.herokuapp.com';
 
+const App = () => {
   // Check if user is still authenticated
   const getAuth = async () => {
     try {
@@ -60,6 +60,12 @@ const App = () => {
     getAuth();
   }, []);
 
+  //<ProtectedRoute
+  //  path="/chat"
+  //  exact
+  //  render={props => <Chat {...props} server={server} />}
+  ///>
+
   return (
     <ChakraProvider theme={theme}>
       <BrowserRouter>
@@ -80,11 +86,9 @@ const App = () => {
             />
             <Route exact path="/logout" component={Logout} />
             <ChannelsProvider>
-              <ProtectedRoute
-                path="/chat"
-                exact
-                render={props => <Chat {...props} server={server} />}
-              />
+              <ProtectedRoute exact path="/chat">
+                <Chat server={server} />
+              </ProtectedRoute>
             </ChannelsProvider>
           </Switch>
         </BaseLayout>

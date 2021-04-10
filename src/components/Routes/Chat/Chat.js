@@ -105,7 +105,7 @@ export const Chat = ({ server }) => {
 
   return (
     <Flex fontSize="md">
-      <Sidebar user={user} logout={logout} />
+      <Sidebar server={server} user={user} logout={logout} />
       <Flex h="93vh" flexDirection="column" p={5}>
         <Flex h="70vh" mb={5} flexDirection="column" overflowY="auto">
           <Box>

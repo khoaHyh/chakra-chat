@@ -1,18 +1,18 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-export const ProtectedRoute = ({ component: Component, ...rest }) => {
+export const ProtectedRoute = ({ children, ...rest }) => {
   const sessionId = localStorage.getItem('session.id');
 
   return (
     <Route
       {...rest}
-      render={props =>
+      render={({ location }) =>
         // If the redirect prop is not chat and user session exists render child props
         sessionId ? (
-          <Component {...props} />
+          children
         ) : (
-          <Redirect to={{ pathname: '/', state: { from: props.location } }} />
+          <Redirect to={{ pathname: '/', state: { from: location } }} />
         )
       }
     />
