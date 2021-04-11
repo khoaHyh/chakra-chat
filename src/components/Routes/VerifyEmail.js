@@ -20,9 +20,11 @@ export const VerifyEmail = ({ email, server }) => {
       console.log(response.data.email, response.data.username);
       const message = response.data.message;
       if (message === 'Error') {
-        setResent(message);
-      } else {
         setError(message);
+        setResent('');
+      } else {
+        setResent(message);
+        setError('');
       }
     } catch (error) {
       if (error.response) {
@@ -49,17 +51,8 @@ export const VerifyEmail = ({ email, server }) => {
     }
   };
 
-  // Render an error message when invalid credentials are provided on login
-  const renderError = () => {
-    return error && <ErrorMessage message={error} />;
-  };
-
-  const renderSuccess = () => {
-    return resent && <Heading as="h3">{resent}</Heading>;
-  };
-
   return (
-    <Box fontSize="xl">
+    <Box fontSize="lg">
       <Flex
         w="full"
         flexDirection="column"
@@ -74,8 +67,13 @@ export const VerifyEmail = ({ email, server }) => {
           </Heading>
         </Flex>
         <Flex w="50vw" justifyContent="center">
-          {renderError()}
-          {renderSuccess()}
+          {error ? (
+            <ErrorMessage message={error} />
+          ) : (
+            <Heading color="purple.500" as="h3" size="sm">
+              {resent}
+            </Heading>
+          )}
         </Flex>
         <Flex justifyContent="center">
           <List>
