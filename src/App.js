@@ -7,7 +7,6 @@ import { Home } from './components/Routes/Home';
 import { Login } from './components/Routes/Login';
 import { Register } from './components/Routes/Register';
 import { Chat } from './components/Routes/Chat/Chat';
-import { VerifyEmail } from './components/Routes/VerifyEmail';
 import { Logout } from './components/Routes/Logout';
 import { ProtectedRoute } from './components/Routes/ProtectedRoute';
 import { CheckSessionRoute } from './components/Routes/CheckSessionRoute';
@@ -17,8 +16,8 @@ import { ChannelsProvider } from './components/contexts/ChannelsProvider';
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
 
-const server = 'http://localhost:3080';
-//const server = 'https://discord-clone-api-khoahyh.herokuapp.com';
+//const server = 'http://localhost:3080';
+const server = 'https://discord-clone-api-khoahyh.herokuapp.com';
 
 const App = () => {
   // Check if user is still authenticated
