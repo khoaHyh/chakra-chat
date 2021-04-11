@@ -31,7 +31,7 @@ export const Chat = ({ server }) => {
       setMessages(data);
     });
     return () => socket.off('receive-message');
-  }, [input]);
+  });
 
   // Retrieve messages for the respective channel
   useEffect(() => {
