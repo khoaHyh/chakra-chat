@@ -72,13 +72,12 @@ const App = () => {
         <BaseLayout h="50vh">
           <Switch>
             <Route path="/" exact component={Home} />
-            <CheckSessionRoute path="/login" exact component={Login} />
-            <CheckSessionRoute path="/register" exact component={Register} />
-            <Route
-              exact
-              path="/verifyemail"
-              render={props => <VerifyEmail {...props} server={server} />}
-            />
+            <CheckSessionRoute path="/login" exact>
+              <Login />
+            </CheckSessionRoute>
+            <CheckSessionRoute path="/register" exact>
+              <Register server={server} />
+            </CheckSessionRoute>
             <Route
               exact
               path="/confirmation/:hash"

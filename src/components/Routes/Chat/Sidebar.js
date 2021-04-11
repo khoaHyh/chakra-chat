@@ -88,13 +88,9 @@ export const Sidebar = ({ logout, server }) => {
   const handleSave = event => {
     event.preventDefault();
 
-    axios.post(
-      //'http://localhost:3080/new/channel',
-      `${server}/new/channel`,
-      {
-        channelName: newChannelName,
-      }
-    );
+    axios.post(`${server}/new/channel`, {
+      channelName: newChannelName,
+    });
 
     onClose();
   };

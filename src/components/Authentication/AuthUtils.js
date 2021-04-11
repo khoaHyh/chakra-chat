@@ -65,7 +65,7 @@ export const handleRegister = async (formData, setError, callback) => {
     const response = await axios.post(`${server}/register`, formData);
     console.log(response.data.message);
     if (response.data) {
-      console.log('registered:', response.data);
+      console.log('registered:', response.data.email, response.data.username);
       callback();
     } else {
       console.log(response.data);

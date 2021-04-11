@@ -26,13 +26,15 @@ import {
   registerFormValidation,
 } from '../Authentication/PasswordValidation';
 import { handleRegister } from '../Authentication/AuthUtils';
+import { VerifyEmail } from './VerifyEmail';
 import GithubButton from '../GithubButton';
 
-export const Register = () => {
+export const Register = ({ server }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [show, setShow] = useState(false);
+  const [registered, setRegistered] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -56,7 +58,8 @@ export const Register = () => {
 
   const register = () => {
     handleRegister(formData, setError, () => {
-      history.push('/verifyemail');
+      //history.push('/verifyemail');
+      setRegistered(true);
     });
   };
 
@@ -127,7 +130,9 @@ export const Register = () => {
     return error && <ErrorMessage message={error} />;
   };
 
-  return (
+  return registered ? (
+    <VerifyEmail email={email} server={server} />
+  ) : (
     <Flex h="80vh" w="full" justifyContent="center" alignItems="center" m={4}>
       <Box
         textAlign="center"
