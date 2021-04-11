@@ -37,6 +37,7 @@ console.log('breakpoints:', breakpoints);
 
 export const Sidebar = ({ logout, server }) => {
   const [newChannelName, setNewChannelName] = useState('');
+  const [flag, setFlag] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isOpenDrawer,
@@ -51,7 +52,13 @@ export const Sidebar = ({ logout, server }) => {
   useEffect(() => {
     getChannels();
     console.log('getChannels ran.');
-  }, [newChannelName]);
+
+    return () => {
+      setFlag(false);
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flag]);
 
   const getChannels = async () => {
     try {
@@ -91,6 +98,8 @@ export const Sidebar = ({ logout, server }) => {
     axios.post(`${server}/new/channel`, {
       channelName: newChannelName,
     });
+
+    setFlag(true);
 
     onClose();
   };

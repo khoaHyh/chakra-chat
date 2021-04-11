@@ -16,14 +16,14 @@ export const Chat = ({ server }) => {
   const [input, setInput] = useState('');
   const scrollToMyRef = useRef(null);
   const [messages, setMessages] = useState([]);
-  const { channelId } = useChannels();
+  const { channelId, flag, setFlag } = useChannels();
 
   const user = localStorage.getItem('session.id');
 
   // Listen to server origin changes
   useEffect(() => {
     socket = io(server, { withCredentials: true });
-  }, []);
+  }, [server]);
 
   // Listen for messages received
   useEffect(() => {
@@ -36,7 +36,13 @@ export const Chat = ({ server }) => {
   // Retrieve messages for the respective channel
   useEffect(() => {
     getConversation(channelId);
-  }, [channelId]);
+
+    return () => {
+      setFlag(false);
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flag]);
 
   // Scroll to the bottom of the element upon message submission
   useEffect(() => {

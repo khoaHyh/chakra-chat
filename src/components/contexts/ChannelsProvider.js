@@ -8,8 +8,11 @@ export const useChannels = () => {
 
 export const ChannelsProvider = ({ children }) => {
   const [channelId, setChannelId] = useState(0);
+  const [flag, setFlag] = useState(false);
 
   const value = {
+    flag,
+    setFlag,
     channelId,
     setChannelId,
   };

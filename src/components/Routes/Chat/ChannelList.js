@@ -4,7 +4,7 @@ import { FaHashtag } from 'react-icons/fa';
 import { useChannels } from '../../contexts/ChannelsProvider';
 
 export const ChannelList = ({ channels }) => {
-  const { setChannelId } = useChannels();
+  const { setChannelId, setFlag } = useChannels();
 
   return (
     <Tabs isManual variant="soft-rounded" orientation="vertical">
@@ -17,6 +17,7 @@ export const ChannelList = ({ channels }) => {
             color="gray.500"
             onClick={() => {
               setChannelId(channel.id);
+              setFlag(true);
             }}
           >
             <FaHashtag />
