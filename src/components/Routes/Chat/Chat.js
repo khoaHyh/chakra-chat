@@ -109,6 +109,11 @@ export const Chat = ({ server }) => {
     });
   };
 
+  const clickHandler = () => {
+    // FUNCTION LOGIC
+    console.log();
+  };
+
   return (
     <Flex fontSize="md">
       <Sidebar server={server} user={user} logout={logout} />
