@@ -16,7 +16,7 @@ export const handleLogin = async (
 ) => {
   setIsLoading(true);
   try {
-    const response = await axios.post(`${server}/login`, formData);
+    const response = await axios.post(`${server}/auth/login`, formData);
     const data = response.data;
     // Add check for email verification
     if (data.username) {
@@ -62,7 +62,7 @@ export const handleLogin = async (
 
 export const handleRegister = async (formData, setError, callback) => {
   try {
-    const response = await axios.post(`${server}/register`, formData);
+    const response = await axios.post(`${server}/auth/register`, formData);
     console.log(response.data.message);
     if (response.data) {
       console.log('registered:', response.data.email, response.data.username);
@@ -97,7 +97,7 @@ export const handleRegister = async (formData, setError, callback) => {
 
 export const handleLogout = async callback => {
   try {
-    const response = await axios.get(`${server}/logout`);
+    const response = await axios.get(`${server}/auth/logout`);
     console.log(response.data);
     localStorage.removeItem('session.id');
     callback();
