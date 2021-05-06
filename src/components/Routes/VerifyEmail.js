@@ -21,7 +21,7 @@ export const VerifyEmail = ({ email, server }) => {
       });
       console.log(response.data.email, response.data.username);
       const message = response.data.message;
-      if (message === 'Error') {
+      if (message === 'Error while resending verification email.') {
         setError(message);
         setResent('');
       } else {
