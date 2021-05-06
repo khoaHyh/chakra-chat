@@ -23,7 +23,7 @@ const App = () => {
   // Check if user is still authenticated
   const getAuth = async () => {
     try {
-      const response = await axios.get(server);
+      const response = await axios.get(`${server}/auth`);
       const data = response.data;
       if (data.username) {
         console.log('authenticated', data.username);
@@ -58,12 +58,6 @@ const App = () => {
   useEffect(() => {
     getAuth();
   }, []);
-
-  //<ProtectedRoute
-  //  path="/chat"
-  //  exact
-  //  render={props => <Chat {...props} server={server} />}
-  ///>
 
   return (
     <ChakraProvider theme={theme}>
