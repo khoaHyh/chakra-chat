@@ -16,7 +16,9 @@ export const VerifyEmail = ({ email, server }) => {
   // Add user email to let them know where it sent
   const resendEmail = async () => {
     try {
-      const response = await axios.post(`${server}/resend`, { email: email });
+      const response = await axios.post(`${server}/auth/resend`, {
+        email: email,
+      });
       console.log(response.data.email, response.data.username);
       const message = response.data.message;
       if (message === 'Error') {
