@@ -19,7 +19,7 @@ export const Confirmation = ({ server }) => {
 
   const confirmEmail = async () => {
     try {
-      const response = await axios.get(`${server}/confirmation/${hash}`);
+      const response = await axios.get(`${server}/auth/confirmation/${hash}`);
       console.log('confirmEmail:', response.data.email);
       const email = response.data.email;
       if (email) {
