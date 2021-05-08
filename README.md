@@ -1,5 +1,5 @@
 <h1 align="center">
-    Chakracord
+   Discord-clone-frontend 
 </h1>
 <p align="center">
     The frontend of a full stack chat application inspired by discord. Built with <a href="https://create-react-app.dev/" target="_blank" rel="noopener noreferrer">Create-React-App</a> and hosted with <a href="https://www.netlify.com/" target="_blank" rel="noopener noreferrer">Netlify</a>.
