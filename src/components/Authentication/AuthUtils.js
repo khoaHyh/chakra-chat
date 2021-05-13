@@ -3,8 +3,8 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
 
-//const server = 'http://localhost:8080';
-const server = 'https://discord-clone-api-khoahyh.herokuapp.com';
+const server = 'http://localhost:8080';
+//const server = 'https://discord-clone-api-khoahyh.herokuapp.com';
 
 export const handleLogin = async (
   setIsLoading,
