@@ -1,8 +1,8 @@
 <h1 align="center">
-   Discord-clone-frontend 
+  ChakraChat
 </h1>
 <p align="center">
-    The frontend of a full stack chat application inspired by discord. Built with <a href="https://create-react-app.dev/" target="_blank" rel="noopener noreferrer">Create-React-App</a> and hosted with <a href="https://www.netlify.com/" target="_blank" rel="noopener noreferrer">Netlify</a>.
+    The frontend of a full stack chat application. Built with <a href="https://create-react-app.dev/" target="_blank" rel="noopener noreferrer">Create-React-App</a> and hosted with <a href="https://www.netlify.com/" target="_blank" rel="noopener noreferrer">Netlify</a>.
 </p>
 <div align="center">
 
