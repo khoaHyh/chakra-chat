@@ -24,17 +24,6 @@ export const Chat = ({ server }) => {
 
   // Listen for messages received
   useEffect(() => {
-    socket.on('welcome-message', data => {
-      setMessages(existingMsgs => [
-        ...existingMsgs,
-        {
-          sender: 'Welcome to chakra-chat',
-          timestamp: Date.now(),
-          message: data,
-        },
-      ]);
-    });
-
     socket.on('receive-message', data => {
       setMessages(existingMsgs => [...existingMsgs, data]);
     });
@@ -85,11 +74,11 @@ export const Chat = ({ server }) => {
 
   let history = useHistory();
 
-  const logout = () => {
-    handleLogout(() => {
-      history.push('/login');
-    });
-  };
+  //const logout = () => {
+  //  handleLogout(() => {
+  //    history.push('/login');
+  //  });
+  //};
 
   return (
     <Flex fontSize="md">
@@ -125,7 +114,12 @@ export const Chat = ({ server }) => {
             <Button h={79} w={175} m={5} onClick={e => sendMessage(e)}>
               Send Message
             </Button>
-            <Button h={79} w={175} m={5} onClick={logout}>
+            <Button
+              h={79}
+              w={175}
+              m={5}
+              onClick={handleLogout(() => history.push('/login'))}
+            >
               Logout
             </Button>
           </Flex>
