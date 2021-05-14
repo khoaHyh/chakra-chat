@@ -74,11 +74,11 @@ export const Chat = ({ server }) => {
 
   let history = useHistory();
 
-  //const logout = () => {
-  //  handleLogout(() => {
-  //    history.push('/login');
-  //  });
-  //};
+  const logout = () => {
+    handleLogout(() => {
+      history.push('/login');
+    });
+  };
 
   return (
     <Flex fontSize="md">
@@ -114,12 +114,7 @@ export const Chat = ({ server }) => {
             <Button h={79} w={175} m={5} onClick={e => sendMessage(e)}>
               Send Message
             </Button>
-            <Button
-              h={79}
-              w={175}
-              m={5}
-              onClick={handleLogout(() => history.push('/login'))}
-            >
+            <Button h={79} w={175} m={5} onClick={logout}>
               Logout
             </Button>
           </Flex>
