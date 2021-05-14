@@ -24,11 +24,22 @@ export const Chat = ({ server }) => {
 
   // Listen for messages received
   useEffect(() => {
+    socket.on('welcome-message', data => {
+      setMessages(existingMsgs => [
+        ...existingMsgs,
+        {
+          sender: 'Welcome to chakra-chat',
+          timestamp: Date.now(),
+          message: data,
+        },
+      ]);
+    });
+
     socket.on('receive-message', data => {
       setMessages(existingMsgs => [...existingMsgs, data]);
     });
     return () => socket.off('receive-message');
-  });
+  }, []);
 
   // Scroll to the bottom of the element upon message submission
   useEffect(() => {
