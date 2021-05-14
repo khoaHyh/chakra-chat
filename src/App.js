@@ -15,8 +15,8 @@ import { Confirmation } from './components/Routes/Confirmation';
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
 
-const server = 'http://localhost:8080';
-//const server = 'https://chakra-chat-api.herokuapp.com';
+//const server = 'http://localhost:8080';
+const server = 'https://chakra-chat-api.herokuapp.com';
 
 const App = () => {
   // Check if user is still authenticated
