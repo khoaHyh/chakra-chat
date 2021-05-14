@@ -38,7 +38,6 @@ export const Chat = ({ server }) => {
     socket.on('receive-message', data => {
       setMessages(existingMsgs => [...existingMsgs, data]);
     });
-    return () => socket.off('receive-message');
   }, []);
 
   // Scroll to the bottom of the element upon message submission
@@ -88,7 +87,7 @@ export const Chat = ({ server }) => {
 
   const logout = () => {
     handleLogout(() => {
-      history.push('/');
+      history.push('/login');
     });
   };
 
@@ -126,7 +125,7 @@ export const Chat = ({ server }) => {
             <Button h={79} w={175} m={5} onClick={e => sendMessage(e)}>
               Send Message
             </Button>
-            <Button h={79} w={175} m={5} onClick={() => logout()}>
+            <Button h={79} w={175} m={5} onClick={logout}>
               Logout
             </Button>
           </Flex>

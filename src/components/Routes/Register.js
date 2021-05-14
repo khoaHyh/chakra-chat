@@ -207,7 +207,7 @@ export const Register = ({ server }) => {
             Login
           </Button>
           <GithubButton
-            url="https://discord-clone-api-khoahyh.herokuapp.com/auth/github"
+            url="https://chakra-chat-api.herokuapp.com/auth/github"
             message="Register with Github"
           />
         </form>
