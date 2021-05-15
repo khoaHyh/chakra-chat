@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, Box, Button } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 import { ColorModeSwitcher } from '../../ColorModeSwitcher';
-import { handleLogout } from '../../Authentication/AuthUtils';
+import { handleLogout } from '../Authentication/AuthUtils';
 
 const BaseLayout = props => {
   let history = useHistory();
