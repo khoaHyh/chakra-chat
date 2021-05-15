@@ -6,10 +6,13 @@ import {
   Button,
   FormControl,
   Textarea,
+  HStack,
 } from '@chakra-ui/react';
 import io from 'socket.io-client';
 import axios from 'axios';
 import { Message } from './Message';
+import { handleLogout } from '../../Authentication/AuthUtils';
+import { useHistory } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;
 
@@ -30,7 +33,7 @@ export const Chat = ({ server }) => {
 
   // Listen for messages received
   useEffect(() => {
-    socket.on('user-connect', data => setNumOfUsers(data.setNumOfUsers));
+    socket.on('user-connect', data => setNumOfUsers(data.numOfUsers));
     socket.on('user-disconnect', data => {
       setMessages(existingMsgs => [...existingMsgs, data[0]]);
       setNumOfUsers(data[1]);
@@ -84,13 +87,24 @@ export const Chat = ({ server }) => {
     scrollToMyRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
+  let history = useHistory();
+
+  const logout = () => {
+    handleLogout(() => {
+      history.push('/login');
+    });
+  };
+
   return (
     <Flex fontSize="md">
       <Flex h="93vh" flexDirection="column" p={5}>
         <Flex h="70vh" mb={5} flexDirection="column" overflowY="auto">
-          <Heading as="h4" size="md">
-            {`Number of users in chat: ${numOfUsers}`}
-          </Heading>
+          <HStack>
+            <Heading as="h4" size="md">
+              {`Number of users in chat: ${numOfUsers}`}
+            </Heading>
+            <Button onClick={logout}>Logout</Button>
+          </HStack>
           <Box>
             {messages.map((message, index) => {
               return (

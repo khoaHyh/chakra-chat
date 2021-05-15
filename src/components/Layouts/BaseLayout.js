@@ -1,20 +1,8 @@
 import React from 'react';
-import { Flex, Box, Button } from '@chakra-ui/react';
-import { useHistory } from 'react-router-dom';
+import { Flex, Box } from '@chakra-ui/react';
 import { ColorModeSwitcher } from '../../ColorModeSwitcher';
-import { handleLogout } from '../Authentication/AuthUtils';
 
 const BaseLayout = props => {
-  const sessionId = localStorage.getItem('session.id');
-
-  let history = useHistory();
-
-  const logout = () => {
-    handleLogout(() => {
-      history.push('/login');
-    });
-  };
-
   return (
     <>
       <Flex
@@ -24,7 +12,6 @@ const BaseLayout = props => {
         {...props}
       >
         <Flex w="full" justifyContent="flex-end" p={2}>
-          {sessionId ? <Button onClick={logout}>Logout</Button> : null}
           <ColorModeSwitcher />
         </Flex>
         <Box w="100%" m="0 auto">
