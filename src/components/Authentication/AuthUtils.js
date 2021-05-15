@@ -20,13 +20,10 @@ export const handleLogin = async (
     const data = response.data;
     // Add check for email verification
     if (data.username) {
-      console.log('verified! ', data);
       localStorage.setItem('session.id', data.username);
       setIsLoading(false);
       callback();
     } else {
-      console.log('response:', response);
-      console.log('login failed:', data);
       setError(data.message);
       setIsLoading(false);
       setUsername('');
@@ -63,12 +60,9 @@ export const handleLogin = async (
 export const handleRegister = async (formData, setError, callback) => {
   try {
     const response = await axios.post(`${server}/auth/register`, formData);
-    console.log(response.data.message);
     if (response.data) {
-      console.log('registered:', response.data.email, response.data.username);
       callback();
     } else {
-      console.log(response.data);
       setError(`${response.data.message}`);
     }
   } catch (error) {
