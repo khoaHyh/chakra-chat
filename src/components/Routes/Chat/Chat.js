@@ -9,8 +9,6 @@ import {
 } from '@chakra-ui/react';
 import io from 'socket.io-client';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
-import { handleLogout } from '../../Authentication/AuthUtils';
 import { Message } from './Message';
 
 axios.defaults.withCredentials = true;
@@ -81,14 +79,6 @@ export const Chat = ({ server }) => {
   // Function to scroll to bottom of element using a div element as ref
   const scrollToBottom = () => {
     scrollToMyRef.current.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  let history = useHistory();
-
-  const logout = () => {
-    handleLogout(() => {
-      history.push('/login');
-    });
   };
 
   return (
