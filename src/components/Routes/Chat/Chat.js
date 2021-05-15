@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Flex, Button, FormControl, Textarea } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Heading,
+  Button,
+  FormControl,
+  Textarea,
+} from '@chakra-ui/react';
 import io from 'socket.io-client';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -14,6 +21,7 @@ export const Chat = ({ server }) => {
   const [input, setInput] = useState('');
   const scrollToMyRef = useRef(null);
   const [messages, setMessages] = useState([]);
+  const [numOfUsers, setNumOfUsers] = useState(0);
 
   const user = localStorage.getItem('session.id');
 
@@ -24,6 +32,9 @@ export const Chat = ({ server }) => {
 
   // Listen for messages received
   useEffect(() => {
+    socket.on('connection', data => setNumOfUsers(data.setNumOfUsers));
+    socket.on('disconnect', data => setNumOfUsers(data.setNumOfUsers));
+
     socket.on('receive-message', data => {
       setMessages(existingMsgs => [...existingMsgs, data]);
     });
@@ -84,6 +95,9 @@ export const Chat = ({ server }) => {
     <Flex fontSize="md">
       <Flex h="93vh" flexDirection="column" p={5}>
         <Flex h="70vh" mb={5} flexDirection="column" overflowY="auto">
+          <Heading as="h4" size="md">
+            {`Number of users in chat: ${numOfUsers}`}
+          </Heading>
           <Box>
             {messages.map((message, index) => {
               return (
@@ -113,9 +127,6 @@ export const Chat = ({ server }) => {
             />
             <Button h={79} w={175} m={5} onClick={e => sendMessage(e)}>
               Send Message
-            </Button>
-            <Button h={79} w={175} m={5} onClick={logout}>
-              Logout
             </Button>
           </Flex>
         </FormControl>
