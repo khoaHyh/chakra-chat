@@ -30,8 +30,11 @@ export const Chat = ({ server }) => {
 
   // Listen for messages received
   useEffect(() => {
-    socket.on('connection', data => setNumOfUsers(data.setNumOfUsers));
-    socket.on('disconnect', data => setNumOfUsers(data.setNumOfUsers));
+    socket.on('user-connect', data => setNumOfUsers(data.setNumOfUsers));
+    socket.on('user-disconnect', data => {
+      setMessages(existingMsgs => [...existingMsgs, data[0]]);
+      setNumOfUsers(data[1]);
+    });
 
     socket.on('receive-message', data => {
       setMessages(existingMsgs => [...existingMsgs, data]);
