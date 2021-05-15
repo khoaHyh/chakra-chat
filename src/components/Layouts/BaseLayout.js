@@ -22,9 +22,7 @@ const BaseLayout = props => {
         {...props}
       >
         <Flex w="full" justifyContent="flex-end" p={2}>
-          <Button h={79} w={175} m={5} onClick={logout}>
-            Logout
-          </Button>
+          <Button onClick={logout}>Logout</Button>
           <ColorModeSwitcher />
         </Flex>
         <Box w="100%" m="0 auto">
