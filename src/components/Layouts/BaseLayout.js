@@ -5,6 +5,8 @@ import { ColorModeSwitcher } from '../../ColorModeSwitcher';
 import { handleLogout } from '../Authentication/AuthUtils';
 
 const BaseLayout = props => {
+  const sessionId = localStorage.getItem('session.id');
+
   let history = useHistory();
 
   const logout = () => {
@@ -22,7 +24,7 @@ const BaseLayout = props => {
         {...props}
       >
         <Flex w="full" justifyContent="flex-end" p={2}>
-          <Button onClick={logout}>Logout</Button>
+          {sessionId ? <Button onClick={logout}>Logout</Button> : null}
           <ColorModeSwitcher />
         </Flex>
         <Box w="100%" m="0 auto">
