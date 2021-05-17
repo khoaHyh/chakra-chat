@@ -20,7 +20,7 @@ import GithubButton from '../GithubButton';
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 4000;
 
-export const Login = () => {
+export const Login = ({ server }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [show, setShow] = useState(false);
@@ -122,7 +122,7 @@ export const Login = () => {
             Register
           </Button>
           <GithubButton
-            url="https://chakra-chat-api.herokuapp.com/auth/github"
+            url={`${server}/auth/github`}
             message="Login with Github"
           />
         </form>

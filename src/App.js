@@ -64,7 +64,7 @@ const App = () => {
           <Switch>
             <Route path="/" exact component={Home} />
             <CheckSessionRoute path="/login" exact>
-              <Login />
+              <Login server={server} />
             </CheckSessionRoute>
             <CheckSessionRoute path="/register" exact>
               <Register server={server} />

@@ -207,7 +207,7 @@ export const Register = ({ server }) => {
             Login
           </Button>
           <GithubButton
-            url="https://chakra-chat-api.herokuapp.com/auth/github"
+            url={`${server}/auth/github`}
             message="Register with Github"
           />
         </form>
